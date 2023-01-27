@@ -1,13 +1,14 @@
 import { ArrowForwardRounded } from '@mui/icons-material';
 import React, { useState } from 'react'
 import styled from 'styled-components'
+
 const Container = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
-const RouteLinks_Con = styled.div`
+const RouteLinksCon = styled.div`
   width: 100%;
   padding:0 3vw;
   display: flex;
@@ -17,7 +18,7 @@ const RouteLinks_Con = styled.div`
   position: relative;
   // top: 70px;
 `;
-const Route_Links = styled.div`
+const RouteLinksC = styled.div`
   width: 100%;
   display: flex;
   align-items: flex-start;
@@ -44,13 +45,13 @@ const RouteLink = styled.p`
 
 function RouteLinks({ SingleRoute, Page,CurrentPage}) {
 
-    const [singleRoute, SetSingleRoute] = useState(SingleRoute);
+    const [singleRoute,] = useState(SingleRoute);
 
 
   return (
     <Container>
-      <RouteLinks_Con id="RouteLinks_Con">
-        <Route_Links>
+      <RouteLinksCon id="RouteLinks_Con">
+        <RouteLinksC>
           <RouteLink hv="#EE4730" cp="pointer">
             Home
           </RouteLink>
@@ -66,8 +67,8 @@ function RouteLinks({ SingleRoute, Page,CurrentPage}) {
           }
 
           <RouteLink>{CurrentPage} </RouteLink>
-        </Route_Links>
-      </RouteLinks_Con>
+        </RouteLinksC>
+      </RouteLinksCon>
     </Container>
   );
 }

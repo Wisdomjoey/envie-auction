@@ -7,7 +7,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
-const RouteLinks_Con = styled.div`
+const RouteLinksCon = styled.div`
   width: 100%;
   padding: 0 3vw;
   display: flex;
@@ -17,7 +17,7 @@ const RouteLinks_Con = styled.div`
   position: relative;
   // top: 70px;
 `;
-const Route_Links = styled.div`
+const RouteLinks = styled.div`
   width: 100%;
   display: flex;
   align-items: flex-start;
@@ -38,16 +38,16 @@ const RouteLink = styled.p`
 function RouteLink2({ CurrentPage }) {
   return (
     <Container>
-      <RouteLinks_Con id="RouteLinks_Con">
-        <Route_Links>
+      <RouteLinksCon id="RouteLinks_Con">
+        <RouteLinks>
           <RouteLink hv="orange" cp="pointer">
             Home
           </RouteLink>
           <ArrowForwardRounded id="ArrowForward_Icon" />
 
           <RouteLink>{CurrentPage} </RouteLink>
-        </Route_Links>
-      </RouteLinks_Con>
+        </RouteLinks>
+      </RouteLinksCon>
     </Container>
   );
 }

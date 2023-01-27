@@ -5,6 +5,7 @@ import swipe3 from '../../images/3.png';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper";
 import { Gavel } from "@mui/icons-material";
+import { Link } from 'react-router-dom';
 
 const HeaderContentCon = styled.div`
     width: 100%;
@@ -50,6 +51,7 @@ const RightBtn = styled.button`
     font-weight: 500;
     margin-top: 30px;
     cursor: pointer;
+    z-index: 1000;
 `
 const SlideImg = styled.img`
     width: 120%;
@@ -140,7 +142,7 @@ export default function HeaderSection() {
                 <RightText className="right__text">Real-Time</RightText>
                 <RightText className="right__text">Bidding</RightText>
                 <RightSpan className="right__span">Your Desired Space Is Right Here...</RightSpan>
-                <RightBtn className="right__btn">Get Started</RightBtn>
+                <Link to='/register'><RightBtn className="right__btn">Get Started</RightBtn></Link>
             </LeftContent>
             <RightContent className="right__content">
                 <SphereOne className="sphere__one">
