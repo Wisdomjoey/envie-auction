@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -86,7 +87,7 @@ function RegisterAndStart() {
         </ContainerLeft>
         <ContainerRight className='RegisterAndStart_Right'>
           <ButtonCon>
-            <Button >REGISTER</Button>
+            <Link to='/register'><Button >REGISTER</Button></Link>
           </ButtonCon>
         </ContainerRight>
       </RegisterAndStartCon>

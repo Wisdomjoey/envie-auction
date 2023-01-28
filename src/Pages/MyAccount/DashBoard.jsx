@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ActiveBids from "../../images/active_bids.png";
 import HeaderSection from "../../Components/HeaderSection/HeaderSection";
-import Dash_Board from "../../Components/myaccount/dashboard/dashboard";
-import DashBoard_Menu from "../../Components/myaccount/DashBoard_Menu";
 import Footer from "../../Components/Home/Footer";
 import CurrentBids from "../../Components/myaccount/dashboard/CurrentBids";
 import History from "../../Components/myaccount/dashboard/History";
@@ -17,7 +15,7 @@ import MyFavorites from "../../images/MyFavorites.png";
 import Referrals from "../../images/Referrals.png";
 import personalProfile from "../../images/personalProfile.png";
 
-const DashBoard_Con = styled.div`
+const DashBoardCon = styled.div`
   background: url(./hero-bg.png);
   background-repeat: no-repeat;
   background-position: center;
@@ -63,7 +61,7 @@ const RightWrapper = styled.div`
   //   background-color:blue;
   width: 400px;
 `;
-const RightWrapper_Top = styled.div`
+const RightWrapperTop = styled.div`
   background-color: white;
   border-radius: 10px;
   width: 100%;
@@ -105,11 +103,11 @@ const ActivityImgCon = styled.div`
   max-height: 100px;
   //    background-color:red;
 `;
-const Activity_Img = styled.img`
+const ActivityImg = styled.img`
   //    flex:1;
   width: 70%;
 `;
-const ActivityTxt_Con = styled.div`
+const ActivityTxtCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,7 +117,7 @@ const ActivityTxt = styled.div`
   font-size: ${(props) => props.fz};
   font-weight: ${(props) => props.fw};
 `;
-const RightWrapper_Bottom = styled.div`
+const RightWrapperBottom = styled.div`
   background-color: white;
   border-radius: 10px;
   width: 100%;
@@ -129,14 +127,14 @@ const RightWrapper_Bottom = styled.div`
 `;
 
 const Purchasing = styled.div``;
-const Purchasing_txt = styled.p`
+const Purchasingtxt = styled.p`
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 20px;
 `;
 
-const PurchasingTable_Con = styled.div``;
-const PurchasingTable_Header = styled.div`
+const PurchasingTableCon = styled.div``;
+const PurchasingTableHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -144,26 +142,26 @@ const PurchasingTable_Header = styled.div`
   // padding-bottom: 10px;
 `;
 
-const PurchasingTable_Header_TxtCon = styled.div`
+const PurchasingTableHeaderTxtCon = styled.div`
   // padding:3px;
   margin-right: 15px;
   cursor: pointer;
   `;
   
-  const PurchasingTable_Header_Txt = styled.p`
+  const PurchasingTableHeaderTxt = styled.p`
   font-size: 22px;
   font-weight: 400;
   margin-bottom:10px;
 `;
 
-const TableDetails_Con = styled.div``;
+const TableDetailsCon = styled.div``;
 const Table = styled.table`
   border-collapse: collapse;
   border-spacing: 0;
   text-align: left;
   width: 100%;
 `;
-const Table_Tr = styled.tr`
+const TableTr = styled.tr`
   text-align: left;
   margin-right: 8px;
   width: 100%;
@@ -172,18 +170,18 @@ const Table_Tr = styled.tr`
     border-bottom: 1px solid #e0e0f1;
   }
 `;
-const Table_Th = styled.th`
+const TableTh = styled.th`
   margin: 8px;
   padding: 10px;
   text-align: left;
 `;
-const Table_Td = styled.td`
+const TableTd = styled.td`
   padding: 10px;
   margin: 8px;
   text-align: left;
 `;
 
-const DashBoard_MenuCon = styled.div`
+const DashBoardMenuCon = styled.div`
 position:sticky;
 top:0;
   display: flex;
@@ -208,7 +206,7 @@ const UserDetails = styled.div`
   justify-content: space-between;
   flex-direction: column;
 `;
-const Userdashboard_con = styled.div`
+const Userdashboardcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -216,13 +214,13 @@ const Userdashboard_con = styled.div`
   width: 100px;
   height: 100px;
 `;
-const UserImg_con = styled.div``;
+const UserImgcon = styled.div``;
 
 const UserImg = styled.img`
   width: 100%;
 `;
 
-const UserDetailsTxt_Con = styled.div`
+const UserDetailsTxtCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -230,15 +228,15 @@ const UserDetailsTxt_Con = styled.div`
   margin-top: 30px;
 `;
 
-const UerDetailsTxt_Name = styled.p`
+const UerDetailsTxtName = styled.p`
   font-size: 23px;
   font-weight: 500;
 `;
-const UerDetailsTxt_Email = styled.p`
+const UerDetailsTxtEmail = styled.p`
   font-size: 16px;
 `;
 
-const DashBoard_MenuLinks = styled.div`
+const DashBoardMenuLinks = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -247,7 +245,7 @@ const DashBoard_MenuLinks = styled.div`
   // margin-top: 30px;
 `;
 
-const DashBoard_MenuLink = styled.div`
+const DashBoardMenuLink = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -266,35 +264,35 @@ const DashBoardImg = styled.img`
   max-width: 10%;
 `;
 
-const DashBoard_Txt = styled.p`
+const DashBoardTxt = styled.p`
   font-weight: 400;
 `;
 
 function DashBoard({ Home, Page, CurrentPage, DashBoard }) {
   const [activePurchase, SetActivePurchase] = useState("Current");
-  const [active, setActive] = useState(DashBoard);
+  const [active,] = useState(DashBoard);
 
   useEffect(() => {
     console.log(activePurchase);
   }, [activePurchase]);
 
   return (
-    <DashBoard_Con>
+    <DashBoardCon>
       <Container>
         <HeaderSection Home="Home" Page="MyAccount" CurrentPage="Dashboard" />
         <Wrapper>
-          <DashBoard_MenuCon ClassName="sticky top">
+          <DashBoardMenuCon ClassName="sticky top">
             <UserDetails>
-              <UserImg_con>
+              <UserImgcon>
                 <UserImg src={img} />
-              </UserImg_con>
-              <UserDetailsTxt_Con>
-                <UerDetailsTxt_Name>Percy Reed</UerDetailsTxt_Name>
-                <UerDetailsTxt_Email>john@gmail.com</UerDetailsTxt_Email>
-              </UserDetailsTxt_Con>
+              </UserImgcon>
+              <UserDetailsTxtCon>
+                <UerDetailsTxtName>Percy Reed</UerDetailsTxtName>
+                <UerDetailsTxtEmail>john@gmail.com</UerDetailsTxtEmail>
+              </UserDetailsTxtCon>
             </UserDetails>
-            <DashBoard_MenuLinks>
-              <DashBoard_MenuLink
+            <DashBoardMenuLinks>
+              <DashBoardMenuLink
                 style={
                   active === DashBoard
                     ? { backgroundColor: "whitesmoke" }
@@ -302,40 +300,40 @@ function DashBoard({ Home, Page, CurrentPage, DashBoard }) {
                 }
               >
                 <DashBoardImg src={dashboard} alt="dashboard" />
-                <DashBoard_Txt>Dashboard</DashBoard_Txt>
-              </DashBoard_MenuLink>
-              <DashBoard_MenuLink
+                <DashBoardTxt>Dashboard</DashBoardTxt>
+              </DashBoardMenuLink>
+              <DashBoardMenuLink
                 style={
                   active === DashBoard ? { backgroundColor: "whitesmoke" } : {}
                 }
               >
                 <DashBoardImg src={personalProfile} alt="PersonalProfile" />
-                <DashBoard_Txt>Personal Profile</DashBoard_Txt>
-              </DashBoard_MenuLink>
-              <DashBoard_MenuLink>
+                <DashBoardTxt>Personal Profile</DashBoardTxt>
+              </DashBoardMenuLink>
+              <DashBoardMenuLink>
                 <DashBoardImg src={MyBids} alt="MyBids" />
-                <DashBoard_Txt>My Bids</DashBoard_Txt>
-              </DashBoard_MenuLink>
-              <DashBoard_MenuLink>
+                <DashBoardTxt>My Bids</DashBoardTxt>
+              </DashBoardMenuLink>
+              <DashBoardMenuLink>
                 <DashBoardImg src={itemsWon} alt="WinningBids" />
-                <DashBoard_Txt>Winning Bids</DashBoard_Txt>
-              </DashBoard_MenuLink>
-              <DashBoard_MenuLink>
+                <DashBoardTxt>Winning Bids</DashBoardTxt>
+              </DashBoardMenuLink>
+              <DashBoardMenuLink>
                 <DashBoardImg src={MyAlerts} alt="MyAlerts" />
-                <DashBoard_Txt>My Alerts</DashBoard_Txt>
-              </DashBoard_MenuLink>
-              <DashBoard_MenuLink>
+                <DashBoardTxt>My Alerts</DashBoardTxt>
+              </DashBoardMenuLink>
+              <DashBoardMenuLink>
                 <DashBoardImg src={MyFavorites} alt="MyFavorites" />
-                <DashBoard_Txt>MyFavorites</DashBoard_Txt>
-              </DashBoard_MenuLink>
-              <DashBoard_MenuLink>
+                <DashBoardTxt>MyFavorites</DashBoardTxt>
+              </DashBoardMenuLink>
+              <DashBoardMenuLink>
                 <DashBoardImg src={Referrals} alt="Referrals" />
-                <DashBoard_Txt>Referrals</DashBoard_Txt>
-              </DashBoard_MenuLink>
-            </DashBoard_MenuLinks>
-          </DashBoard_MenuCon>
+                <DashBoardTxt>Referrals</DashBoardTxt>
+              </DashBoardMenuLink>
+            </DashBoardMenuLinks>
+          </DashBoardMenuCon>
           <RightWrapper>
-            <RightWrapper_Top>
+            <RightWrapperTop>
               <MyActivity>
                 <MyActivityTxt>My Activty</MyActivityTxt>
               </MyActivity>
@@ -343,52 +341,52 @@ function DashBoard({ Home, Page, CurrentPage, DashBoard }) {
               <Activities>
                 <Activity>
                   <ActivityImgCon>
-                    <Activity_Img src={ActiveBids} alt="ActiveBids" />
+                    <ActivityImg src={ActiveBids} alt="ActiveBids" />
                   </ActivityImgCon>
-                  <ActivityTxt_Con>
+                  <ActivityTxtCon>
                     <ActivityTxt fz="39px" fw={500}>
                       80
                     </ActivityTxt>
                     <ActivityTxt fz="19px" fw={500}>
                       Active Bids
                     </ActivityTxt>
-                  </ActivityTxt_Con>
+                  </ActivityTxtCon>
                 </Activity>
                 <Activity>
                   <ActivityImgCon>
-                    <Activity_Img src={ActiveBids} alt="ActiveBids" />
+                    <ActivityImg src={ActiveBids} alt="ActiveBids" />
                   </ActivityImgCon>
-                  <ActivityTxt_Con>
+                  <ActivityTxtCon>
                     <ActivityTxt fz="39px" fw={500}>
                       80
                     </ActivityTxt>
                     <ActivityTxt fz="19px" fw={500}>
                       Active Bids
                     </ActivityTxt>
-                  </ActivityTxt_Con>
+                  </ActivityTxtCon>
                 </Activity>
                 <Activity>
                   <ActivityImgCon>
-                    <Activity_Img src={ActiveBids} alt="ActiveBids" />
+                    <ActivityImg src={ActiveBids} alt="ActiveBids" />
                   </ActivityImgCon>
-                  <ActivityTxt_Con>
+                  <ActivityTxtCon>
                     <ActivityTxt fz="39px" fw={500}>
                       80
                     </ActivityTxt>
                     <ActivityTxt fz="19px" fw={500}>
                       Active Bids
                     </ActivityTxt>
-                  </ActivityTxt_Con>
+                  </ActivityTxtCon>
                 </Activity>
               </Activities>
-            </RightWrapper_Top>
-            <RightWrapper_Bottom>
+            </RightWrapperTop>
+            <RightWrapperBottom>
               <Purchasing>
-                <Purchasing_txt>Purchasing</Purchasing_txt>
+                <Purchasingtxt>Purchasing</Purchasingtxt>
               </Purchasing>
-              <PurchasingTable_Con>
-                <PurchasingTable_Header>
-                  <PurchasingTable_Header_TxtCon
+              <PurchasingTableCon>
+                <PurchasingTableHeader>
+                  <PurchasingTableHeaderTxtCon
                     style={
                       activePurchase === "Current"
                         ? { borderBottom: "3px solid red" }
@@ -398,12 +396,12 @@ function DashBoard({ Home, Page, CurrentPage, DashBoard }) {
                       SetActivePurchase("Current");
                     }}
                   >
-                    <PurchasingTable_Header_Txt>
+                    <PurchasingTableHeaderTxt>
                       Current
-                    </PurchasingTable_Header_Txt>
-                  </PurchasingTable_Header_TxtCon>
+                    </PurchasingTableHeaderTxt>
+                  </PurchasingTableHeaderTxtCon>
 
-                  <PurchasingTable_Header_TxtCon
+                  <PurchasingTableHeaderTxtCon
                     style={
                       activePurchase === "Pending"
                         ? { borderBottom: "3px solid red" }
@@ -413,12 +411,12 @@ function DashBoard({ Home, Page, CurrentPage, DashBoard }) {
                       SetActivePurchase("Pending");
                     }}
                   >
-                    <PurchasingTable_Header_Txt>
+                    <PurchasingTableHeaderTxt>
                       Pending
-                    </PurchasingTable_Header_Txt>
-                  </PurchasingTable_Header_TxtCon>
+                    </PurchasingTableHeaderTxt>
+                  </PurchasingTableHeaderTxtCon>
 
-                  <PurchasingTable_Header_TxtCon
+                  <PurchasingTableHeaderTxtCon
                     style={
                       activePurchase === "History"
                         ? { borderBottom: "3px solid red" }
@@ -428,24 +426,24 @@ function DashBoard({ Home, Page, CurrentPage, DashBoard }) {
                       SetActivePurchase("History");
                     }}
                   >
-                    <PurchasingTable_Header_Txt>
+                    <PurchasingTableHeaderTxt>
                       History
-                    </PurchasingTable_Header_Txt>
-                  </PurchasingTable_Header_TxtCon>
-                </PurchasingTable_Header>
+                    </PurchasingTableHeaderTxt>
+                  </PurchasingTableHeaderTxtCon>
+                </PurchasingTableHeader>
                 <HR />
-                <TableDetails_Con>
+                <TableDetailsCon>
                   {activePurchase === "Current" && <CurrentBids />}
                   {activePurchase === "Pending" && <PendingBids />}
                   {activePurchase === "History" && <History />}
-                </TableDetails_Con>
-              </PurchasingTable_Con>
-            </RightWrapper_Bottom>
+                </TableDetailsCon>
+              </PurchasingTableCon>
+            </RightWrapperBottom>
           </RightWrapper>
         </Wrapper>
       </Container>
       <Footer />
-    </DashBoard_Con>
+    </DashBoardCon>
   );
 }
 

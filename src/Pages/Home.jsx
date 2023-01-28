@@ -44,11 +44,11 @@ export default function Home() {
   return (
     <HomeContainer className='home__con'>
         <Header className='header'>
-            <Navbar />
-            <HeaderSection />
             <BottomMaskCon className="bottom__maskCon">
                 <BottomMask className="bottom__mask" alt='' src={ bimg } />
             </BottomMaskCon>
+            <Navbar />
+            <HeaderSection />
         </Header>
         <HowToSection />
         <FeaturedSection />

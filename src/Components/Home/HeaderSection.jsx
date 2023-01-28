@@ -12,6 +12,8 @@ const HeaderContentCon = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    z-index: 140;
 `
 const HeaderContent = styled.div`
     width: 100%;
@@ -62,6 +64,10 @@ const LeftContent = styled.div`
     display: flex;
     flex-direction: column;
     padding-left: 30px;
+
+    .get__started {
+    width: 220px;
+    }
 `
 const SphereOne = styled.div`
     display: flex;
@@ -142,7 +148,7 @@ export default function HeaderSection() {
                 <RightText className="right__text">Real-Time</RightText>
                 <RightText className="right__text">Bidding</RightText>
                 <RightSpan className="right__span">Your Desired Space Is Right Here...</RightSpan>
-                <Link to='/register'><RightBtn className="right__btn">Get Started</RightBtn></Link>
+                  <Link className='get__started' to='/register'><RightBtn className="right__btn">Get Started</RightBtn></Link>
             </LeftContent>
             <RightContent className="right__content">
                 <SphereOne className="sphere__one">

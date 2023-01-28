@@ -5,6 +5,7 @@ import {
   MailOutlined,
   RemoveRedEye,
 } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import HeaderSection from "../../Components/HeaderSection/HeaderSection";
 import Footer from "../../Components/Home/Footer";
@@ -20,7 +21,7 @@ const Container = styled.div`
   margin-bottom: 500px;
   height: 90vh;
 `;
-const SignUp_Con = styled.div`
+const SignUpCon = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -41,7 +42,7 @@ const Wrapper = styled.div`
   height: 100%;
   box-sizing: border-box;
 `;
-const Left_Con = styled.div`
+const LeftCon = styled.div`
   padding: 0 5vh;
   flex: 2;
   background-color: white;
@@ -49,7 +50,7 @@ const Left_Con = styled.div`
   height: 100%;
 `;
 
-const Left_ConHeader = styled.div`
+const LeftConHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -66,7 +67,7 @@ const LeftConText = styled.p`
   color: black;
 `;
 
-const SignUp_Method = styled.div`
+const SignUpMethod = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -80,7 +81,7 @@ const IconContainer = styled.div`
   margin-right: 5px;
 `;
 
-const LogIn_Button = styled.button`
+const LogInButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,14 +107,14 @@ const LogIn_Button = styled.button`
   }
 `;
 
-const Other_Methods = styled.div`
+const OtherMethods = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   margin: 40px 0;
 `;
-const Other_MethodsText = styled.p`
+const OtherMethodsText = styled.p`
   margin: 0 10px;
 `;
 const Hr = styled.hr`
@@ -122,11 +123,11 @@ const Hr = styled.hr`
   height: 1px;
   background-color: #eee;
 `;
-const SignUp_Form = styled.form`
+const SignUpForm = styled.form`
   width: 100%;
 `;
 
-const SignUp_InputCon = styled.div`
+const SignUpInputCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,7 +138,7 @@ const SignUp_InputCon = styled.div`
   color: grey;
   margin: 20px 0;
 `;
-const SignUp_Input = styled.input`
+const SignUpInput = styled.input`
   outline: none;
   border: none;
   height: 100%;
@@ -155,12 +156,12 @@ const TermsAndPolicy = styled.div`
   justify-content: flex-start;
   margin-top: 25px;
 `;
-const TermsAndPolicy_Input = styled.input`
+const TermsAndPolicyInput = styled.input`
   border: 1px solid red;
   padding: 15px;
   margin-right: 10px;
 `;
-const TermsAndPolicy_Txt = styled.div`
+const TermsAndPolicyTxt = styled.div`
    cursor:${props=>props.cursor}
 `;
 const SubmitCon = styled.div`
@@ -174,7 +175,7 @@ const Submit = styled.button`
   box-shadow: -1.04px 4.891px 20px 0px rgb(69 49 183 / 50%);
   border: none;
   color: white;
-  padding: 15px 30px;
+  padding: 15px 50px;
   border-radius: 30px;
   font-weight: 500;
   font-size: 18px;
@@ -182,7 +183,7 @@ const Submit = styled.button`
   margin-top: 20px;
 `;
 
-const Right_Con = styled.div`
+const RightCon = styled.div`
   background: -webkit-linear-gradient(
     90deg,
     #5140fe 0%,
@@ -195,7 +196,7 @@ const Right_Con = styled.div`
   justify-content: center;
   height: 100%;
 `;
-const RightCon_TxtCon = styled.div`
+const RightConTxtCon = styled.div`
   background: -webkit-linear-gradient(
     90deg,
     #5140fe 0%,
@@ -209,7 +210,7 @@ const RightCon_TxtCon = styled.div`
   justify-content: center;
   flex-direction: column;
 `;
-const RightCon_Txt = styled.p`
+const RightConTxt = styled.p`
   color: white;
   font-size: ${(props) => props.fz};
   font-weight: ${(props) => props.fw};
@@ -220,16 +221,22 @@ const RightCon_Txt = styled.p`
   margin: 10px 0;
 `;
 
-const RightCon_Button = styled.button`
+const RightConButton = styled.button`
   box-shadow: -1.04px 4.891px 20px 0px rgb(69 49 183 / 50%);
   border: 1px solid white;
   color: white;
-  padding: 15px 30px;
+  padding: 15px 50px;
   border-radius: 30px;
   font-weight: 500;
   font-size: 18px;
   cursor: pointer;
   background: transparent;
+  margin-top: 10px;
+
+  .register {
+    text-decoration: none;
+    color: white;
+  }
 `;
 
 function SignIn() {
@@ -244,45 +251,45 @@ function SignIn() {
   return (
     <Container>
       <HeaderSection SingleRoute={false} Page="Pages" CurrentPage="Sign In" />
-      <SignUp_Con>
+      <SignUpCon>
         <Wrapper>
-          <Left_Con>
-            <Left_ConHeader>
+          <LeftCon>
+            <LeftConHeader>
               <LeftConText m="10px 0 " fz="40px" fw={600}>
                 HI, THERE
               </LeftConText>
               <LeftConText m="10px 0 " cl="grey">
                 You can log in to your Sbidu account here.
               </LeftConText>
-            </Left_ConHeader>
-            <SignUp_Method>
-              <LogIn_Button className="LogInHover" fw={400}>
+            </LeftConHeader>
+            <SignUpMethod>
+              <LogInButton className="LogInHover" fw={400}>
                 <IconContainer cl="#3b5998">
                   <FacebookRounded />
                 </IconContainer>
                 Log in with Facebook
-              </LogIn_Button>
-              <LogIn_Button className="LogInHover" fw={400}>
+              </LogInButton>
+              <LogInButton className="LogInHover" fw={400}>
                 <IconContainer cl="#db4a39">
                   <Google sx={{ fontSize: "15px" }} />
                 </IconContainer>
                 Log in with Google
-              </LogIn_Button>
-            </SignUp_Method>
-            <Other_Methods>
+              </LogInButton>
+            </SignUpMethod>
+            <OtherMethods>
               <Hr />
-              <Other_MethodsText m="10px">Or</Other_MethodsText>
+              <OtherMethodsText m="10px">Or</OtherMethodsText>
               <Hr />
-            </Other_Methods>
-            <SignUp_Form>
-              <SignUp_InputCon>
+            </OtherMethods>
+            <SignUpForm>
+              <SignUpInputCon>
                 <MailOutlined />
-                <SignUp_Input placeholder="Email Address" type="text" />
-              </SignUp_InputCon>
+                <SignUpInput placeholder="Email Address" type="text" />
+              </SignUpInputCon>
 
-              <SignUp_InputCon>
+              <SignUpInputCon>
                 <Lock />
-                <SignUp_Input
+                <SignUpInput
                   id="SignUp_Password"
                   placeholder=" Password"
                   type="password"
@@ -292,33 +299,33 @@ function SignIn() {
                   onClick={ToggleVisibility}
                   id="visiblePassword_Icon"
                 />
-              </SignUp_InputCon>
+              </SignUpInputCon>
               <TermsAndPolicy>
-                <TermsAndPolicy_Input type="checkbox" />
-                <TermsAndPolicy_Txt>
+                <TermsAndPolicyInput type="checkbox" />
+                <TermsAndPolicyTxt>
                   The Sbidu Terms of Use apply
-                </TermsAndPolicy_Txt>
+                </TermsAndPolicyTxt>
               </TermsAndPolicy>
               <SubmitCon>
-                <TermsAndPolicy_Txt cursor="pointer" fw={200}>
+                <TermsAndPolicyTxt cursor="pointer" fw={200}>
                   Forgot Password?
-                </TermsAndPolicy_Txt>
+                </TermsAndPolicyTxt>
                 <Submit>Log In</Submit>
               </SubmitCon>
-            </SignUp_Form>
-          </Left_Con>
+            </SignUpForm>
+          </LeftCon>
 
-          <Right_Con>
-            <RightCon_TxtCon>
-              <RightCon_Txt fz="40px" fw={600}>
+          <RightCon>
+            <RightConTxtCon>
+              <RightConTxt fz="40px" fw={600}>
                 NEW HERE?
-              </RightCon_Txt>
-              <RightCon_Txt>Sign up and create your Account</RightCon_Txt>
-              <RightCon_Button>SIGN UP</RightCon_Button>
-            </RightCon_TxtCon>
-          </Right_Con>
+              </RightConTxt>
+              <RightConTxt>Sign up and create your Account</RightConTxt>
+              <Link className='register' to='/register'><RightConButton>SIGN UP</RightConButton></Link>
+            </RightConTxtCon>
+          </RightCon>
         </Wrapper>
-      </SignUp_Con>
+      </SignUpCon>
       <Footer />
     </Container>
   );
