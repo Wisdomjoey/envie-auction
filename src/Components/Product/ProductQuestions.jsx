@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useEffect } from "react";
 import faqImage from "../../images/faq.png";
 import React, { useState } from "react";
 import { Add, Remove } from "@mui/icons-material";
@@ -48,11 +47,11 @@ const IconCon = styled.div`
   height: 45px;
   background: linear-gradient(2deg, #3da9f5 0%, #683df5 100%);
 `;
-const Faq_ImgCon = styled.div`
+const FaqImgCon = styled.div`
   margin-right: 10px;
 `;
-const Faq_Img = styled.img``;
-const Faq_Name = styled.div`
+const FaqImg = styled.img``;
+const FaqName = styled.div`
   width: 45%;
   display: flex;
   align-items: center;
@@ -71,11 +70,11 @@ const Hr = styled.hr`
   background-color: #c2c5ef;
   height: 1px;
 `;
-const Faq_NameText = styled.p`
+const FaqNameText = styled.p`
   font-size: 19px;
   white-space: nowrap;
 `;
-const Faq_Text = styled.p`
+const FaqText = styled.p`
   font-size: 15px;
 `;
 
@@ -117,18 +116,18 @@ function ProductQuestions() {
                   )
                 }
               >
-                <Faq_Name>
-                  <Faq_ImgCon>
-                    <Faq_Img src={faqImage} alt="faq Image" />
-                  </Faq_ImgCon>
-                  <Faq_NameText
+                <FaqName>
+                  <FaqImgCon>
+                    <FaqImg src={faqImage} alt="faq Image" />
+                  </FaqImgCon>
+                  <FaqNameText
                     style={
                       expandedPanel === "panel1" ? { color: "#EE4730" } : {}
                     }
                   >
                     How to start bidding
-                  </Faq_NameText>
-                </Faq_Name>
+                  </FaqNameText>
+                </FaqName>
               </AccordionSummary>
               <HrCon>
                 <Hr />
@@ -163,18 +162,18 @@ function ProductQuestions() {
                   )
                 }
               >
-                <Faq_Name>
-                  <Faq_ImgCon>
-                    <Faq_Img src={faqImage} alt="faq Image" />
-                  </Faq_ImgCon>
-                  <Faq_NameText
+                <FaqName>
+                  <FaqImgCon>
+                    <FaqImg src={faqImage} alt="faq Image" />
+                  </FaqImgCon>
+                  <FaqNameText
                     style={
                       expandedPanel === "panel2" ? { color: "#EE4730" } : {}
                     }
                   >
                     Delivery time to the destination port{" "}
-                  </Faq_NameText>
-                </Faq_Name>
+                  </FaqNameText>
+                </FaqName>
               </AccordionSummary>
               <HrCon>
                 <Hr />
@@ -209,18 +208,18 @@ function ProductQuestions() {
                   )
                 }
               >
-                <Faq_Name>
-                  <Faq_ImgCon>
-                    <Faq_Img src={faqImage} alt="faq Image" />
-                  </Faq_ImgCon>
-                  <Faq_NameText
+                <FaqName>
+                  <FaqImgCon>
+                    <FaqImg src={faqImage} alt="faq Image" />
+                  </FaqImgCon>
+                  <FaqNameText
                     style={
                       expandedPanel === "panel3" ? { color: "#EE4730" } : {}
                     }
                   >
                     How to register to bid in an auction?
-                  </Faq_NameText>
-                </Faq_Name>
+                  </FaqNameText>
+                </FaqName>
               </AccordionSummary>
               <HrCon>
                 <Hr />
@@ -255,18 +254,18 @@ function ProductQuestions() {
                   )
                 }
               >
-                <Faq_Name>
-                  <Faq_ImgCon>
-                    <Faq_Img src={faqImage} alt="faq Image" />
-                  </Faq_ImgCon>
-                  <Faq_NameText
+                <FaqName>
+                  <FaqImgCon>
+                    <FaqImg src={faqImage} alt="faq Image" />
+                  </FaqImgCon>
+                  <FaqNameText
                     style={
                       expandedPanel === "panel4" ? { color: "#EE4730" } : {}
                     }
                   >
                     How will I know if my bid was successful?
-                  </Faq_NameText>
-                </Faq_Name>
+                  </FaqNameText>
+                </FaqName>
               </AccordionSummary>
               <HrCon>
                 <Hr />
@@ -300,18 +299,18 @@ function ProductQuestions() {
                   )
                 }
               >
-                <Faq_Name>
-                  <Faq_ImgCon>
-                    <Faq_Img src={faqImage} alt="faq Image" />
-                  </Faq_ImgCon>
-                  <Faq_NameText
+                <FaqName>
+                  <FaqImgCon>
+                    <FaqImg src={faqImage} alt="faq Image" />
+                  </FaqImgCon>
+                  <FaqNameText
                     style={
                       expandedPanel === "panel5" ? { color: "#EE4730" } : {}
                     }
                   >
                     What happens if I bid on the wrong lot?
-                  </Faq_NameText>
-                </Faq_Name>
+                  </FaqNameText>
+                </FaqName>
               </AccordionSummary>
               <HrCon>
                 <Hr />
@@ -345,18 +344,18 @@ function ProductQuestions() {
                   )
                 }
               >
-                <Faq_Name>
-                  <Faq_ImgCon>
-                    <Faq_Img src={faqImage} alt="faq Image" />
-                  </Faq_ImgCon>
-                  <Faq_NameText
+                <FaqName>
+                  <FaqImgCon>
+                    <FaqImg src={faqImage} alt="faq Image" />
+                  </FaqImgCon>
+                  <FaqNameText
                     style={
                       expandedPanel === "panel6" ? { color: "#EE4730" } : {}
                     }
                   >
                     Security Deposit / Bidding Power
-                  </Faq_NameText>
-                </Faq_Name>
+                  </FaqNameText>
+                </FaqName>
               </AccordionSummary>
               <HrCon>
                 <Hr />
@@ -388,18 +387,18 @@ function ProductQuestions() {
                   )
                 }
               >
-                <Faq_Name>
-                  <Faq_ImgCon>
-                    <Faq_Img src={faqImage} alt="faq Image" />
-                  </Faq_ImgCon>
-                  <Faq_NameText
+                <FaqName>
+                  <FaqImgCon>
+                    <FaqImg src={faqImage} alt="faq Image" />
+                  </FaqImgCon>
+                  <FaqNameText
                     style={
                       expandedPanel === "panel6" ? { color: "#EE4730" } : {}
                     }
                   >
                     text
-                  </Faq_NameText>
-                </Faq_Name>
+                  </FaqNameText>
+                </FaqName>
               </AccordionSummary>
               <HrCon>
                 <Hr />

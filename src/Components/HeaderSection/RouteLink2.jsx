@@ -1,5 +1,6 @@
 import { ArrowForwardRounded } from "@mui/icons-material";
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 const Container = styled.div`
   width: 100%;
@@ -29,9 +30,14 @@ const RouteLink = styled.p`
   align-items: flex-start;
   justify-content: flex-start;
 
-  &:hover {
-    cursor: ${(props) => props.cp};
-    color: ${(props) => props.hv};
+  .homeRL {
+    text-decoration: none;
+    color: white;
+
+    &:hover {
+      cursor: ${(props) => props.cp};
+      color: ${(props) => props.hv};
+    }
   }
 `;
 
@@ -41,7 +47,7 @@ function RouteLink2({ CurrentPage }) {
       <RouteLinksCon id="RouteLinks_Con">
         <RouteLinks>
           <RouteLink hv="orange" cp="pointer">
-            Home
+            <Link className='homeRL' to='/'>Home</Link>
           </RouteLink>
           <ArrowForwardRounded id="ArrowForward_Icon" />
 

@@ -1,34 +1,6 @@
 import { useState, useEffect } from "react";
 
-import {
-  ArrowForwardRounded,
-  ChevronLeft,
-  ChevronRight,
-  Facebook,
-  FacebookOutlined,
-  Instagram,
-  LinkedIn,
-  Twitter,
-} from "@mui/icons-material";
-import { Swiper, SwiperSlide } from "swiper/react";
 import styled from "styled-components";
-import img from "../images/product1.png";
-import Pagimg from "../images/01 (1).png";
-import ActiveBidders from "../images/ActiveBidders.png";
-import watching from "../images/watching.png";
-import TotalBid from "../images/totalBid.png";
-import searchIcon from "../images/search-icon.png";
-import tab1 from "../images/tab1.png";
-import tab2 from "../images/tab2.png";
-import tab3 from "../images/tab3.png";
-import tab4 from "../images/tab4.png";
-import { Rating } from "@mui/material";
-import ProductDetailsSelection from "../Components/Product/ProductDetailsSelection";
-// import ProductQuestions from "../Components/Product/ProductQuestions";
-import ProductDescription from "../Components/Product/ProductDescription";
-import ProductDeliveryOptions from "../Components/Product/ProductDeliveryOptions";
-import ProductBidHistory from "../Components/Product/ProductBidHistory";
-import ProductQuestions from "../Components/Product/ProductQuestions";
 import HeaderSection from "../Components/HeaderSection/HeaderSection";
 
 const ProductDetailsCon = styled.div`display:block`;
@@ -37,14 +9,14 @@ const PoliciesLink = styled.a`
   color: lightpurple;
 `;
 
-const Product_Details = styled.div`
+const ProductDetailsC = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
 `;
-const ProductInfo_Wrapper = styled.div`
+const ProductInfoWrapper = styled.div`
 background-color: #ebf2ff;
 display:flex;
 align-items:center;
@@ -69,7 +41,7 @@ const Details = styled.div`
   cursor: pointer;
   // background-color:white;
 `;
-const Details_ImgCon = styled.div``;
+const DetailsImgCon = styled.div``;
 const DetailsImg = styled.img`
   max-width: 90%;
   margin: 5px;
@@ -101,4 +73,4 @@ function ProductDetails() {
   );
 }
 
-export default Product_Details;
+export default ProductDetails;

@@ -1,4 +1,5 @@
 import { Gavel } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Closing_Soon_Products } from '../../data';
 
@@ -180,9 +181,11 @@ export default function ClosingSoonSection() {
                             <ClosingProductsLeft>
                                 <ClosingProductsImgCon className='ClosingSoonProducts'>
                                     <ClosingProductsImg className='ClosingSoonProductsImage' src={item.img} alt='closing soon products' />
-                                    <BidLink className='BidLink'>
-                                        <Gavel sx={{ color: 'white', fontSize: 22 }} />
-                                    </BidLink>
+                                    <Link to='/item-details'>
+                                        <BidLink className='BidLink'>
+                                            <Gavel sx={{ color: 'white', fontSize: 22 }} />
+                                        </BidLink>
+                                    </Link>
                                 </ClosingProductsImgCon>
                             </ClosingProductsLeft>
                             <ClosingProductsRight>

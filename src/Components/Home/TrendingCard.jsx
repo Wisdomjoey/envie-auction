@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { Gavel } from '@mui/icons-material';
-import {TrendingItems} from '../../data'
+import { TrendingItems } from '../../data'
+import { Link } from 'react-router-dom';
 
-const TrendingCardC= styled.div `
+const TrendingCardC = styled.div`
     width: 100%;
 `
 
@@ -26,9 +27,9 @@ const TrendingCardLeft = styled.div`
     position: relative;
     margin-left: 13px;
 `
-const TrendingCardImgLink = styled.a`
-    cursor: pointer;
-`
+// const TrendingCardImgLink = styled.a`
+//     cursor: pointer;
+// `
 const TrendingCardImg = styled.img`
     width: 100%;
     object-fit: cover;
@@ -146,7 +147,7 @@ const MiddleCon = styled.div`
 const MiddleText = styled.span`
     font-size: 16px;
     font-weight: 300;
-    color: ${ props => props.color };
+    color: ${props => props.color};
 `
 const MiddlePrice = styled.span`
     font-size: 22px;
@@ -196,91 +197,91 @@ const BBbottomBtn = styled.button`
 `
 
 export default function TrendingCard() {
-  return (
-    <TrendingCardC>
-    {TrendingItems.map ( (item, ind) => (
-    <TrendingCardCon className='trending__cardCon' key={ind}>
-        <TrendingCardLeft className='trending__cardLeft'>
-            <TrendingCardImgLink className='trending__cardImgLink'>
-                <TrendingCardImg src={ item.img } className='trending__cardImg' />
-                <CardTopIcon className="card__topIcon">
-                    <Gavel sx={{ fontSize: 20, color: 'white' }} />
-                </CardTopIcon>
-            </TrendingCardImgLink>
-        </TrendingCardLeft>
-        <TrendingCardMiddle className='trending__cardMiddle'>
-            <TrendingCardMiddleTop className='trending__middleTop'>
-                <TopLink href="/">
-                    <TopSpan className='top__span'>{item.name}</TopSpan>
-                </TopLink>
-            </TrendingCardMiddleTop>
-            <TrendingCardMiddleBottom className='trending__middleBottom'>
-                <BottomLeft className='bottom__left'>
-                    <BottomSpan className='bottom__span'>
-                        <P>Number</P>
-                        <P>:</P>
-                        {item.Number}
-                    </BottomSpan>
-                    <BottomSpan className='bottom__span'>
-                        <P>Vin</P>
-                        <P>:</P>
-                        {item.Vin}
-                    </BottomSpan>
-                    <BottomSpan className='bottom__span'>
-                        <P>Millage</P>
-                        <P>:</P>
-                        {item.Milage}
-                    </BottomSpan>
-                    <BottomSpan className='bottom__span'>
-                        <P>Location</P>
-                        <P>:</P>
-                        {item.Location}
-                    </BottomSpan>
-                </BottomLeft>
-                <BottomRight className='bottom__right'>
-                    <BottomSpan className='bottom__span'>
-                        <P>Engine</P>
-                        <P>:</P>
-                        {item.Engine}
-                    </BottomSpan>
-                    <BottomSpan className='bottom__span'>
-                        <P>Transmission</P>
-                        <P>:</P>
-                        {item.Transmission}
-                    </BottomSpan>
-                    <BottomSpan className='bottom__span'>
-                        <P>Body</P>
-                        <P>:</P>
-                        {item.Body}
-                    </BottomSpan>
-                </BottomRight>
-            </TrendingCardMiddleBottom>
-        </TrendingCardMiddle>
-        <TrendingCardRight className='trending__cardRight'>
-            <TrendingCardRightCon className='trending__cardRightCon'>
-                <TimerCon className='timer__con'>
-                    <Timer className='timer'>{item.TimeRemaining}</Timer>
-                </TimerCon>
-                <MiddleCon className="middle__con">
-                    <MiddleLeft className="middle__left">
-                        <Gavel sx={{ color: '#43b055', fontSize: 40 }} />
-                    </MiddleLeft>
-                    <MiddleRight className="middle__right">
-                        <MiddleText color='#43b055'>Current Bid</MiddleText>
-                        <MiddlePrice>${item.CurrentBid}</MiddlePrice>
-                    </MiddleRight>
-                </MiddleCon>
-                <TotalBidCon className='total__bidCon'>
-                    <TotalBidSpan className='total__bidSpan'>
-                        Total Bids :
-                        <TotalBidP>{item.TotalBids}</TotalBidP>
-                    </TotalBidSpan>
-                </TotalBidCon>
-                <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
-            </TrendingCardRightCon>
-        </TrendingCardRight>
-    </TrendingCardCon>
-    ))}
-    </TrendingCardC>
-  )
+    return (
+        <TrendingCardC>
+            {TrendingItems.map((item, ind) => (
+                <TrendingCardCon className='trending__cardCon' key={ind}>
+                    <TrendingCardLeft className='trending__cardLeft'>
+                        <TrendingCardImg src={item.img} className='trending__cardImg' />
+                        <Link to='/item-details'>
+                            <CardTopIcon className="card__topIcon">
+                                <Gavel sx={{ fontSize: 20, color: 'white' }} />
+                            </CardTopIcon>
+                        </Link>
+                    </TrendingCardLeft>
+                    <TrendingCardMiddle className='trending__cardMiddle'>
+                        <TrendingCardMiddleTop className='trending__middleTop'>
+                            <TopLink href="/item-details">
+                                <TopSpan className='top__span'>{item.name}</TopSpan>
+                            </TopLink>
+                        </TrendingCardMiddleTop>
+                        <TrendingCardMiddleBottom className='trending__middleBottom'>
+                            <BottomLeft className='bottom__left'>
+                                <BottomSpan className='bottom__span'>
+                                    <P>Number</P>
+                                    <P>:</P>
+                                    {item.Number}
+                                </BottomSpan>
+                                <BottomSpan className='bottom__span'>
+                                    <P>Vin</P>
+                                    <P>:</P>
+                                    {item.Vin}
+                                </BottomSpan>
+                                <BottomSpan className='bottom__span'>
+                                    <P>Millage</P>
+                                    <P>:</P>
+                                    {item.Milage}
+                                </BottomSpan>
+                                <BottomSpan className='bottom__span'>
+                                    <P>Location</P>
+                                    <P>:</P>
+                                    {item.Location}
+                                </BottomSpan>
+                            </BottomLeft>
+                            <BottomRight className='bottom__right'>
+                                <BottomSpan className='bottom__span'>
+                                    <P>Engine</P>
+                                    <P>:</P>
+                                    {item.Engine}
+                                </BottomSpan>
+                                <BottomSpan className='bottom__span'>
+                                    <P>Transmission</P>
+                                    <P>:</P>
+                                    {item.Transmission}
+                                </BottomSpan>
+                                <BottomSpan className='bottom__span'>
+                                    <P>Body</P>
+                                    <P>:</P>
+                                    {item.Body}
+                                </BottomSpan>
+                            </BottomRight>
+                        </TrendingCardMiddleBottom>
+                    </TrendingCardMiddle>
+                    <TrendingCardRight className='trending__cardRight'>
+                        <TrendingCardRightCon className='trending__cardRightCon'>
+                            <TimerCon className='timer__con'>
+                                <Timer className='timer'>{item.TimeRemaining}</Timer>
+                            </TimerCon>
+                            <MiddleCon className="middle__con">
+                                <MiddleLeft className="middle__left">
+                                    <Gavel sx={{ color: '#43b055', fontSize: 40 }} />
+                                </MiddleLeft>
+                                <MiddleRight className="middle__right">
+                                    <MiddleText color='#43b055'>Current Bid</MiddleText>
+                                    <MiddlePrice>${item.CurrentBid}</MiddlePrice>
+                                </MiddleRight>
+                            </MiddleCon>
+                            <TotalBidCon className='total__bidCon'>
+                                <TotalBidSpan className='total__bidSpan'>
+                                    Total Bids :
+                                    <TotalBidP>{item.TotalBids}</TotalBidP>
+                                </TotalBidSpan>
+                            </TotalBidCon>
+                            <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
+                        </TrendingCardRightCon>
+                    </TrendingCardRight>
+                </TrendingCardCon>
+            ))}
+        </TrendingCardC>
+    )
 }

@@ -200,8 +200,8 @@ const FeaturedAuction = () => {
         <Title>Bid On These Featured Auctions!</Title>
       </TitleCon>
       <FeaturedAuctionsCard className="flex aic jcc">
-        {featured_auctions.map((item) => (
-          <FBottomCard className="fBottom__card">
+        {featured_auctions.map((item, ind) => (
+          <FBottomCard key={ind} className="fBottom__card">
             <CardTop className="card__top">
               <CardTopImg className="card__topImg" src={item.img} />
               <CardTopIcon className="card__topIcon">

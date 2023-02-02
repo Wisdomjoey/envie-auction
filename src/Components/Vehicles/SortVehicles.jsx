@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import * as React from "react";
 import styled from "styled-components";
-import { Gavel, Search, ShoppingBagRounded } from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 // import { Vehi_cles } from "../../data";
-import axios from "axios";
-import Vehi_cles from "./Vehicles";
 import { Vehicles } from "../../data";
 
-const Sort_Vehicles = styled.div`
+const SortVehiclesC = styled.div`
   margin-top: 100px;
   width: 100%;
   box-sizing: border-box;
@@ -17,7 +15,7 @@ const Sort_Vehicles = styled.div`
   align-items: center;
   margin-bottom: 80px;
 `;
-const SortVehicles_Con = styled.div`
+const SortVehiclesCon = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -36,12 +34,12 @@ const SortProducts = styled.div`
   justify-content: space-around;
   flex: 1;
 `;
-const Sort_Form = styled.form`
+const SortForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
-const Sort_select = styled.select`
+const Sortselect = styled.select`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,12 +49,12 @@ const Sort_select = styled.select`
   padding: 8px;
   width: 80px;
 `;
-const Sort_option = styled.option``;
+const Sortoption = styled.option``;
 const P = styled.p`
   font-size: 14px;
   margin-right: 5px;
 `;
-const SearchProducts_Con = styled.div`
+const SearchProductsCon = styled.div`
   flex: 2;
   display: flex;
   align-items: center;
@@ -127,30 +125,30 @@ function SortVehicles() {
   }
 
   return (
-    <Sort_Vehicles className="Sort_Vehicles ">
-      <SortVehicles_Con>
+    <SortVehiclesC className="SortVehicles ">
+      <SortVehiclesCon>
         <SortProducts>
-          <Sort_Form>
+          <SortForm>
             <P>Sort By : </P>
-            <Sort_select name="sort by" onChange={handleCategoryChange}>
+            <Sortselect name="sort by" onChange={handleCategoryChange}>
               {Sorts.map((option) => (
-                <Sort_option value={option.value}>{option.label}</Sort_option>
+                <Sortoption value={option.value}>{option.label}</Sortoption>
               ))}
-            </Sort_select>
-          </Sort_Form>
-          <Sort_Form>
+            </Sortselect>
+          </SortForm>
+          <SortForm>
             <P>Show : </P>
-            <Sort_select
+            <Sortselect
               name="show"
               onChange={handleCategoryChange}
             >
               {Show.map((option) => (
-                <Sort_option value={option.value}>{option.label}</Sort_option>
+                <Sortoption value={option.value}>{option.label}</Sortoption>
               ))}
-            </Sort_select>
-          </Sort_Form>
+            </Sortselect>
+          </SortForm>
         </SortProducts>
-        <SearchProducts_Con>
+        <SearchProductsCon>
           <SearchProducts>
             <Input
               onChange={handleSearchChange}
@@ -159,10 +157,10 @@ function SortVehicles() {
             />
             <Search className="pointer" />
           </SearchProducts>
-        </SearchProducts_Con>
-      </SortVehicles_Con>
-      <Vehi_cles filteredList={filteredList} />
-    </Sort_Vehicles>
+        </SearchProductsCon>
+      </SortVehiclesCon>
+      <Vehicles filteredList={filteredList} />
+    </SortVehiclesC>
   );
 }
 

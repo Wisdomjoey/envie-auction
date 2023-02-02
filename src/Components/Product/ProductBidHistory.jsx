@@ -34,7 +34,7 @@ const BidHistoryTxt = styled.p`
   margin-bottom: ${(props) => props.mb};
 `;
 
-const Clients_BidHistory = styled.div`
+const ClientsBidHistory = styled.div`
 width:100%;
 `;
 const Clients = styled.div`
@@ -44,27 +44,27 @@ const Clients = styled.div`
   justify-content: space-between;
   padding: 15px 0;
 `;
-const Clients_Details = styled.div`
+const ClientsDetails = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex:1;
 `;
-const Clients_BidDetails = styled.div`
+const ClientsBidDetails = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   padding-right:30px;
   flex: 1;
 `;
-const Clients_BidDate = styled.div`
+const ClientsBidDate = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   padding-left:40px;
   flex: 1;
 `;
-const Clients_Referrals = styled.div`
+const ClientsReferrals = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
@@ -103,83 +103,83 @@ function ProductBidHistory() {
           <BidHistoryTxt fz="20px">Time</BidHistoryTxt>
           <BidHistoryTxt fz="20px">Unit Price</BidHistoryTxt>
         </BidHistoryHeader>
-        <Clients_BidHistory>
+        <ClientsBidHistory>
           <Clients>
-            <Clients_Details>
+            <ClientsDetails>
               <BidHistoryImg src={Cli} />
               <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </Clients_Details>
-            <Clients_BidDetails cl="black" fz="15px">
+            </ClientsDetails>
+            <ClientsBidDetails cl="black" fz="15px">
               <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </Clients_BidDetails>
-            <Clients_BidDate cl="black" fz="15px">
+            </ClientsBidDetails>
+            <ClientsBidDate cl="black" fz="15px">
               <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </Clients_BidDate>
-            <Clients_Referrals cl="black" fz="15px">
+            </ClientsBidDate>
+            <ClientsReferrals cl="black" fz="15px">
               <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </Clients_Referrals>
+            </ClientsReferrals>
           </Clients>
           <Clients>
-            <Clients_Details>
+            <ClientsDetails>
               <BidHistoryImg src={Cli} />
               <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </Clients_Details>
-            <Clients_BidDetails cl="black" fz="15px">
+            </ClientsDetails>
+            <ClientsBidDetails cl="black" fz="15px">
               <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </Clients_BidDetails>
-            <Clients_BidDate cl="black" fz="15px">
+            </ClientsBidDetails>
+            <ClientsBidDate cl="black" fz="15px">
               <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </Clients_BidDate>
-            <Clients_Referrals cl="black" fz="15px">
+            </ClientsBidDate>
+            <ClientsReferrals cl="black" fz="15px">
               <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </Clients_Referrals>
+            </ClientsReferrals>
           </Clients>
           <Clients>
-            <Clients_Details>
+            <ClientsDetails>
               <BidHistoryImg src={Cli} />
               <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </Clients_Details>
-            <Clients_BidDetails cl="black" fz="15px">
+            </ClientsDetails>
+            <ClientsBidDetails cl="black" fz="15px">
               <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </Clients_BidDetails>
-            <Clients_BidDate cl="black" fz="15px">
+            </ClientsBidDetails>
+            <ClientsBidDate cl="black" fz="15px">
               <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </Clients_BidDate>
-            <Clients_Referrals cl="black" fz="15px">
+            </ClientsBidDate>
+            <ClientsReferrals cl="black" fz="15px">
               <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </Clients_Referrals>
+            </ClientsReferrals>
           </Clients>
           <Clients>
-            <Clients_Details>
+            <ClientsDetails>
               <BidHistoryImg src={Cli} />
               <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </Clients_Details>
-            <Clients_BidDetails cl="black" fz="15px">
+            </ClientsDetails>
+            <ClientsBidDetails cl="black" fz="15px">
               <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </Clients_BidDetails>
-            <Clients_BidDate cl="black" fz="15px">
+            </ClientsBidDetails>
+            <ClientsBidDate cl="black" fz="15px">
               <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </Clients_BidDate>
-            <Clients_Referrals cl="black" fz="15px">
+            </ClientsBidDate>
+            <ClientsReferrals cl="black" fz="15px">
               <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </Clients_Referrals>
+            </ClientsReferrals>
           </Clients>
           <Clients>
-            <Clients_Details>
+            <ClientsDetails>
               <BidHistoryImg src={Cli} />
               <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </Clients_Details>
-            <Clients_BidDetails cl="black" fz="15px">
+            </ClientsDetails>
+            <ClientsBidDetails cl="black" fz="15px">
               <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </Clients_BidDetails>
-            <Clients_BidDate cl="black" fz="15px">
+            </ClientsBidDetails>
+            <ClientsBidDate cl="black" fz="15px">
               <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </Clients_BidDate>
-            <Clients_Referrals cl="black" fz="15px">
+            </ClientsBidDate>
+            <ClientsReferrals cl="black" fz="15px">
               <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </Clients_Referrals>
+            </ClientsReferrals>
           </Clients>
-                 </Clients_BidHistory>
+                 </ClientsBidHistory>
                  <ButtonCon>
         <Button>LOAD MORE</Button>
                  </ButtonCon>

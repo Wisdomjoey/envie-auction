@@ -1,8 +1,6 @@
 import { ArrowForwardRounded } from "@mui/icons-material"
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Footer from "../Home/Footer";
-import Navbar from "../Home/Navbar";
-import { useEffect } from "react";
 import FeaturedAuction from './FeaturedAuction'
 
 
@@ -12,7 +10,7 @@ const Container = styled.div`
      width:100%;
      height:100%;
 `
-const RouteLinks_Con = styled.div`
+const RouteLinksCon = styled.div`
      width:100;
      display:flex;
      align-items:center;
@@ -33,21 +31,26 @@ const RouteLink = styled.p`
     align-items:flex-start;
     justify-content:flex-start;
 
-    &:hover{
-        cursor:${props=>props.cp};
-        color:${props=>props.hv};
+  .homeRL {
+    text-decoration: none;
+    color: white;
+
+    &:hover {
+      cursor: ${(props) => props.cp};
+      color: ${(props) => props.hv};
     }
+  }
 `
 
-function Vehicles_HomeSection() {
+function VehiclesHomeSection() {
 
   return (
        <Container>
         {/* <Navbar/> */}
-        <RouteLinks_Con id='RouteLinks_Con'>
+        <RouteLinksCon id='RouteLinks_Con'>
             <RouteLinks >
                 <RouteLink hv='orange' cp='pointer'>
-                    Home
+                      <Link className='homeRL' to='/'>Home</Link>
                 </RouteLink>
                  <ArrowForwardRounded id='ArrowForward_Icon'/>
 
@@ -60,11 +63,11 @@ function Vehicles_HomeSection() {
                     Vehicles
                 </RouteLink>
             </RouteLinks>
-        </RouteLinks_Con>
+        </RouteLinksCon>
         <FeaturedAuction/>
 
        </Container>
     )
 }
 
-export default Vehicles_HomeSection
+export default VehiclesHomeSection

@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tab1 from "../../images/tab1.png";
 import tab2 from "../../images/tab2.png";
 import tab3 from "../../images/tab3.png";
 import tab4 from "../../images/tab4.png";
-import ProductDescription from "./ProductDescription";
-import ProductBidHistory from "./ProductBidHistory";
-import ProductDeliveryOptions from "./ProductDeliveryOptions";
 import ProductQuestions from "./ProductQuestions";
 
 const PoliciesLink = styled.a`
@@ -21,7 +18,7 @@ const ProductDetails = styled.div`
   justify-content: space-between;
   flex-direction: column;
 `;
-const ProductInfo_Wrapper = styled.div`
+const ProductInfoWrapper = styled.div`
 background-color: #ebf2ff;
 display:flex;
 align-items:center;
@@ -46,7 +43,7 @@ const Details = styled.div`
   cursor: pointer;
   // background-color:white;
 `;
-const Details_ImgCon = styled.div``;
+const DetailsImgCon = styled.div``;
 const DetailsImg = styled.img`
   max-width: 90%;
   margin: 5px;
@@ -72,7 +69,7 @@ function ProductDetailsSelection() {
 
   return (
     <ProductDetails>
-      <ProductInfo_Wrapper>
+      <ProductInfoWrapper>
         <Details
           className="Description"
           // onClick={() => {
@@ -82,9 +79,9 @@ function ProductDetailsSelection() {
             productDetails === "Description" ? { backgroundColor: "white" } : {}
           }
         >
-          <Details_ImgCon>
+          <DetailsImgCon>
             <DetailsImg src={tab1} alt="tab1" />
-          </Details_ImgCon>
+          </DetailsImgCon>
           <DetailsTxt>ProductDetails</DetailsTxt>
         </Details>
         <Details
@@ -98,9 +95,9 @@ function ProductDetailsSelection() {
               : {}
           }
         >
-          <Details_ImgCon>
+          <DetailsImgCon>
             <DetailsImg src={tab2} alt="tab2" />
-          </Details_ImgCon>
+          </DetailsImgCon>
           <DetailsTxt>Delivery Options</DetailsTxt>
         </Details>
         <Details
@@ -112,9 +109,9 @@ function ProductDetailsSelection() {
             productDetails === "Bid_History" ? { backgroundColor: "white" } : {}
           }
         >
-          <Details_ImgCon>
+          <DetailsImgCon>
             <DetailsImg src={tab3} alt="tab3" />
-          </Details_ImgCon>
+          </DetailsImgCon>
           <DetailsTxt>Bid history</DetailsTxt>
         </Details>
 
@@ -127,12 +124,12 @@ function ProductDetailsSelection() {
             productDetails === "Questions" ? { backgroundColor: "white" } : {}
           }
         >
-          <Details_ImgCon>
+          <DetailsImgCon>
             <DetailsImg src={tab4} alt="tab4" />
-          </Details_ImgCon>
+          </DetailsImgCon>
           <DetailsTxt>Questions</DetailsTxt>
         </Details>
-      </ProductInfo_Wrapper>
+      </ProductInfoWrapper>
       <SetProductDetails>
         {/* {productDetails === "Description" && <ProductDescription />}
         {productDetails === "Delivery_Options" && <ProductDeliveryOptions />}

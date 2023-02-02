@@ -1,15 +1,11 @@
 import {
-  ArrowForwardRounded,
-  ChevronLeft,
-  ChevronRight,
   Facebook,
-  FacebookOutlined,
   Instagram,
   LinkedIn,
   StarOutlined,
   Twitter,
 } from "@mui/icons-material";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -24,24 +20,12 @@ import { FreeMode, Navigation, Thumbs } from "swiper";
 
 import styled from "styled-components";
 import img from "../../images/product1.png";
-import Pagimg from "../../images/01 (1).png";
 import ActiveBidders from "../../images/ActiveBidders.png";
 import watching from "../../images/watching.png";
-import TotalBid from "../../images/totalBid.png";
 import searchIcon from "../../images/search-icon.png";
-import tab1 from "../../images/tab1.png";
-import tab2 from "../../images/tab2.png";
-import tab3 from "../../images/tab3.png";
-import tab4 from "../../images/tab4.png";
-import { Rating } from "@mui/material";
-import ProductDetailsSelection from './ProductDetailsSelection';
-import ProductQuestions from "./ProductQuestions";
-import ProductDescription from "./ProductDescription";
-import ProductDeliveryOptions from "./ProductDeliveryOptions";
-import ProductBidHistory from "./ProductBidHistory";
 
 
-const Product_HomeSectionCon = styled.div`
+const ProductHomeSectionCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +39,7 @@ const Container = styled.div`
   height: 70vh;
 `;
 
-const ImageSlider_Con = styled.div`
+const ImageSliderCon = styled.div`
   margin-top: 120px;
   display: flex;
   align-items: center;
@@ -63,7 +47,7 @@ const ImageSlider_Con = styled.div`
   width: 80%;
   flex-direction: column;
 `;
-const MainImg_Con = styled.div`
+const MainImgCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,7 +59,7 @@ const MainImg = styled.img`
   box-shadow: 0px 9px 30px 0px rgb(22 26 57 / 16%);
   max-width: 100%;
 `;
-const PagImg_Con = styled.div`
+const PagImgCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -114,7 +98,7 @@ const PagImg = styled.img`
   max-width: 160px;
 `;
 
-const ProductInfo_Con = styled.div`
+const ProductInfoCon = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -124,7 +108,7 @@ const ProductInfo_Con = styled.div`
   margin-top: 50px;
 `;
 
-const ProductInfoLeft_Con = styled.div`
+const ProductInfoLeftCon = styled.div`
   flex: 2;
   display: flex;
   align-items: flex-start;
@@ -132,28 +116,28 @@ const ProductInfoLeft_Con = styled.div`
   flex-direction: column;
 `;
 
-const Product_Info = styled.div`
+const ProductInfo = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
 `;
-const Product_InfoTop = styled.div`
+const ProductInfoTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
-const Product_Name = styled.h1`
+const ProductName = styled.h1`
   white-space: nowrap;
   font-size: 42px;
 `;
-const Product_InfoBottom = styled.div`
+const ProductInfoBottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin:15px 0;
 `;
-const Listing_Id = styled.p`
+const ListingId = styled.p`
   white-space: nowrap;
   color: grey;
   font-weight: 300;
@@ -164,13 +148,13 @@ const HR = styled.div`
   width: 2px;
   margin: 8px;
 `;
-const Item_Id = styled.p`
+const ItemId = styled.p`
   white-space: nowrap;
   color: grey;
   font-weight: 300;
 `;
 
-const Product_Price = styled.div`
+const ProductPrice = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -182,12 +166,12 @@ const Product_Price = styled.div`
   box-sizing: border-box;
 `;
 
-const Product_PriceLeft = styled.div`
+const ProductPriceLeft = styled.div`
   flex: 1;
   text-align: left;
 `;
 
-const Product_PriceRight = styled.div`
+const ProductPriceRight = styled.div`
   flex: 1;
   display: flex;
   align-items: flex-end;
@@ -196,12 +180,12 @@ const Product_PriceRight = styled.div`
   text-align: right;
   flex-direction: column;
 `;
-const Product_PriceRightTxtCon = styled.div`
+const ProductPriceRightTxtCon = styled.div`
   display: flex;
   align-items: flex-end;
 `;
 
-const Product_PriceLeftTxt = styled.p`
+const ProductPriceLeftTxt = styled.p`
   text-align: left;
   font-size: ${(props) => props.fz};
   font-weight: ${(props) => props.fw};
@@ -221,7 +205,7 @@ const ProductInfoRight = styled.div`
   flex-direction: column;
   margin-left: 10px;
 `;
-const ProductInfoRight_Con = styled.div`
+const ProductInfoRightCon = styled.div`
   margin-left: 20px;
   flex: 2;
   border-radius: 15px;
@@ -252,7 +236,7 @@ const AuctionTimeHr = styled.hr`
   margin: ${(props) => props.mg};
 `;
 
-const BidDetails_Con = styled.div`
+const BidDetailsCon = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -269,11 +253,11 @@ const BidDetails = styled.div`
   // flex-direction: column;
 `;
 
-const BidDetailsImg_Con = styled.div``;
+const BidDetailsImgCon = styled.div``;
 const BidDetailsImg = styled.img`
   max-width: 21%;
 `;
-const BidDetailsImgTxt_Con = styled.div``;
+const BidDetailsImgTxtCon = styled.div``;
 const BidDetailsImgTxt = styled.p`
   white-space: nowrap;
   font-size: ${(props) => props.fz};
@@ -288,7 +272,7 @@ const SubmitBid = styled.div`
   margin-bottom:20px;
 `;
 
-const SubmitBidImg_Con = styled.div`
+const SubmitBidImgCon = styled.div`
   flex: 1;
 `;
 
@@ -311,7 +295,7 @@ const Input = styled.input`
   outline: none;
 `;
 
-const SubmitBidButton_Con = styled.div`
+const SubmitBidButtonCon = styled.div`
   margin-left: 10px;
   flex: 2;
   display: flex;
@@ -319,7 +303,7 @@ const SubmitBidButton_Con = styled.div`
   justify-content: flex-end;
 `;
 
-const SubmitBid_Button = styled.button`
+const SubmitBidButton = styled.button`
   background: linear-gradient(2deg, #3da9f5 0%, #683df5 100%);
   box-shadow: -1.04px 4.891px 20px 0px rgb(69 49 183 / 50%);
   border: none;
@@ -332,7 +316,7 @@ const SubmitBid_Button = styled.button`
   flex: 1;
 `;
 
-const BuyProduct_Con = styled.div`
+const BuyProductCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -340,14 +324,14 @@ const BuyProduct_Con = styled.div`
   flex: 1;
 `;
 
-const BuyNow_BtnCon = styled.div`
+const BuyNowBtnCon = styled.div`
   margin-left: 10px;
   flex: 1;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
 `;
-const Buy_Btn = styled.button`
+const BuyBtn = styled.button`
   background: linear-gradient(2deg, #3da9f5 0%, #683df5 100%);
   box-shadow: -1.04px 4.891px 20px 0px rgb(69 49 183 / 50%);
   border: none;
@@ -360,7 +344,7 @@ const Buy_Btn = styled.button`
   // flex: 1;
 `;
 
-const WishListBtn_Con = styled.div`
+const WishListBtnCon = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -390,7 +374,7 @@ const WishListButton = styled.button`
   }
 `;
 
-const Share_Con = styled.div`
+const ShareCon = styled.div`
   flex: 1;
   color: grey;
   display: flex;
@@ -424,7 +408,7 @@ const ProductDetails = styled.div`
   justify-content: space-between;
   flex-direction: column;
 `;
-const ProductInfo_Wrapper = styled.div`
+const ProductInfoWrapper = styled.div`
 background-color: #ebf2ff;
 display:flex;
 align-items:center;
@@ -449,7 +433,7 @@ const Details = styled.div`
   cursor: pointer;
   // background-color:white;
 `;
-const Details_ImgCon = styled.div``;
+const DetailsImgCon = styled.div``;
 const DetailsImg = styled.img`
   max-width: 90%;
   margin: 5px;
@@ -469,14 +453,13 @@ const SetProductDetails = styled.div`
 
 
 
-const Product_HomeSection = () =>{
+const ProductHomeSection = () =>{
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-
   return (
-    <Product_HomeSectionCon>
-      <ImageSlider_Con>
+    <ProductHomeSectionCon>
+      <ImageSliderCon>
         <Swiper
           style={{
             "--swiper-navigation-color": "#fff",
@@ -490,34 +473,34 @@ const Product_HomeSection = () =>{
           className="mySwiper2"
         >
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
         </Swiper>
         <Swiper
@@ -531,68 +514,68 @@ const Product_HomeSection = () =>{
           className="mySwiper"
         >
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
           <SwiperSlide>
-            <img src={img} />
+            <img alt='' src={img} />
           </SwiperSlide>
         </Swiper>
-      </ImageSlider_Con>
+      </ImageSliderCon>
 
       {/* End of Image Slider */}
 
-      <ProductInfo_Con>
-        <ProductInfoLeft_Con>
-          <Product_Info>
-            <Product_InfoTop>
-              <Product_Name>The Breeze Zodiac IX</Product_Name>
-            </Product_InfoTop>
-            <Product_InfoBottom>
-              <Listing_Id>Listing ID: 14076242</Listing_Id>
+      <ProductInfoCon>
+        <ProductInfoLeftCon>
+          <ProductInfo>
+            <ProductInfoTop>
+              <ProductName>The Breeze Zodiac IX</ProductName>
+            </ProductInfoTop>
+            <ProductInfoBottom>
+              <ListingId>Listing ID: 14076242</ListingId>
               <HR />
-              <Item_Id>Item #: 7300-335686</Item_Id>
-            </Product_InfoBottom>
-          </Product_Info>
-          <Product_Price>
-            <Product_PriceLeft>
-              <Product_PriceLeftTxt fz="35px" mb="39px" mt="20px" fw={400}>
+              <ItemId>Item #: 7300-335686</ItemId>
+            </ProductInfoBottom>
+          </ProductInfo>
+          <ProductPrice>
+            <ProductPriceLeft>
+              <ProductPriceLeftTxt fz="35px" mb="39px" mt="20px" fw={400}>
                 Current Price
-              </Product_PriceLeftTxt>
-              <Product_PriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
+              </ProductPriceLeftTxt>
+              <ProductPriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
                 Buyer's Premium
-              </Product_PriceLeftTxt>
-              <Product_PriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
+              </ProductPriceLeftTxt>
+              <ProductPriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
                 Bid Increment (US)
-              </Product_PriceLeftTxt>
-            </Product_PriceLeft>
+              </ProductPriceLeftTxt>
+            </ProductPriceLeft>
             {/* <AuctionTimeHr/> */}
-            <Product_PriceRight>
-              {/* <Product_PriceRightTxtCon> */}
-              <Product_PriceLeftTxt
+            <ProductPriceRight>
+              {/* <ProductPriceRightTxtCon> */}
+              <ProductPriceLeftTxt
                 cl="#43B055"
                 fw={600}
                 fz="35px"
@@ -600,52 +583,52 @@ const Product_HomeSection = () =>{
                 mt="20px"
               >
                 US $700.00
-              </Product_PriceLeftTxt>
-              <Product_PriceLeftTxt mt="10px" mb="10px" fz="19px">
+              </ProductPriceLeftTxt>
+              <ProductPriceLeftTxt mt="10px" mb="10px" fz="19px">
                 10.00%
-              </Product_PriceLeftTxt>
-              <Product_PriceLeftTxt mt="10px" mb="10px" fz="19px">
+              </ProductPriceLeftTxt>
+              <ProductPriceLeftTxt mt="10px" mb="10px" fz="19px">
                 $50.00
-              </Product_PriceLeftTxt>
-              {/* </Product_PriceRightTxtCon> */}
-            </Product_PriceRight>
-          </Product_Price>
+              </ProductPriceLeftTxt>
+              {/* </ProductPriceRightTxtCon> */}
+            </ProductPriceRight>
+          </ProductPrice>
           <AuctionTimeHr mg="25px" wd="95%" />
 
           <SubmitBid>
-            <SubmitBidImg_Con>
+            <SubmitBidImgCon>
               <SubmitBidImg src={searchIcon} alt="searchIcon" />
-            </SubmitBidImg_Con>
+            </SubmitBidImgCon>
             <InputContainer>
               <Input placeholder="Enter Your Bid Amount" />
             </InputContainer>
-            <SubmitBidButton_Con>
-              <SubmitBid_Button>Submit A Bid</SubmitBid_Button>
-            </SubmitBidButton_Con>
+            <SubmitBidButtonCon>
+              <SubmitBidButton>Submit A Bid</SubmitBidButton>
+            </SubmitBidButtonCon>
           </SubmitBid>
-          <BuyProduct_Con>
-            <BuyNow_BtnCon>
-              <Buy_Btn>BUY NOW: $4,200</Buy_Btn>
-            </BuyNow_BtnCon>
-            <WishListBtn_Con>
+          <BuyProductCon>
+            <BuyNowBtnCon>
+              <BuyBtn>BUY NOW: $4,200</BuyBtn>
+            </BuyNowBtnCon>
+            <WishListBtnCon>
               <WishListButton>
                 <StarOutlined sx={{ color: "darkOrange" }} />
                 Add To Wishlist
               </WishListButton>
-            </WishListBtn_Con>
-            <Share_Con>
+            </WishListBtnCon>
+            <ShareCon>
               <ShareTxt>Share to :</ShareTxt>
               <Facebook id="ShareTxtIcon" />
               <Twitter id="ShareTxtIcon" />
               <LinkedIn id="ShareTxtIcon" />
               <Instagram id="ShareTxtIcon" />
-            </Share_Con>
-          </BuyProduct_Con>
-        </ProductInfoLeft_Con>
-        {/* End Of ProductInfoLeft_Con */}
+            </ShareCon>
+          </BuyProductCon>
+        </ProductInfoLeftCon>
+        {/* End Of ProductInfoLeftCon */}
 
         <ProductInfoRight>
-          <ProductInfoRight_Con>
+          <ProductInfoRightCon>
             <AuctionTimeRemaining>
               <AunctionTimeTxt fz="20px" cl="black" fw={400}>
                 This Auction Ends in
@@ -654,57 +637,57 @@ const Product_HomeSection = () =>{
                 0d : 18h : 18m : 6s
               </AunctionTimeTxt>
             </AuctionTimeRemaining>
-            <BidDetails_Con>
+            <BidDetailsCon>
               <AuctionTimeHr mg="5px" wd="100%" />
               <BidDetails>
-                {/* <BidDetailsImg_Con> */}
+                {/* <BidDetailsImgCon> */}
                 <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
-                {/* </BidDetailsImg_Con> */}
-                <BidDetailsImgTxt_Con>
+                {/* </BidDetailsImgCon> */}
+                <BidDetailsImgTxtCon>
                   <BidDetailsImgTxt fw={600} fz="35px">
                     61
                   </BidDetailsImgTxt>
                   <BidDetailsImgTxt fw={400} fz="13px">
                     Active Bidders
                   </BidDetailsImgTxt>
-                </BidDetailsImgTxt_Con>
+                </BidDetailsImgTxtCon>
               </BidDetails>
               <BidDetails>
-                {/* <BidDetailsImg_Con> */}
+                {/* <BidDetailsImgCon> */}
                 <BidDetailsImg src={watching} alt="watching" />
-                {/* </BidDetailsImg_Con> */}
-                <BidDetailsImgTxt_Con>
+                {/* </BidDetailsImgCon> */}
+                <BidDetailsImgTxtCon>
                   <BidDetailsImgTxt fw={600} fz="35px">
                     203
                   </BidDetailsImgTxt>
                   <BidDetailsImgTxt fw={400} fz="13px">
                     Watching
                   </BidDetailsImgTxt>
-                </BidDetailsImgTxt_Con>
+                </BidDetailsImgTxtCon>
               </BidDetails>
               <BidDetails>
-                {/* <BidDetailsImg_Con> */}
+                {/* <BidDetailsImgCon> */}
                 <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
-                {/* </BidDetailsImg_Con> */}
-                <BidDetailsImgTxt_Con>
+                {/* </BidDetailsImgCon> */}
+                <BidDetailsImgTxtCon>
                   <BidDetailsImgTxt fw={600} fz="35px">
                     82
                   </BidDetailsImgTxt>
                   <BidDetailsImgTxt fw={400} fz="13px">
                     TotalBid
                   </BidDetailsImgTxt>
-                </BidDetailsImgTxt_Con>
+                </BidDetailsImgTxtCon>
               </BidDetails>
-            </BidDetails_Con>
-          </ProductInfoRight_Con>
+            </BidDetailsCon>
+          </ProductInfoRightCon>
           <UseFullLinks>
             <ShippingLink>View Shipping, </ShippingLink>
             <PoliciesLink> Payment & Auction Policies</PoliciesLink>
           </UseFullLinks>
         </ProductInfoRight>
-      </ProductInfo_Con>
-    </Product_HomeSectionCon>
+      </ProductInfoCon>
+    </ProductHomeSectionCon>
   );
 }
 
-export default Product_HomeSection;
+export default ProductHomeSection;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import tab1 from "../../images/tab1.png";
 import tab2 from "../../images/tab2.png";
@@ -8,13 +8,6 @@ import ProductDescription from "./ProductDescription";
 import ProductBidHistory from "./ProductBidHistory";
 import ProductDeliveryOptions from "./ProductDeliveryOptions";
 import ProductQuestions from "./ProductQuestions";
-import DashBoard from "../DashBoard/DashBoard";
-import WinningBids from "../DashBoard/WinningBids";
-import MyAlerts from "../DashBoard/MyAlerts";
-import MyBids from "../DashBoard/MyBids";
-import MyFavorites from "../DashBoard/MyFavorites";
-import Referrals from "../DashBoard/Referrals";
-import PersonalProfile from "../DashBoard/PersonalProfile";
 
 const ProductDSelectionCon = styled.div`
   width: 100%;
@@ -36,7 +29,7 @@ const ProductDetails = styled.div`
   justify-content: space-between;
   flex-direction: column;
 `;
-const ProductInfo_Wrapper = styled.div`
+const ProductInfoWrapper = styled.div`
 background-color: #ebf2ff;
 display:flex;
   flex-wrap: wrap;
@@ -60,7 +53,7 @@ const Details = styled.div`
   margin: 8px;
   cursor: pointer;
 `;
-const Details_ImgCon = styled.div``;
+const DetailsImgCon = styled.div``;
 const DetailsImg = styled.img`
   max-width: 90%;
   margin: 5px;
@@ -83,7 +76,7 @@ function ProductDSelection() {
   const [active, SetActive] = useState("ProductDetails");
   return (
     <ProductDSelectionCon>
-      <ProductInfo_Wrapper>
+      <ProductInfoWrapper>
         <Details
           className="Description"
           onClick={() => {
@@ -93,9 +86,9 @@ function ProductDSelection() {
             active === "ProductDetails" ? { backgroundColor: "white" } : {}
           }
         >
-          <Details_ImgCon>
+          <DetailsImgCon>
             <DetailsImg src={tab1} alt="tab1" />
-          </Details_ImgCon>
+          </DetailsImgCon>
           <DetailsTxt>ProductDetails</DetailsTxt>
         </Details>
         <Details
@@ -107,9 +100,9 @@ function ProductDSelection() {
             active === "Delivery_Option" ? { backgroundColor: "white" } : {}
           }
         >
-          <Details_ImgCon>
+          <DetailsImgCon>
             <DetailsImg src={tab2} alt="tab2" />
-          </Details_ImgCon>
+          </DetailsImgCon>
           <DetailsTxt>Delivery Options</DetailsTxt>
         </Details>
         <Details
@@ -119,9 +112,9 @@ function ProductDSelection() {
           }}
           style={active === "BidHistory" ? { backgroundColor: "white" } : {}}
         >
-          <Details_ImgCon>
+          <DetailsImgCon>
             <DetailsImg src={tab3} alt="tab3" />
-          </Details_ImgCon>
+          </DetailsImgCon>
           <DetailsTxt>Bid history</DetailsTxt>
         </Details>
 
@@ -132,12 +125,12 @@ function ProductDSelection() {
           }}
           style={active === "Questions" ? { backgroundColor: "white" } : {}}
         >
-          <Details_ImgCon>
+          <DetailsImgCon>
             <DetailsImg src={tab4} alt="tab4" />
-          </Details_ImgCon>
+          </DetailsImgCon>
           <DetailsTxt>Questions</DetailsTxt>
         </Details>
-      </ProductInfo_Wrapper>
+      </ProductInfoWrapper>
       <SetProductDetails>
         {active === "ProductDetails" && <ProductDescription />}
         {active === "Delivery_Option" && <ProductDeliveryOptions />}

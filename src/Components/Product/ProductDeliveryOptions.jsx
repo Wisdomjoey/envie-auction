@@ -61,11 +61,11 @@ const Td = styled.td`
 const Notes = styled.div`
   margin:30px 0;  
 `
-const Notes_HeaderTxt = styled.h2`
+const NotesHeaderTxt = styled.h2`
 font-weight:500;
 margin-bottom:10px;
 `
-const Notes_Txt = styled.p`
+const NotesTxt = styled.p`
 color:grey;
 `
 
@@ -97,13 +97,13 @@ function ProductDeliveryOptions() {
         </Table>
       </TableCon>
       <Notes>
-        <Notes_HeaderTxt>Notes</Notes_HeaderTxt>
-        <Notes_Txt>
+        <NotesHeaderTxt>Notes</NotesHeaderTxt>
+        <NotesTxt>
           Please carefully review our shipping and returns policy before
           committing to a bid. From time to time, and at its sole discretion,
           Sbidu may change the prevailing fee structure for shipping and
           handling.
-        </Notes_Txt>
+        </NotesTxt>
       </Notes>
     </Container>
   );

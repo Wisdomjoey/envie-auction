@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper";
 import { Gavel } from "@mui/icons-material";
 import { Link } from 'react-router-dom';
+import { increment } from '../../redux/actions/counter';
 
 const HeaderContentCon = styled.div`
     width: 100%;
@@ -154,7 +155,7 @@ export default function HeaderSection() {
                 <SphereOne className="sphere__one">
                     <SphereTwo className="sphere__two">
                         <SphereThree className="sphere__three">
-                            <BidLink href="/" className="bid__link">
+                            <BidLink onClick={ increment } href="/" className="bid__link">
                                 <Gavel sx={{ fontSize: 30, color: 'white' }} />
                                 <BidText className="bid__text">Bid Now</BidText>
                             </BidLink>

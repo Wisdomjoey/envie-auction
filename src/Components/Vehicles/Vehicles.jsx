@@ -1,16 +1,15 @@
 import { Gavel, ShoppingBagRounded } from "@mui/icons-material";
 import styled from "styled-components";
-import { Products } from "../../data";
 // import { Products } from "../../data";
 
-const Vehicles_Con = styled.div`
+const VehiclesCon = styled.div`
   margin-top: 100px;
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 80px;
   `;
   
-  const SortFiltered_Products = styled.div`
+  const SortFilteredProducts = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -195,8 +194,8 @@ const BBbottomBtn = styled.button`
 
 function Vehicles({ filteredList }) {
   return (
-    <Vehicles_Con className="flex aic jcc">
-      <SortFiltered_Products>
+    <VehiclesCon className="flex aic jcc">
+      <SortFilteredProducts>
         <Wrapper className=" flex aic jcc try">
           {filteredList.map((products) => (
             <FBottomCard className="fBottom__card">
@@ -263,8 +262,8 @@ function Vehicles({ filteredList }) {
             </FBottomCard>
           ))}
         </Wrapper>
-      </SortFiltered_Products>
-    </Vehicles_Con>
+      </SortFilteredProducts>
+    </VehiclesCon>
   );
 }
 

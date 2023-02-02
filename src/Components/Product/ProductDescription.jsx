@@ -23,7 +23,7 @@ const Table = styled.table`
   align-items: center;
   justify-content: space-between;
 `;
-const Tbody_Tr = styled.div`
+const TbodyTr = styled.div`
   display: flex;
   align-items: center;
   // flex-wrap: wrap;
@@ -61,11 +61,11 @@ const Td = styled.td`
   }
 `;
 
-const ProductInfo_Con = styled.div``;
+const ProductInfoCon = styled.div``;
 const ProductInfo = styled.div`
   margin:20px 0;
 `;
-const InfoHeader_Text = styled.h2`
+const InfoHeaderText = styled.h2`
    font-size:23px;
    font-weight:500;
 `;
@@ -83,7 +83,7 @@ function ProductDescription() {
       <ProductTable>
         <Table className="product-info-Table">
           <Tbody>
-            <Tbody_Tr>
+            <TbodyTr>
               <Tr>
                 <Th>Condition </Th>
                 <Td>New</Td>
@@ -92,8 +92,8 @@ function ProductDescription() {
                 <Th>Mileage </Th>
                 <Td>15,000 miles</Td>
               </Tr>
-            </Tbody_Tr>
-            <Tbody_Tr>
+            </TbodyTr>
+            <TbodyTr>
               <Tr className="ev">
                 <Th>Year</Th>
                 <Td>09-2017</Td>
@@ -102,8 +102,8 @@ function ProductDescription() {
                 <Th>Engine </Th>
                 <Td>I-4 1,5 l</Td>
               </Tr>
-            </Tbody_Tr>
-            <Tbody_Tr>
+            </TbodyTr>
+            <TbodyTr>
               <Tr>
                 <Th>Fuel </Th>
                 <Td>Regular</Td>
@@ -112,8 +112,8 @@ function ProductDescription() {
                 <Th>Transmission </Th>
                 <Td>Automatic</Td>
               </Tr>
-            </Tbody_Tr>
-            <Tbody_Tr>
+            </TbodyTr>
+            <TbodyTr>
               <Tr className="ev">
                 <Th>Color </Th>
                 <Td>Blue</Td>
@@ -122,28 +122,28 @@ function ProductDescription() {
                 <Th>Doors </Th>
                 <Td>5</Td>
               </Tr>
-            </Tbody_Tr>
+            </TbodyTr>
           </Tbody>
         </Table>
       </ProductTable>
-      <ProductInfo_Con>
+      <ProductInfoCon>
         <ProductInfo>
-          <InfoHeader_Text>
+          <InfoHeaderText>
             NYC Fleet / DCAS units may be located at either of two locations:
-          </InfoHeader_Text>
+          </InfoHeaderText>
           <InfoText>Brooklyn, NY (1908 Shore Parkway)</InfoText>
           <InfoText>Medford, NY (66 Peconic Ave)</InfoText>
         </ProductInfo>
         <ProductInfo>
-          <InfoHeader_Text>This unit is located at:</InfoHeader_Text>
+          <InfoHeaderText>This unit is located at:</InfoHeaderText>
           <InfoText>Kenben Industries Ltd.</InfoText>
           <InfoText>1908 Shore Parkway</InfoText>
           <InfoText>Brooklyn, NY 11214</InfoText>
         </ProductInfo>
         <ProductInfo>
-          <InfoHeader_Text>
+          <InfoHeaderText>
             Acceptance of condition - buyer inspection/preview
-          </InfoHeader_Text>
+          </InfoHeaderText>
           <InfoText>
             Vehicles and equipment often display significant wear and tear.
             Assets are sold AS IS with no warranty, express or implied, and we
@@ -167,7 +167,7 @@ function ProductDescription() {
           </InfoText>
         </ProductInfo>
         <ProductInfo>
-          <InfoHeader_Text>Legal Notice</InfoHeader_Text>
+          <InfoHeaderText>Legal Notice</InfoHeaderText>
           <InfoText>
             Vehicles may not be driven off the lot except with a dealer plate
             affixed. By law, vehicles are not permitted to be parked on or to
@@ -187,7 +187,7 @@ function ProductDescription() {
           </InfoText>
         </ProductInfo>
         <ProductInfo>
-          <InfoHeader_Text>Condition</InfoHeader_Text>
+          <InfoHeaderText>Condition</InfoHeaderText>
           <InfoText>
             This ASSET is being listed on behalf of a law enforcement agency or
             other partner ("SELLER") by PropertyRoom.com on a Sold AS IS, WHERE
@@ -206,7 +206,7 @@ function ProductDescription() {
           </InfoText>
         </ProductInfo>
         <ProductInfo>
-          <InfoHeader_Text>Bidding</InfoHeader_Text>
+          <InfoHeaderText>Bidding</InfoHeaderText>
           <InfoText>
             At this time Sbidu only accepts bidders from the United States,
             Canada and Mexico on Vehicles and Heavy Industrial Equipment. The
@@ -215,7 +215,7 @@ function ProductDescription() {
           </InfoText>
         </ProductInfo>
         <ProductInfo>
-          <InfoHeader_Text>Buyer Responsibility</InfoHeader_Text>
+          <InfoHeaderText>Buyer Responsibility</InfoHeaderText>
           <InfoText>
             The BUYER will receive an email notification from PropertyRoom.com
             following the close of an auction. After fraud verification and
@@ -243,7 +243,7 @@ function ProductDescription() {
             days of payment otherwise additional storage fees will be applied
           </InfoText>
         </ProductInfo>
-      </ProductInfo_Con>
+      </ProductInfoCon>
     </Container>
   );
 }
