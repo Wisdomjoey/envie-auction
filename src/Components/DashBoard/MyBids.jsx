@@ -8,7 +8,7 @@ const Container = styled.div`
   height:100%;
   margin-bottom:50px;
 `;
-const PersonalProfile_Wrapper = styled.div`
+const PersonalProfileWrapper = styled.div`
   width: 100%;
   padding: 25px;
   background-color: white;
@@ -18,7 +18,7 @@ const PersonalProfile_Wrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-const PersonalProfile_Header = styled.div`
+const PersonalProfileHeader = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
@@ -26,23 +26,23 @@ const PersonalProfile_Header = styled.div`
   max-height:200px;
 `;
 
-const PersonalProfile_HeaderTxtCon = styled.div`
+const PersonalProfileHeaderTxtCon = styled.div`
   white-space: nowrap;
 `;
   
-  const PersonalProfile_HeaderTxt = styled.p`
+  const PersonalProfileHeaderTxt = styled.p`
   white-space:nowrap;
   font-size: 25px;
   font-weight: 600;
 `;
-const PersonalProfile_HeaderImgCon = styled.div`
+const PersonalProfileHeaderImgCon = styled.div`
   flex: 1;
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: flex-end;
 `;
-const PersonalProfile_HeaderImg = styled.img`
+const PersonalProfileHeaderImg = styled.img`
   width: 4%;
 `;
 const ManageNoficicationTxt = styled.p``;
@@ -54,8 +54,8 @@ const WrapperButtons = styled.div`
   align-items: center;
   justify-content: flex-start;
 `;
-const Upcomming_BtnCon = styled.div``;
-const Upcomming_Btn = styled.button`
+const UpcommingBtnCon = styled.div``;
+const UpcommingBtn = styled.button`
   background: linear-gradient(2deg, #3da9f5 0%, #683df5 100%);
   border: none;
   color: white;
@@ -66,8 +66,8 @@ const Upcomming_Btn = styled.button`
   cursor: pointer;
   margin:10px;
 `;
-const Past_BtnCon = styled.div``;
-const Past_Btn = styled.button`
+const PastBtnCon = styled.div``;
+const PastBtn = styled.button`
   background: linear-gradient(2deg, #FFD643 0%, #FF8858 100%);
   border: none;
   color: white;
@@ -94,19 +94,19 @@ function MyBids() {
 
   return (
     <Container>
-      <PersonalProfile_Wrapper>
-        <PersonalProfile_Header>
-          <PersonalProfile_HeaderTxtCon>
-            <PersonalProfile_HeaderTxt>My Bids</PersonalProfile_HeaderTxt>
-          </PersonalProfile_HeaderTxtCon>
+      <PersonalProfileWrapper>
+        <PersonalProfileHeader>
+          <PersonalProfileHeaderTxtCon>
+            <PersonalProfileHeaderTxt>My Bids</PersonalProfileHeaderTxt>
+          </PersonalProfileHeaderTxtCon>
 
-          <PersonalProfile_HeaderImgCon>
-            <PersonalProfile_HeaderImg src={MyAlerts} alt="MyBids" />
+          <PersonalProfileHeaderImgCon>
+            <PersonalProfileHeaderImg src={MyAlerts} alt="MyBids" />
             <ManageNoficicationTxt>Manage Notification</ManageNoficicationTxt>
-          </PersonalProfile_HeaderImgCon>
-        </PersonalProfile_Header>
+          </PersonalProfileHeaderImgCon>
+        </PersonalProfileHeader>
         <WrapperButtons>
-          <Upcomming_Btn
+          <UpcommingBtn
             onClick={() => {
               setBids("Upcomming");
             }}
@@ -117,8 +117,8 @@ function MyBids() {
             }
           >
             Upcomming
-          </Upcomming_Btn>
-          <Past_Btn
+          </UpcommingBtn>
+          <PastBtn
             onClick={() => {
               setBids("Past");
             }}
@@ -130,9 +130,9 @@ function MyBids() {
             }
           >
             Past
-          </Past_Btn>
+          </PastBtn>
         </WrapperButtons>
-      </PersonalProfile_Wrapper>
+      </PersonalProfileWrapper>
       <Components>
         {bids === "Upcomming" && <Upcomming />}
         {bids === "Past" && <Past />}

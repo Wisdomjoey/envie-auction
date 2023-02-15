@@ -51,7 +51,7 @@ function Alerts() {
             name="AlertCheck1"
             value="AlertCheck1"
           />
-          <label for="AlertCheck1" id="label"></label>
+          <label htmlFor="AlertCheck1" id="label"></label>
           <LabelCon>
             <LabelTxt fz="23px" fw={400}>
               Bid Notifications
@@ -69,7 +69,7 @@ function Alerts() {
             name="AlertCheck2"
             value="AlertCheck2"
           />
-          <label for="AlertCheck2" id="label"></label>
+          <label htmlFor="AlertCheck2" id="label"></label>
           <LabelCon>
             <LabelTxt fz="23px" fw={400}>
               Live Auction Reminder
@@ -87,7 +87,7 @@ function Alerts() {
             name="AlertCheck3"
             value="AlertCheck3"
           />
-          <label for="AlertCheck3" id="label"></label>
+          <label htmlFor="AlertCheck3" id="label"></label>
           <LabelCon>
             <LabelTxt fz="23px" fw={400}>
               Saved Items Going Live
@@ -105,7 +105,7 @@ function Alerts() {
             name="AlertCheck4"
             value="AlertCheck4"
           />
-          <label for="AlertCheck4" id="label"></label>
+          <label htmlFor="AlertCheck4" id="label"></label>
           <LabelCon>
             <LabelTxt fz="23px" fw={400}>
               Bids Ending Soon
@@ -123,7 +123,7 @@ function Alerts() {
             name="AlertCheck5"
             value="AlertCheck5"
           />
-          <label for="AlertCheck5" id="label"></label>
+          <label htmlFor="AlertCheck5" id="label"></label>
           <LabelCon>
             <LabelTxt fz="23px" fw={400}>
               Rate Your Experience

@@ -23,7 +23,7 @@ function ProductD() {
   return (
     <ProductDCon>
       <Container>
-        <HeaderSection SingleRoute={false} Page="Page" CurrentPage="Product Details" />
+        <HeaderSection SingleRoute={false} Page="Page" CurrentPage="Auction Details" />
         <ProductHomeSection />
         <ProductDSelection />
       <Footer/>

@@ -5,10 +5,18 @@ import {
   MailOutlined,
   RemoveRedEye,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useAlert } from "react-alert";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import HeaderSection from "../../Components/HeaderSection/HeaderSection";
 import Footer from "../../Components/Home/Footer";
+import Spinner from "../../Components/utils/Spinner";
+import { loginUser } from "../../Firebase Actions/auth";
+import { getUser, getUserByEmail } from "../../Firebase Actions/userActions";
+import { setuser } from "../../redux/reducers/authSlice";
+import { setuserdata } from "../../redux/reducers/userSlice";
 
 const Container = styled.div`
   background: url(./hero-bg.png);
@@ -240,6 +248,12 @@ const RightConButton = styled.button`
 `;
 
 function SignIn() {
+  const [isLoading, setloading] = useState(false);
+  const [userdata, setdata] = useState({});
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  const navigate = useNavigate();
+
   const ToggleVisibility = () => {
     if (document.getElementById("SignUp_Password").type === "password") {
       document.getElementById("SignUp_Password").type = "text";
@@ -248,7 +262,60 @@ function SignIn() {
     }
   };
 
+  const handleChange = (e) => {
+    e.preventDefault();
+
+    setdata({
+      ...userdata,
+      [e.target.name]: e.target.value,
+    });
+
+    console.log(userdata);
+  }
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setloading(true);
+
+    await getUserByEmail(userdata.email).then(async (value) => {
+      if (value.status) {
+        if (value.result !== null) {
+          if (value.result.verificationStatus === 'verified') {
+            await loginUser(userdata.email, userdata.password).then(async (value1) => {
+              if (value1.status) {
+                dispatch(setuser(value1.result));
+
+                await getUser().then((value2) => {
+                  if (value2.status) {
+                    dispatch(setuserdata({ ...value2.result }));
+
+                    alert.success(<p style={{ textTransform: 'none' }}>You are logged in</p>);
+                    navigate('/account');
+                  } else {
+                    console.log(value2.result);
+                  }
+                });
+              } else {
+                console.log(value1.result);
+              }
+            });
+          } else {
+            alert.info(<p style={{ textTransform: 'none' }}>You are not yet verified, check back later</p>);
+          }
+        } else {
+          alert.error(<p style={{ textTransform: 'none' }}>User with provided email does not exist</p>);
+        }
+      } else {
+        console.log(value.result);
+      }
+
+      setloading(false);
+    });
+  }
+
   return (
+    <>
+      {isLoading ? <Spinner /> :
     <Container>
       <HeaderSection SingleRoute={false} Page="Pages" CurrentPage="Sign In" />
       <SignUpCon>
@@ -284,7 +351,7 @@ function SignIn() {
             <SignUpForm>
               <SignUpInputCon>
                 <MailOutlined />
-                <SignUpInput placeholder="Email Address" type="text" />
+                <SignUpInput placeholder="Email Address" type="email" name="email" onChange={ (e) => handleChange(e) } />
               </SignUpInputCon>
 
               <SignUpInputCon>
@@ -293,6 +360,8 @@ function SignIn() {
                   id="SignUp_Password"
                   placeholder=" Password"
                   type="password"
+                  name="password"
+                  onChange={(e) => handleChange(e)}
                 />
                 <RemoveRedEye
                   sx={{ cursor: "pointer" }}
@@ -310,7 +379,7 @@ function SignIn() {
                 <TermsAndPolicyTxt cursor="pointer" fw={200}>
                   Forgot Password?
                 </TermsAndPolicyTxt>
-                <Submit>Log In</Submit>
+                <Submit onClick={(e) => handleLogin(e)}>Log In</Submit>
               </SubmitCon>
             </SignUpForm>
           </LeftCon>
@@ -328,6 +397,8 @@ function SignIn() {
       </SignUpCon>
       <Footer />
     </Container>
+      }
+      </>
   );
 }
 

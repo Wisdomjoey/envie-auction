@@ -201,8 +201,8 @@ const BBbottomBtn = styled.button`
 function Past() {
   return (
     <Container>
-      {MyBids__Past.map((item) => (
-        <FBottomCard className="fBottom__card">
+      {MyBids__Past.map((item, ind) => (
+        <FBottomCard key={ind} className="fBottom__card">
           <CardTop className="card__top">
             <CardTopImg className="card__topImg" src={item.img} />
             <CardTopIcon className="card__topIcon">

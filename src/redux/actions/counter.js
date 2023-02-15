@@ -1,9 +1,8 @@
-import store from "../store"
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const increment = () => {
-  store.dispatch({
-    type: 'counter/increment'
-  });
-}
-
-export { increment };
+export const increase = createAsyncThunk(
+  'counter/add',
+  async ({rejectWithValue}) => {
+    console.log('here');
+  }
+);

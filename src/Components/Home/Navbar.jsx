@@ -10,7 +10,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 150;
+  z-index: 100;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   background: transparent;
   transition: all .3s ease;

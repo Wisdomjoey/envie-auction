@@ -2,7 +2,8 @@ import { doc, addDoc, updateDoc, getDoc, deleteDoc, getDocs, collection } from "
 import { db } from "../firebase";
 
 async function createAuction(name, desc, minBid, buyNowAmount, endTime, imgUrls, userId) {
-  await addDoc(doc(db, 'auctions'), {
+  try {
+    await addDoc(doc(db, 'auctions'), {
     id: '',
     name: name,
     description: desc,
@@ -11,17 +12,21 @@ async function createAuction(name, desc, minBid, buyNowAmount, endTime, imgUrls,
     bidEndTime: endTime,
     bids: [],
     reviewStatus: 'pending',
+    status: '',
     images: imgUrls,
-    userId: userId
+    userId: userId,
+          createdAt: Date.now().toString(),
+          updatedAt: Date.now().toString(),
   }).then(async (docRef) => {
     await updateDoc(doc(db, 'auctions', docRef.id), {
       id: docRef.id
-    }).catch((e) => {
-
-    })
-  }).catch((e) => {
-
+    });
   });
+
+  return { result: null, status: true };
+  } catch (error) {
+    return { result: error, status: false };
+  }
 }
 
 async function updateAuction(id, data) {
@@ -31,17 +36,30 @@ async function updateAuction(id, data) {
 }
 
 async function getAuction(id) {
-  const auctionData = await getDoc(doc(db, 'auctions', id));
+  try {
+    const auctionData = await getDoc(doc(db, 'auctions', id));
 
-  return auctionData;
+  return { result: auctionData.data(), status: true };
+  } catch (error) {
+    return { result: error, status: false };
+  }
 }
 
 async function getAllAuctions() {
-  const querySnapshot = await getDocs(collection(db, "auctions"));
+  try {
+    const querySnapshot = await getDocs(collection(db, "auctions"));
+
+  let auctions = [];
+
 querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
+  auctions.push(doc.data());
 });
+
+return { result: auctions, status: true };
+  } catch (error) {
+    return { result: error, status: false }
+  }
 }
 
 async function deleteAuction(id) {

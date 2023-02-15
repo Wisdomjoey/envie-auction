@@ -8,15 +8,18 @@ import MyAlerts from "../Components/DashBoard/MyAlerts";
 import MyBids from "../Components/DashBoard/MyBids";
 import img from "../images/user.png";
 import dashboard from "../images/dashboard.png";
-import My_Bids from "../images/MyBids.png";
+import myBids from "../images/MyBids.png";
 import itemsWon from "../images/itemsWon.png";
-import My_Alerts from "../images/MyAlerts.png";
-import My_Favorites from "../images/MyFavorites.png";
+import myAlerts from "../images/MyAlerts.png";
+import myFavorites from "../images/MyFavorites.png";
 import referrals from "../images/Referrals.png";
 import personalProfile from "../images/personalProfile.png";
 import Footer from "../Components/Home/Footer";
 import MyFavorites from "../Components/DashBoard/MyFavorites";
 import Referrals from "../Components/DashBoard/Referrals";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import Spinner from "../Components/utils/Spinner";
 
 const Container = styled.div`
   background: url(./hero-bg.png);
@@ -44,7 +47,7 @@ const Wrapper = styled.div`
   height:1500px;
 `;
 
-const DashBoard_MenuCon = styled.div`
+const DashBoardMenuCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -66,7 +69,7 @@ const UserDetails = styled.div`
   justify-content: space-between;
   flex-direction: column;
 `;
-const Userdashboard_con = styled.div`
+const Userdashboardcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -74,13 +77,13 @@ const Userdashboard_con = styled.div`
   width: 100px;
   height: 100px;
 `;
-const UserImg_con = styled.div``;
+const UserImgcon = styled.div``;
 
 const UserImg = styled.img`
   width: 100%;
 `;
 
-const UserDetailsTxt_Con = styled.div`
+const UserDetailsTxtCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,15 +91,15 @@ const UserDetailsTxt_Con = styled.div`
   margin-top: 30px;
 `;
 
-const UerDetailsTxt_Name = styled.p`
+const UerDetailsTxtName = styled.p`
   font-size: 23px;
   font-weight: 500;
 `;
-const UerDetailsTxt_Email = styled.p`
+const UerDetailsTxtEmail = styled.p`
   font-size: 16px;
 `;
 
-const DashBoard_MenuLinks = styled.div`
+const DashBoardMenuLinks = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -105,7 +108,7 @@ const DashBoard_MenuLinks = styled.div`
   margin-top: 30px;
 `;
 
-const DashBoard_MenuLink = styled.div`
+const DashBoardMenuLink = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -124,7 +127,7 @@ const DashBoardImg = styled.img`
   width: 8%;
 `;
 
-const DashBoard_Txt = styled.p`
+const DashBoardTxt = styled.p`
   font-weight: 400;
   font-size:18px;
   margin:0 5px;
@@ -149,10 +152,20 @@ const LeftWrapper = styled.div`
 function MyAccount() {
   const [activeDashBoard, SetActiveDashBoard] = useState("DashBoard");
   const [sticky, SetSticky] = useState(true);
+  const navigate = useNavigate();
+  const { signed, loading } = useSelector((state) => state.auth);
+
   useEffect(() => {
-    console.log(activeDashBoard);
-  }, [activeDashBoard]);
+      if (!loading) {
+        if (!signed) {
+          navigate('/login');
+        }
+      }
+  }, [loading, navigate, signed]);
+
   return (
+    <>
+      {loading ? <Spinner /> :
     <Container>
       <HeaderSection
         SingleRoute={false}
@@ -161,20 +174,20 @@ function MyAccount() {
       />
       <Wrapper>
         {/* <LeftWrapper> */}
-        <DashBoard_MenuCon
+        <DashBoardMenuCon
           className={sticky ? "sticky_Dashboard" : " "}
         >
           <UserDetails>
-            <UserImg_con>
+            <UserImgcon>
               <UserImg src={img} />
-            </UserImg_con>
-            <UserDetailsTxt_Con>
-              <UerDetailsTxt_Name>Percy Reed</UerDetailsTxt_Name>
-              <UerDetailsTxt_Email>john@gmail.com</UerDetailsTxt_Email>
-            </UserDetailsTxt_Con>
+            </UserImgcon>
+            <UserDetailsTxtCon>
+              <UerDetailsTxtName>Percy Reed</UerDetailsTxtName>
+              <UerDetailsTxtEmail>john@gmail.com</UerDetailsTxtEmail>
+            </UserDetailsTxtCon>
           </UserDetails>
-          <DashBoard_MenuLinks>
-            <DashBoard_MenuLink
+          <DashBoardMenuLinks>
+            <DashBoardMenuLink
               onClick={() => {
                 SetActiveDashBoard("DashBoard");
                 SetSticky(false);
@@ -186,9 +199,9 @@ function MyAccount() {
               }
             >
               <DashBoardImg src={dashboard} alt="dashboard" />
-              <DashBoard_Txt>Dashboard</DashBoard_Txt>
-            </DashBoard_MenuLink>
-            <DashBoard_MenuLink
+              <DashBoardTxt>Dashboard</DashBoardTxt>
+            </DashBoardMenuLink>
+            <DashBoardMenuLink
               onClick={() => {
                 SetActiveDashBoard("PersonalProfile");
                 SetSticky(true);
@@ -201,9 +214,24 @@ function MyAccount() {
               }
             >
               <DashBoardImg src={personalProfile} alt="PersonalProfile" />
-              <DashBoard_Txt>Personal Profile</DashBoard_Txt>
-            </DashBoard_MenuLink>
-            <DashBoard_MenuLink
+              <DashBoardTxt>Personal Profile</DashBoardTxt>
+            </DashBoardMenuLink>
+            <DashBoardMenuLink
+              onClick={() => {
+                SetActiveDashBoard("Auctions");
+                SetSticky(true);
+
+              }}
+              style={
+                activeDashBoard === "Auctions"
+                  ? { backgroundColor: "whitesmoke" }
+                  : {}
+              }
+            >
+              <DashBoardImg src={referrals} alt="Referrals" />
+              <DashBoardTxt>Auctions</DashBoardTxt>
+            </DashBoardMenuLink>
+            <DashBoardMenuLink
               onClick={() => {
                 SetActiveDashBoard("MyBids");
                  SetSticky(true);
@@ -215,10 +243,10 @@ function MyAccount() {
                   : {}
               }
             >
-              <DashBoardImg src={My_Bids} alt="MyBids" />
-              <DashBoard_Txt>My Bids</DashBoard_Txt>
-            </DashBoard_MenuLink>
-            <DashBoard_MenuLink
+              <DashBoardImg src={myBids} alt="MyBids" />
+              <DashBoardTxt>My Bids</DashBoardTxt>
+            </DashBoardMenuLink>
+            <DashBoardMenuLink
               onClick={() => {
                 SetActiveDashBoard("WinningBids");
                 SetSticky(true);
@@ -231,9 +259,9 @@ function MyAccount() {
               }
             >
               <DashBoardImg src={itemsWon} alt="WinningBids" />
-              <DashBoard_Txt>Winning Bids</DashBoard_Txt>
-            </DashBoard_MenuLink>
-            <DashBoard_MenuLink
+              <DashBoardTxt>Winning Bids</DashBoardTxt>
+            </DashBoardMenuLink>
+            <DashBoardMenuLink
               onClick={() => {
                 SetActiveDashBoard("MyAlerts");
                                 SetSticky(false);
@@ -245,10 +273,10 @@ function MyAccount() {
                   : {}
               }
             >
-              <DashBoardImg src={My_Alerts} alt="MyAlerts" />
-              <DashBoard_Txt>My Alerts</DashBoard_Txt>
-            </DashBoard_MenuLink>
-            <DashBoard_MenuLink
+              <DashBoardImg src={myAlerts} alt="MyAlerts" />
+              <DashBoardTxt>My Alerts</DashBoardTxt>
+            </DashBoardMenuLink>
+            <DashBoardMenuLink
               onClick={() => {
                 SetActiveDashBoard("MyFavorites");
                 SetSticky(true);
@@ -260,10 +288,10 @@ function MyAccount() {
                   : {}
               }
             >
-              <DashBoardImg src={My_Favorites} alt="MyFavorites" />
-              <DashBoard_Txt>My Favorites</DashBoard_Txt>
-            </DashBoard_MenuLink>
-            <DashBoard_MenuLink
+              <DashBoardImg src={myFavorites} alt="MyFavorites" />
+              <DashBoardTxt>My Favorites</DashBoardTxt>
+            </DashBoardMenuLink>
+            {/* <DashBoardMenuLink
               onClick={() => {
                 SetActiveDashBoard("Referrals");
                 SetSticky(true);
@@ -276,10 +304,10 @@ function MyAccount() {
               }
             >
               <DashBoardImg src={referrals} alt="Referrals" />
-              <DashBoard_Txt>Referrals</DashBoard_Txt>
-            </DashBoard_MenuLink>
-          </DashBoard_MenuLinks>
-        </DashBoard_MenuCon>
+              <DashBoardTxt>Referrals</DashBoardTxt>
+            </DashBoardMenuLink> */}
+          </DashBoardMenuLinks>
+        </DashBoardMenuCon>
         {/* </LeftWrapper> */}
         <Components>
           {activeDashBoard === "DashBoard" && <DashBoard />}
@@ -288,11 +316,13 @@ function MyAccount() {
           {activeDashBoard === "WinningBids" && <WinningBids />}
           {activeDashBoard === "MyAlerts" && <MyAlerts />}
           {activeDashBoard === "MyFavorites" && <MyFavorites />}
-          {activeDashBoard === "Referrals" && <Referrals />}
+          {activeDashBoard === "Auctions" && <Referrals />}
         </Components>
       </Wrapper>
       <Footer />
     </Container>
+      }
+      </>
   );
 }
 

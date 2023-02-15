@@ -5,6 +5,7 @@ import feat from '../../images/feat.png';
 import auction1 from '../../images/auction-1.jpg';
 import auction2 from '../../images/auction-2.jpg';
 import auction3 from '../../images/auction-3.jpg';
+import { Link } from 'react-router-dom';
 
 const FeaturedContainer = styled.div`
     width: 100%;
@@ -211,10 +212,12 @@ export default function FeaturedSection() {
                 <FeaturedBottom className="featured__bottom">
                     <FBottomCard className="fBottom__card">
                         <CardTop className="card__top">
-                            <CardTopImg className="card__topImg" src={ auction1 } />
-                            <CardTopIcon className="card__topIcon">
-                                <Gavel sx={{ fontSize: 20, color: 'white' }} />
-                            </CardTopIcon>
+                            <Link to='/item-details'><CardTopImg className="card__topImg" src={auction1} /></Link>
+                            <Link to='/item-details'>
+                                  <CardTopIcon className="card__topIcon">
+                                      <Gavel sx={{ fontSize: 20, color: 'white' }} />
+                                  </CardTopIcon>
+                            </Link>
                         </CardTop>
                         <CardBottom className="card__bottom">
                             <BottomTop className="bottom__top">

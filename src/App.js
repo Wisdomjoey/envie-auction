@@ -10,8 +10,27 @@ import AboutUs from "./Pages/AboutUs";
 import Error from "./Pages/Error";
 import SignUp from "./Pages/MyAccount/SignUp";
 import SignIn from "./Pages/MyAccount/SignIn";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { app, auth } from "./firebase";
+import { useDispatch } from "react-redux";
+import { setloading, setsigned, setuser } from './redux/reducers/authSlice';
+import DashBoard from "./Components/DashBoard/DashBoard";
 
 function App() {
+  // const dispatch = useDispatch();
+  // dispatch(setloading(true));
+
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     dispatch(setuser(user));
+  //     dispatch(setsigned(true));
+  //   } else {
+  //     dispatch(setuser({}));
+  //     dispatch(setsigned(false));
+  //   }
+  //   dispatch(setloading(false));
+  // });
+
   return (
     <div className="App">
       {/* <App2/> */}

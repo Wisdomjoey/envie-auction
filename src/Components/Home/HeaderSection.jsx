@@ -6,7 +6,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper";
 import { Gavel } from "@mui/icons-material";
 import { Link } from 'react-router-dom';
-import { increment } from '../../redux/actions/counter';
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from '../../redux/reducers/counter';
 
 const HeaderContentCon = styled.div`
     width: 100%;
@@ -140,6 +141,14 @@ const BidText = styled.span`
 `
 
 export default function HeaderSection() {
+    const {value} = useSelector(state => state.counter);
+    const dispatch = useDispatch();
+
+    const increm = () => {
+        dispatch(increment());
+        console.log('done');
+    }
+
   return (
     <HeaderContentCon className="header__contentCon">
         <HeaderContent className="header__content">
@@ -147,7 +156,7 @@ export default function HeaderSection() {
                 <RightText className="right__text">Convenient,</RightText>
                 <RightText className="right__text">Exclusive &</RightText>
                 <RightText className="right__text">Real-Time</RightText>
-                <RightText className="right__text">Bidding</RightText>
+                <RightText className="right__text">Bidding {value}</RightText>
                 <RightSpan className="right__span">Your Desired Space Is Right Here...</RightSpan>
                   <Link className='get__started' to='/register'><RightBtn className="right__btn">Get Started</RightBtn></Link>
             </LeftContent>
@@ -155,7 +164,7 @@ export default function HeaderSection() {
                 <SphereOne className="sphere__one">
                     <SphereTwo className="sphere__two">
                         <SphereThree className="sphere__three">
-                            <BidLink onClick={ increment } href="/" className="bid__link">
+                            <BidLink onClick={ () => increm() } className="bid__link">
                                 <Gavel sx={{ fontSize: 30, color: 'white' }} />
                                 <BidText className="bid__text">Bid Now</BidText>
                             </BidLink>

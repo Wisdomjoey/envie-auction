@@ -15,7 +15,7 @@ const Container = styled.div`
   margin-bottom: 100px;
 `;
 
-const WinningBids_Wrapper = styled.div`
+const WinningBidsWrapper = styled.div`
   width: 100%;
   padding: 20px 30px;
   background-color: white;
@@ -25,7 +25,7 @@ const WinningBids_Wrapper = styled.div`
   margin-bottom: 50px;
 `;
 
-const WinningBids_Header = styled.div`
+const WinningBidsHeader = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
@@ -33,12 +33,12 @@ const WinningBids_Header = styled.div`
   max-height: 200px;
 `;
 
-const WinningBids_HeaderTxtCon = styled.div`
+const WinningBidsHeaderTxtCon = styled.div`
   //   flex: 1;
   white-space: nowrap;
 `;
 
-const WinningBids_HeaderTxt = styled.p`
+const WinningBidsHeaderTxt = styled.p`
   white-space: nowrap;
   font-size: 25px;
   font-weight: 600;
@@ -50,7 +50,7 @@ const SortContainer = styled.div`
   justify-content: space-between;
 `;
 
-const Sort_Form = styled.form`
+const SortForm = styled.form`
   width: 100%;
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@ const Sort_Form = styled.form`
   height: 110px;
   padding: 0 3vw;
 `;
-const Sort_select = styled.select`
+const Sortselect = styled.select`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -72,12 +72,12 @@ const Sort_select = styled.select`
   padding: 8px;
   width: 80px;
 `;
-const Sort_option = styled.option``;
+const Sortoption = styled.option``;
 const P = styled.p`
   font-size: 14px;
   margin-right: 5px;
 `;
-const SearchProducts_Con = styled.div`
+const SearchProductsCon = styled.div`
   flex: 2;
   display: flex;
   align-items: center;
@@ -102,7 +102,7 @@ const Input = styled.input`
   width: 100%;
 `;
 
-const WinningBids_Products = styled.div`
+const WinningBidsProducts = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -319,32 +319,32 @@ function WinningBids() {
 
   return (
     <Container>
-      <WinningBids_Wrapper>
-        <WinningBids_Header>
-          <WinningBids_HeaderTxtCon>
-            <WinningBids_HeaderTxt>Winning Bids</WinningBids_HeaderTxt>
-          </WinningBids_HeaderTxtCon>
-        </WinningBids_Header>
+      <WinningBidsWrapper>
+        <WinningBidsHeader>
+          <WinningBidsHeaderTxtCon>
+            <WinningBidsHeaderTxt>Winning Bids</WinningBidsHeaderTxt>
+          </WinningBidsHeaderTxtCon>
+        </WinningBidsHeader>
         <SortContainer>
-          <SearchProducts_Con>
+          <SearchProductsCon>
             <SearchProducts>
               <Input placeholder="Item Name" type="text" />
               <Search className="pointer" />
             </SearchProducts>
-          </SearchProducts_Con>
-          <Sort_Form>
+          </SearchProductsCon>
+          <SortForm>
             <P>Sort By : </P>
-            <Sort_select  onChange={handleCategoryChange}>
-              {Sorts.map((option) => (
-                <Sort_option value={option.value}>{option.label}</Sort_option>
+            <Sortselect  onChange={handleCategoryChange}>
+              {Sorts.map((option, ind) => (
+                <Sortoption key={ind} value={option.value}>{option.label}</Sortoption>
               ))}
-            </Sort_select>
-          </Sort_Form>
+            </Sortselect>
+          </SortForm>
         </SortContainer>
-      </WinningBids_Wrapper>
-      <WinningBids_Products>
-        {filteredList.map((item) => (
-          <FBottomCard className="fBottom__card">
+      </WinningBidsWrapper>
+      <WinningBidsProducts>
+        {filteredList.map((item, ind) => (
+          <FBottomCard key={ind} className="fBottom__card">
             <CardTop className="card__top">
               <CardTopImg className="card__topImg" src={item.img} />
               <CardTopIcon className="card__topIcon">
@@ -407,7 +407,7 @@ function WinningBids() {
             </CardBottom>
           </FBottomCard>
         ))}
-      </WinningBids_Products>
+      </WinningBidsProducts>
     </Container>
   );
 }

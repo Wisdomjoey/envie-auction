@@ -335,16 +335,16 @@ function MyFavorites() {
           <Sort_Form>
             <P>Sort By : </P>
             <Sort_select  onChange={handleCategoryChange}>
-              {Sorts.map((option) => (
-                <Sort_option value={option.value}>{option.label}</Sort_option>
+              {Sorts.map((option, ind) => (
+                <Sort_option key={ind} value={option.value}>{option.label}</Sort_option>
               ))}
             </Sort_select>
           </Sort_Form>
         </SortContainer>
       </WinningBids_Wrapper>
       <MyFavorites__Products>
-        {filteredList.map((item) => (
-          <FBottomCard className="fBottom__card">
+        {filteredList.map((item, ind) => (
+          <FBottomCard key={ind} className="fBottom__card">
             <CardTop className="card__top">
               <CardTopImg className="card__topImg" src={item.img} />
               <CardTopIcon className="card__topIcon">
