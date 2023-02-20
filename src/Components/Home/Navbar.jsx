@@ -2,6 +2,7 @@ import { Person, Search } from "@mui/icons-material"
 import { useEffect } from "react";
 import { Link } from "react-router-dom"
 import styled from "styled-components";
+import logo from '../../images/ATTIC LOGO 1.png'
 
 const Container = styled.div`
   position: fixed;
@@ -33,6 +34,10 @@ const Brand = styled.span`
   font-size: 25px;
   font-weight: 800;
   color: white;
+
+  img {
+    width: 70px;
+  }
 `
 const NavRight = styled.div`
   flex: 1;
@@ -95,7 +100,9 @@ export default function Navbar() {
     <Container className="nav__container" id="nav">
       <NavCon className='nav__con'>
         <NavLeft className='nav__left'>
-            <Brand className="brand">LOGO</Brand>
+            <Brand className="brand">
+              <img src={logo} alt='' />
+            </Brand>
         </NavLeft>
         <NavRight className='nav__right'>
           <NavSearchCon className="nav__searchCon">

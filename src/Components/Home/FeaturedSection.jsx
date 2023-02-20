@@ -211,9 +211,23 @@ const BBbottomBtn = styled.button`
 export default function FeaturedSection() {
     const [data, setdata] = useState([]);
     const { auctions } = useSelector((state) => state.auction);
+    const [days, setdays] = useState(0);
+    const [hours, sethours] = useState(0);
+    const [minutes, setminutes] = useState(0);
+    const [seconds, setseconds] = useState(0);
+
+    const getTime = (ms) => {
+        const time = ms - Date.now();
+
+        setdays(Math.floor(time / (1000 * 60 * 60 * 24)));
+        sethours(Math.floor((time / (1000 * 60 * 60)) % 24));
+        setminutes(Math.floor((time / 1000 / 60 ) % 60));
+        setseconds(Math.floor((time / 1000) % 60));
+    }
 
     useEffect(() => {
         const list = auctions.filter((item) => item.status === 'featured');
+        const interval = setInterval(() => getTime(), 1000);
 
         setdata(list);
         console.log(auctions);
