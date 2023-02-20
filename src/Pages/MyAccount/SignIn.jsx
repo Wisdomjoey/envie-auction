@@ -14,9 +14,10 @@ import HeaderSection from "../../Components/HeaderSection/HeaderSection";
 import Footer from "../../Components/Home/Footer";
 import Spinner from "../../Components/utils/Spinner";
 import { loginUser } from "../../Firebase Actions/auth";
-import { getUser, getUserByEmail } from "../../Firebase Actions/userActions";
+import { getUser, getUserBids, getUserByEmail } from "../../Firebase Actions/userActions";
 import { setuserauctions } from "../../redux/reducers/auctionSlice";
 import { setuser } from "../../redux/reducers/authSlice";
+import { setuserbids } from "../../redux/reducers/bidSlice";
 import { setuserdata } from "../../redux/reducers/userSlice";
 
 const Container = styled.div`
@@ -288,13 +289,20 @@ function SignIn() {
               if (value1.status) {
                 dispatch(setuser(value1.result));
 
-                await getUser().then((value2) => {
+                await getUser().then(async (value2) => {
                   if (value2.status) {
                     dispatch(setuserdata({ ...value2.result }));
                     dispatch(setuserauctions(auctions.filter((item) => item.userId === user.id)));
 
+                    await getUserBids(user.uid).then((value2) => {
+                      if (value2.status) {
+                        dispatch(setuserbids(value2.result));
+                      }
+
                     alert.success(<p style={{ textTransform: 'none' }}>You are logged in</p>);
+                    window.location.reload();
                     navigate('/account');
+                    });
                   } else {
                     console.log(value2.result);
                   }

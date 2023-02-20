@@ -171,7 +171,7 @@ function MyAccount() {
 
   return (
     <>
-      <Spinner show={loading} />
+      {loading ? <Spinner show={loading} /> :
     <Container>
       <HeaderSection
         SingleRoute={false}
@@ -295,6 +295,7 @@ function MyAccount() {
       </Wrapper>
       <Footer />
     </Container>
+}
       </>
   );
 }

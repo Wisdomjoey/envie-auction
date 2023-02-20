@@ -141,7 +141,6 @@ const BidText = styled.span`
 
 export default function HeaderSection() {
     const { signed } = useSelector((state) => state.auth);
-    console.log(signed)
 
   return (
     <HeaderContentCon className="header__contentCon">

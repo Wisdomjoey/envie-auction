@@ -50,6 +50,7 @@ function CurrentBids({data}) {
     }
 
     setauctions(list);
+    console.log(data)
     setloading(false);
   }, [data, userAuctions]);
 
