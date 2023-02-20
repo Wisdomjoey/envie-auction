@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const FeaturedTop = styled.div`
@@ -54,7 +55,9 @@ export default function HeadTop({ txtHead, txtSpan, showBtn }) {
         </FTopLeft>
         { showBtn && (
             <FTopRight className="fTop__right">
-                <FTopLeftBtn className="fTop__leftBtn">View All</FTopLeftBtn>
+                <Link to='/auctions'>
+                    <FTopLeftBtn className="fTop__leftBtn">View All</FTopLeftBtn>
+                </Link>
             </FTopRight>
         ) }
     </FeaturedTop>

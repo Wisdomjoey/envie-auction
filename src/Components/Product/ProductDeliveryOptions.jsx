@@ -101,7 +101,7 @@ function ProductDeliveryOptions() {
         <NotesTxt>
           Please carefully review our shipping and returns policy before
           committing to a bid. From time to time, and at its sole discretion,
-          Sbidu may change the prevailing fee structure for shipping and
+          Attic may change the prevailing fee structure for shipping and
           handling.
         </NotesTxt>
       </Notes>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import MyAlerts from "../../images/MyAlerts.png";
 import Past from "./Past";
@@ -86,6 +87,8 @@ const Components = styled.div`
 `;
 function MyBids() {
   const [bids, setBids] = useState("Upcomming");
+  const { userBids } = useSelector((state) => state.bids);
+
   useEffect(()=>{
     console.log(bids)
 },[bids]);
@@ -134,7 +137,7 @@ function MyBids() {
         </WrapperButtons>
       </PersonalProfileWrapper>
       <Components>
-        {bids === "Upcomming" && <Upcomming />}
+        {bids === "Upcomming" && (<Upcomming data={userBids.filter((item) => item.bidStatus === 'ongoing')} />)}
         {bids === "Past" && <Past />}
       </Components>
     </Container>

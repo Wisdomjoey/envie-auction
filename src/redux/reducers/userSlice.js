@@ -4,13 +4,13 @@ import { addUser, deleteUser, editUser, getUser } from "../actions/userActions";
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    value: {},
+    user: {},
     users: []
   },
   reducers: {
     setuserdata: (state, {payload}) => {
-      state.value = {
-        ...state.value,
+      state.user = {
+        ...state.user,
         ...payload
       }
     },

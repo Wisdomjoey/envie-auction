@@ -1,9 +1,21 @@
 import { doc, addDoc, updateDoc, getDoc, deleteDoc, getDocs, collection } from "firebase/firestore";
-import { db } from "../firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { db, storage } from "../firebase";
 
-async function createAuction(name, desc, minBid, buyNowAmount, endTime, imgUrls, userId) {
+async function createAuction(name, desc, minBid, buyNowAmount, endTime, imgs, userId) {
   try {
-    await addDoc(doc(db, 'auctions'), {
+    var imgUrls = [];
+
+    for (let index = 0; index < imgs.length; index++) {
+      const storageRef = ref(storage, `auctions/${userId}/${imgs[index].name}`);
+
+      await uploadBytes(storageRef, imgs[index]);
+      var url = await getDownloadURL(storageRef);
+
+      imgUrls.push(url);
+    }
+
+    await addDoc(collection(db, 'auctions'), {
     id: '',
     name: name,
     description: desc,
@@ -30,9 +42,7 @@ async function createAuction(name, desc, minBid, buyNowAmount, endTime, imgUrls,
 }
 
 async function updateAuction(id, data) {
-  await updateDoc(doc(db, 'auctions', id), data).catch((e) => {
-
-  });
+  await updateDoc(doc(db, 'auctions', id), data);
 }
 
 async function getAuction(id) {
@@ -63,7 +73,7 @@ return { result: auctions, status: true };
 }
 
 async function deleteAuction(id) {
-  await deleteDoc(doc(db, 'auctions', id)).catch((e) => {});
+  await deleteDoc(doc(db, 'auctions', id));
 }
 
 export { createAuction, updateAuction, getAuction, deleteAuction, getAllAuctions }

@@ -10,26 +10,66 @@ import AboutUs from "./Pages/AboutUs";
 import Error from "./Pages/Error";
 import SignUp from "./Pages/MyAccount/SignUp";
 import SignIn from "./Pages/MyAccount/SignIn";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { app, auth } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { setloading, setsigned, setuser } from './redux/reducers/authSlice';
-import DashBoard from "./Components/DashBoard/DashBoard";
+import { useEffect } from "react";
+import { getAllAuctions } from "./Firebase Actions/auctionActions";
+import { setauctions, setuserauctions } from "./redux/reducers/auctionSlice";
+import { getAllUsers, getUser, getUserBids } from "./Firebase Actions/userActions";
+import { setuserdata, setusers } from "./redux/reducers/userSlice";
+import NewBid from "./Pages/NewBid/NewBid";
+import { setuserbids } from "./redux/reducers/bidSlice";
 
 function App() {
-  // const dispatch = useDispatch();
-  // dispatch(setloading(true));
+  const dispatch = useDispatch();
 
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     dispatch(setuser(user));
-  //     dispatch(setsigned(true));
-  //   } else {
-  //     dispatch(setuser({}));
-  //     dispatch(setsigned(false));
-  //   }
-  //   dispatch(setloading(false));
-  // });
+  useEffect(() => {
+  dispatch(setloading(true));
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      dispatch(setuser(user));
+      dispatch(setsigned(true));
+
+      await getUser().then(async (value2) => {
+                  if (value2.status) {
+                    dispatch(setuserdata({ ...value2.result }));
+
+                    await getAllAuctions().then(async (value) => {
+        dispatch(setauctions(value.result));
+        dispatch(setuserauctions(value.result.filter((item) => item.userId === user.uid)));
+
+          await getAllUsers().then(async (value2) => {
+            dispatch(setusers(value2.result));
+            dispatch(setloading(false));
+                      await getUserBids(user.uid).then((value2) => {
+                        if (value2.status) {
+                          dispatch(setuserbids(value2.result));
+                        }
+                      })
+          });
+      });
+                  } else {
+                    console.log(value2.result);
+                  }
+                });
+    } else {
+      dispatch(setuser({}));
+      dispatch(setsigned(false));
+
+      await getAllAuctions().then(async (value) => {
+        dispatch(setauctions(value.result));
+
+        await getAllUsers().then((value2) => {
+            dispatch(setusers(value2.result));
+            dispatch(setloading(false));
+          });
+      });
+    }
+  });
+  });
 
   return (
     <div className="App">
@@ -62,7 +102,15 @@ function App() {
           />
           <Route
             element={ <ProductDetals /> }
-            path='/item-details'
+            path='/item-details/:id'
+          />
+          <Route
+            element={ <NewBid /> }
+            path='/create-auction'
+          />
+          <Route
+            element={ <Vehicles /> }
+            path='/auctions'
           />
           <Route
             element={ <ContactUs /> }

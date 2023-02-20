@@ -21,8 +21,8 @@ async function loginUser(email, password) {
   }
 }
 
-function signOutUser() {
-  signOut(auth).then(() => {
+async function signOutUser() {
+  await signOut(auth).then(() => {
 
   }).catch((e) => {
     console.log(e);

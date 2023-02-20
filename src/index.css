@@ -64,3 +64,15 @@
   padding: 0;
   font-family: Roboto;
 }
+
+#__react-alert__ > div > div {
+  width: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#__react-alert__ > div > div > div {
+  width: 90% !important;
+  padding: 15px !important;
+}

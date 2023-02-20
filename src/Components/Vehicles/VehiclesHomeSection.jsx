@@ -60,12 +60,11 @@ function VehiclesHomeSection() {
                  <ArrowForwardRounded id='ArrowForward_Icon'/>
 
                 <RouteLink>
-                    Vehicles
+                    Auctions
                 </RouteLink>
             </RouteLinks>
         </RouteLinksCon>
         <FeaturedAuction/>
-
        </Container>
     )
 }

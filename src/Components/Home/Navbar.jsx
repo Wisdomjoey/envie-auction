@@ -1,6 +1,7 @@
-import { Search } from "@mui/icons-material"
-import { useEffect } from "react"
-import styled from "styled-components"
+import { Person, Search } from "@mui/icons-material"
+import { useEffect } from "react";
+import { Link } from "react-router-dom"
+import styled from "styled-components";
 
 const Container = styled.div`
   position: fixed;
@@ -10,7 +11,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 50;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   background: transparent;
   transition: all .3s ease;
@@ -38,6 +39,7 @@ const NavRight = styled.div`
   display: flex;
   padding-right: 30px;
   justify-content: flex-end;
+  gap: 15px;
 `
 
 const NavSearchCon = styled.div`
@@ -63,6 +65,15 @@ const NavSearch = styled.input`
     font-size: 14px;
   }
 `
+const ProfileCon = styled.div`
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+`
 
 export default function Navbar() {
   useEffect(() => {
@@ -78,7 +89,7 @@ export default function Navbar() {
         // navBar.style.position='relative'
       }
     })
-  })
+  });
 
   return (
     <Container className="nav__container" id="nav">
@@ -91,6 +102,11 @@ export default function Navbar() {
             <NavSearch className="nav__search" type='text' placeholder="Search for brand,model..." />
             <Search sx={{ color: 'white', fontSize: '20px', cursor: 'pointer' }} />
           </NavSearchCon>
+          <Link to='/account'>
+            <ProfileCon>
+              <Person sx={{ color: 'white' }} />
+            </ProfileCon>
+          </Link>
         </NavRight>
       </NavCon>
     </Container>

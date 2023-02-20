@@ -1,5 +1,9 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components'
+import { signOutUser } from '../../Firebase Actions/auth';
+import { setloading, setsigned, setuser } from '../../redux/reducers/authSlice';
 
 const RightWrapper = styled.div`
   padding: 0 3vw;
@@ -12,14 +16,14 @@ const RightWrapper = styled.div`
   height:100%;
 `;
 
-const PersonalProfile_Wrapper = styled.div`
+const PersonalProfileWrapper = styled.div`
   width: 100%;
   padding: 60px 40px;
   background-color: white;
   border-radius: 10px;
   box-sizing: border-box;
   box-shadow: 0px 9px 20px 0px rgb(22 26 57 / 36%);
-  // margin-top:30px;
+  margin-bottom: 50px;
   gap:30px;
   display: flex;
   align-items: center;
@@ -27,24 +31,24 @@ const PersonalProfile_Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const PersonalProfile_HeaderCon = styled.div`
+const PersonalProfileHeaderCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
 `;
-const PersonalProfile_Header = styled.p`
+const PersonalProfileHeader = styled.p`
   font-size: 28px;
   font-weight: 600;
 `;
-const PersonalProfile_Details = styled.div`
+const PersonalProfileDetails = styled.div`
   justify-content: flex-start;
   text-align: left;
   box-sizing: border-box;
   flex-direction: column;
 `;
 
-const PersonalProfile_TxtConLeft = styled.div`
+const PersonalProfileTxtConLeft = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
@@ -52,7 +56,7 @@ const PersonalProfile_TxtConLeft = styled.div`
   margin-right: 10px;
   width: 200px;
 `;
-const PersonalProfile_TxtConRight = styled.div`
+const PersonalProfileTxtConRight = styled.div`
   flex: 3;
   display: flex;
   align-items: flex-start;
@@ -60,14 +64,14 @@ const PersonalProfile_TxtConRight = styled.div`
   justify-content: flex-start;
   // padding-left: 10px;
 `;
-const PersonalProfile_TxtCon = styled.div`
+const PersonalProfileTxtCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
 `;
 
-const PersonalProfile_Txt = styled.p`
+const PersonalProfileTxt = styled.p`
   text-align: left;
   white-space: nowrap;
   display: flex;
@@ -75,147 +79,186 @@ const PersonalProfile_Txt = styled.p`
   justify-content: flex-start;
   margin-top: 15px;
 `;
+const SubmitCon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+const Submit = styled.button`
+  background: linear-gradient(2deg, #3da9f5 0%, #683df5 100%);
+  box-shadow: -1.04px 4.891px 20px 0px rgb(69 49 183 / 50%);
+  border: none;
+  color: white;
+  padding: 15px 50px;
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 18px;
+  cursor: pointer;
+  margin-top:20px;
+  margin-bottom:20px;
+`;
 
 
 
 function PersonalProfile() {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+    
+      dispatch(setloading(true));
+      
+      await signOutUser().then(() => {
+        dispatch(setuser({}));
+        dispatch(setloading(false));
+        dispatch(setsigned(false));
+        navigate('/login');
+        window.location.reload(true);
+      });
+  }
+
   return (
     // <Wrapper>
     <RightWrapper>
-      <PersonalProfile_Wrapper>
-        <PersonalProfile_HeaderCon>
-          <PersonalProfile_Header>Personal Details</PersonalProfile_Header>
-          <PersonalProfile_Header>.</PersonalProfile_Header>
-        </PersonalProfile_HeaderCon>
-        <PersonalProfile_Details>
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Name</PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>Albert Owen</PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
+      <PersonalProfileWrapper>
+        <PersonalProfileHeaderCon>
+          <PersonalProfileHeader>Personal Details</PersonalProfileHeader>
+          <PersonalProfileHeader>.</PersonalProfileHeader>
+        </PersonalProfileHeaderCon>
+        <PersonalProfileDetails>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>Name</PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>{user.name}</PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
 
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Date of Birth</PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>15-03-1974</PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>DOB</PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>---</PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
 
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Address</PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>
-                8198 Fieldstone Dr.La Crosse, WI 54601
-              </PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
-        </PersonalProfile_Details>
-      </PersonalProfile_Wrapper>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>Address</PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>
+                {user.address}
+              </PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
+        </PersonalProfileDetails>
+      </PersonalProfileWrapper>
 
-      <PersonalProfile_Wrapper>
-        <PersonalProfile_HeaderCon>
-          <PersonalProfile_Header>Account Setting</PersonalProfile_Header>
-          <PersonalProfile_Header>.</PersonalProfile_Header>
-        </PersonalProfile_HeaderCon>
-        <PersonalProfile_Details>
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Time Zone</PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>English (United States)</PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
+      <PersonalProfileWrapper>
+        <PersonalProfileHeaderCon>
+          <PersonalProfileHeader>Account Setting</PersonalProfileHeader>
+          <PersonalProfileHeader>.</PersonalProfileHeader>
+        </PersonalProfileHeaderCon>
+        <PersonalProfileDetails>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>Language</PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>English (United States)</PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
 
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Date of Birth</PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>
-                (GMT-06:00) Central America
-              </PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>Time Zone</PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>
+                {Intl.DateTimeFormat().resolvedOptions().timeZone}
+              </PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
 
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Status</PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>Active</PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
-        </PersonalProfile_Details>
-      </PersonalProfile_Wrapper>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>Status</PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>Verified</PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
+        </PersonalProfileDetails>
+      </PersonalProfileWrapper>
 
-      <PersonalProfile_Wrapper>
-        <PersonalProfile_HeaderCon>
-          <PersonalProfile_Header>Email Address</PersonalProfile_Header>
-          <PersonalProfile_Header>.</PersonalProfile_Header>
-        </PersonalProfile_HeaderCon>
-        <PersonalProfile_Details>
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Email </PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>albert349@gmail.com</PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
-        </PersonalProfile_Details>
-      </PersonalProfile_Wrapper>
+      <PersonalProfileWrapper>
+        <PersonalProfileHeaderCon>
+          <PersonalProfileHeader>Email Address</PersonalProfileHeader>
+          <PersonalProfileHeader>.</PersonalProfileHeader>
+        </PersonalProfileHeaderCon>
+        <PersonalProfileDetails>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>Email </PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>{user.email}</PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
+        </PersonalProfileDetails>
+      </PersonalProfileWrapper>
 
-      <PersonalProfile_Wrapper>
-        <PersonalProfile_HeaderCon>
-          <PersonalProfile_Header>Phone</PersonalProfile_Header>
-          <PersonalProfile_Header>.</PersonalProfile_Header>
-        </PersonalProfile_HeaderCon>
-        <PersonalProfile_Details>
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Mobile</PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>+1 234-567-8925</PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
-        </PersonalProfile_Details>
-      </PersonalProfile_Wrapper>
-      <PersonalProfile_Wrapper>
-        <PersonalProfile_HeaderCon>
-          <PersonalProfile_Header>Security</PersonalProfile_Header>
-          <PersonalProfile_Header>.</PersonalProfile_Header>
-        </PersonalProfile_HeaderCon>
-        <PersonalProfile_Details>
-          <PersonalProfile_TxtCon>
-            <PersonalProfile_TxtConLeft>
-              <PersonalProfile_Txt>Password</PersonalProfile_Txt>
-              <PersonalProfile_Txt>:</PersonalProfile_Txt>
-            </PersonalProfile_TxtConLeft>
-            <PersonalProfile_TxtConRight>
-              <PersonalProfile_Txt>xxxxxxxxxxxxxxxx</PersonalProfile_Txt>
-            </PersonalProfile_TxtConRight>
-          </PersonalProfile_TxtCon>
-
+      <PersonalProfileWrapper>
+        <PersonalProfileHeaderCon>
+          <PersonalProfileHeader>Phone</PersonalProfileHeader>
+          <PersonalProfileHeader>.</PersonalProfileHeader>
+        </PersonalProfileHeaderCon>
+        <PersonalProfileDetails>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>Mobile</PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>+234 {user.phoneNumber}</PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
+        </PersonalProfileDetails>
+      </PersonalProfileWrapper>
+      <PersonalProfileWrapper>
+        <PersonalProfileHeaderCon>
+          <PersonalProfileHeader>Security</PersonalProfileHeader>
+          <PersonalProfileHeader>.</PersonalProfileHeader>
+        </PersonalProfileHeaderCon>
+        <PersonalProfileDetails>
+          <PersonalProfileTxtCon>
+            <PersonalProfileTxtConLeft>
+              <PersonalProfileTxt>Password</PersonalProfileTxt>
+              <PersonalProfileTxt>:</PersonalProfileTxt>
+            </PersonalProfileTxtConLeft>
+            <PersonalProfileTxtConRight>
+              <PersonalProfileTxt>xxxxxxxxxxxx</PersonalProfileTxt>
+            </PersonalProfileTxtConRight>
+          </PersonalProfileTxtCon>
           
-        </PersonalProfile_Details>
-      </PersonalProfile_Wrapper>
+        </PersonalProfileDetails>
+      </PersonalProfileWrapper>
+      <SubmitCon>
+        <Submit onClick={(e) => handleSignOut(e)}>Logout</Submit>
+      </SubmitCon>
     </RightWrapper>
     // </Wrapper>
   );

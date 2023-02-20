@@ -7,6 +7,8 @@ import styled from "styled-components";
 import HeaderSection from "../Components/HeaderSection/HeaderSection";
 import contactimg from '../images/contact.png';
 import Footer from '../Components/Home/Footer'
+import { useSelector } from "react-redux";
+import Spinner from "../Components/utils/Spinner";
 
 const Container = styled.div`
   background: url(./hero-bg.png);
@@ -29,7 +31,7 @@ const Wrapper = styled.div`
   margin-bottom:100px;
   padding: 0 5vh;
 `;
-const ContactUs_CardCon = styled.div`
+const ContactUsCardCon = styled.div`
   margin-top: 100%;
   width: 100%;
   border-radius: 10px;
@@ -45,7 +47,7 @@ const ContactUs_CardCon = styled.div`
   background-color: white;
 `;
 
-const ContactUs_Card = styled.div`
+const ContactUsCard = styled.div`
   width: 100%;
   box-sizing: border-box;
   margin: 30px 0;
@@ -54,24 +56,24 @@ const ContactUs_Card = styled.div`
   justify-content: space-between;
 `;
 
-const ContactUs_Header = styled.div`
+const ContactUsHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 `;
-const ContactUs_Txt = styled.p`
+const ContactUsTxt = styled.p`
   font-size: ${(props) => props.fz};
   font-weight: ${(props) => props.fw};
   color: ${(props) => props.cl};
   margin: ${(props) => props.mg};
 `;
 
-const ContactUs_Inputs = styled.div`
+const ContactUsInputs = styled.div`
 flex:2;
 width:100%;
 `;
-const Inputs_Con = styled.div`
+const InputsCon = styled.div`
 flex:1;
 width:100%;
    display:flex;
@@ -96,7 +98,7 @@ const InputIcon = styled.div`
      margin-right:30px;
      margin-bottom:20px;
      position:absolute;
-     z-index:100;
+     z-index:30;
      box-sizing-border-box;
    `;
 
@@ -117,7 +119,7 @@ const Input = styled.input`
   }
 `;
 
-const Textarea_Con = styled.div`
+const TextareaCon = styled.div`
 flex:1;
   // margin-top: 20px;
   display: flex;
@@ -138,7 +140,7 @@ const TextareaIcon = styled.div`
      justify-content: center;
      margin-right:20px;
     //  margin-bottom:20px;
-     z-index:100;
+     z-index:30;
      box-sizing-border-box;
 `;
 
@@ -154,17 +156,17 @@ const Textarea = styled.textarea`
   }
 `;
 
-const ContactUs_ImgCon = styled.div`
+const ContactUsImgCon = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
 `;
-const ContactUs_Img = styled.img`
+const ContactUsImg = styled.img`
 width:90%;
 `
 
-const Button_Con = styled.div`
+const ButtonCon = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -191,31 +193,36 @@ const Button = styled.button`
 
 
 function ContactUs() {
+  const { loading } = useSelector((state) => state.auth);
+  window.scrollTo(0, 0);
+
   return (
+    <>
+      <Spinner show={loading} />
     <Container>
       <HeaderSection SingleRoute={true} CurrentPage="Contact us" />
         <Wrapper>
-      <ContactUs_CardCon>
-        <ContactUs_Header>
-          <ContactUs_Txt fz="25px" fw={600} mg="7px" cl="#4A2FB7">
+      <ContactUsCardCon>
+        <ContactUsHeader>
+          <ContactUsTxt fz="25px" fw={600} mg="7px" cl="#4A2FB7">
             Contact Us
-          </ContactUs_Txt>
-          <ContactUs_Txt fz="30px" mg="7px" fw={500}>
+          </ContactUsTxt>
+          <ContactUsTxt fz="30px" mg="7px" fw={500}>
             Get In Touch
-          </ContactUs_Txt>
-          <ContactUs_Txt fz="14px" mg="5px">
+          </ContactUsTxt>
+          <ContactUsTxt fz="14px" mg="5px">
             We`d love to hear from you! Let us know how we can help.
-          </ContactUs_Txt>
-        </ContactUs_Header>
-          <ContactUs_Card>
-            <ContactUs_Inputs>
-              <Inputs_Con>
+          </ContactUsTxt>
+        </ContactUsHeader>
+          <ContactUsCard>
+            <ContactUsInputs>
+              <InputsCon>
                 <InputIcon>
                   <PermIdentityOutlined sx={{ fontSize: 17 }} />
                 </InputIcon>
                 <Input pb="10px" placeholder="Your Name" type="text" />
-              </Inputs_Con>
-              <Inputs_Con>
+              </InputsCon>
+              <InputsCon>
                 <InputIcon>
                   <AllInboxOutlined sx={{ fontSize: 17 }} />
                 </InputIcon>
@@ -224,8 +231,8 @@ function ContactUs() {
                   placeholder="Enter Your Email Id"
                   type="text"
                 />
-              </Inputs_Con>
-              <Textarea_Con>
+              </InputsCon>
+              <TextareaCon>
                 <TextareaIcon mb="">
                   <MailOutline sx={{ fontSize: 17 }} />
                 </TextareaIcon>
@@ -234,19 +241,20 @@ function ContactUs() {
                   name="message"
                   rows="12"
                 ></Textarea>
-              </Textarea_Con>
-            </ContactUs_Inputs>
-            <ContactUs_ImgCon>
-              <ContactUs_Img src={contactimg} />
-            </ContactUs_ImgCon>
-          </ContactUs_Card>
-          <Button_Con>
+              </TextareaCon>
+            </ContactUsInputs>
+            <ContactUsImgCon>
+              <ContactUsImg src={contactimg} />
+            </ContactUsImgCon>
+          </ContactUsCard>
+          <ButtonCon>
             <Button>SEND MESSAGE</Button>
-          </Button_Con>
-      </ContactUs_CardCon>
+          </ButtonCon>
+      </ContactUsCardCon>
         </Wrapper>
         <Footer/>
-    </Container>
+        </Container>
+    </>
   );
 }
 

@@ -20,6 +20,7 @@ import Referrals from "../Components/DashBoard/Referrals";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import Spinner from "../Components/utils/Spinner";
+import { Person } from "@mui/icons-material";
 
 const Container = styled.div`
   background: url(./hero-bg.png);
@@ -42,9 +43,9 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   padding: 0 5vh;
   margin-top: 150px;
-  z-index: 100;
+  z-index: 30;
   box-sizing: border-box;
-  height:1500px;
+  // height:1500px;
 `;
 
 const DashBoardMenuCon = styled.div`
@@ -56,7 +57,7 @@ const DashBoardMenuCon = styled.div`
   width: 350px;
   border-radius: 10px;
   background-color: white;
-  padding: 10px 40px;
+  padding: 70px 40px;
   //   flex: 2;
   box-shadow: 0px 9px 20px 0px rgb(22 26 57 / 36%);
   color: #37406f;
@@ -77,10 +78,14 @@ const Userdashboardcon = styled.div`
   width: 100px;
   height: 100px;
 `;
-const UserImgcon = styled.div``;
-
-const UserImg = styled.img`
-  width: 100%;
+const UserImgcon = styled.div`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ededed;
 `;
 
 const UserDetailsTxtCon = styled.div`
@@ -140,7 +145,6 @@ const Components = styled.div`
   flex-direction: column;
   flex: 3;
   margin-bottom: 150px;
-  height:100%;
 `;
 
 const LeftWrapper = styled.div`
@@ -154,6 +158,8 @@ function MyAccount() {
   const [sticky, SetSticky] = useState(true);
   const navigate = useNavigate();
   const { signed, loading } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
+  window.scrollTo(0, 0);
 
   useEffect(() => {
       if (!loading) {
@@ -165,7 +171,7 @@ function MyAccount() {
 
   return (
     <>
-      {loading ? <Spinner /> :
+      <Spinner show={loading} />
     <Container>
       <HeaderSection
         SingleRoute={false}
@@ -179,11 +185,11 @@ function MyAccount() {
         >
           <UserDetails>
             <UserImgcon>
-              <UserImg src={img} />
+              <Person sx={{fontSize: '45px'}} />
             </UserImgcon>
             <UserDetailsTxtCon>
-              <UerDetailsTxtName>Percy Reed</UerDetailsTxtName>
-              <UerDetailsTxtEmail>john@gmail.com</UerDetailsTxtEmail>
+              <UerDetailsTxtName>{user.name}</UerDetailsTxtName>
+              <UerDetailsTxtEmail>{user.email}</UerDetailsTxtEmail>
             </UserDetailsTxtCon>
           </UserDetails>
           <DashBoardMenuLinks>
@@ -228,38 +234,8 @@ function MyAccount() {
                   : {}
               }
             >
-              <DashBoardImg src={referrals} alt="Referrals" />
+              <DashBoardImg src={myBids} alt="Referrals" />
               <DashBoardTxt>Auctions</DashBoardTxt>
-            </DashBoardMenuLink>
-            <DashBoardMenuLink
-              onClick={() => {
-                SetActiveDashBoard("MyBids");
-                 SetSticky(true);
-
-              }}
-              style={
-                activeDashBoard === "MyBids"
-                  ? { backgroundColor: "whitesmoke" }
-                  : {}
-              }
-            >
-              <DashBoardImg src={myBids} alt="MyBids" />
-              <DashBoardTxt>My Bids</DashBoardTxt>
-            </DashBoardMenuLink>
-            <DashBoardMenuLink
-              onClick={() => {
-                SetActiveDashBoard("WinningBids");
-                SetSticky(true);
-
-              }}
-              style={
-                activeDashBoard === "WinningBids"
-                  ? { backgroundColor: "whitesmoke" }
-                  : {}
-              }
-            >
-              <DashBoardImg src={itemsWon} alt="WinningBids" />
-              <DashBoardTxt>Winning Bids</DashBoardTxt>
             </DashBoardMenuLink>
             <DashBoardMenuLink
               onClick={() => {
@@ -312,8 +288,6 @@ function MyAccount() {
         <Components>
           {activeDashBoard === "DashBoard" && <DashBoard />}
           {activeDashBoard === "PersonalProfile" && <PersonalProfile />}
-          {activeDashBoard === "MyBids" && <MyBids />}
-          {activeDashBoard === "WinningBids" && <WinningBids />}
           {activeDashBoard === "MyAlerts" && <MyAlerts />}
           {activeDashBoard === "MyFavorites" && <MyFavorites />}
           {activeDashBoard === "Auctions" && <Referrals />}
@@ -321,7 +295,6 @@ function MyAccount() {
       </Wrapper>
       <Footer />
     </Container>
-      }
       </>
   );
 }

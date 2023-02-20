@@ -1,4 +1,8 @@
 import { Gavel, ShoppingBagRounded } from '@mui/icons-material';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { featured_auctions } from "../../data";
 
@@ -60,7 +64,7 @@ const CardTopIcon = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 30;
     background: linear-gradient(323deg, #b122e6 0%, #ff63de 100%);
     box-shadow: 0px 8px 8px 0px rgb(0 0 0 / 13%);
 `
@@ -194,23 +198,43 @@ const BBbottomBtn = styled.button`
 `
 
 const FeaturedAuction = () => {
+  const [data, setdata] = useState([]);
+  const { auctions } = useSelector((state) => state.auction);
+
+  useEffect(() => {
+    const list = auctions.filter((item) => item.status === 'featured');
+
+    setdata(list);
+    console.log(auctions);
+  }, [auctions])
+
   return (
     <Container>
       <TitleCon>
         <Title>Bid On These Featured Auctions!</Title>
       </TitleCon>
       <FeaturedAuctionsCard className="flex aic jcc">
-        {featured_auctions.map((item, ind) => (
-          <FBottomCard key={ind} className="fBottom__card">
+        {data.map((item, ind) => {
+          var amt = 0;
+
+          for (let index = 0; index < item.bids.length; index++) {
+            if (item.bids[index].amount > amt) {
+              amt = item.bids[index].amount.toFixed(2);
+            }
+          }
+
+          return <FBottomCard key={ind} className="fBottom__card">
             <CardTop className="card__top">
-              <CardTopImg className="card__topImg" src={item.img} />
-              <CardTopIcon className="card__topIcon">
-                <Gavel sx={{ fontSize: 20, color: "white" }} />
-              </CardTopIcon>
+              <CardTopImg className="card__topImg" src={item.images[0]} />
+              <Link to={`/item-details/${item.id}`}>
+                <CardTopIcon className="card__topIcon">
+                  <Gavel sx={{ fontSize: 20, color: "white" }} />
+                </CardTopIcon>
+              </Link>
             </CardTop>
             <CardBottom className="card__bottom">
               <BottomTop className="bottom__top">
-                <BottomSpan>{item.Name}</BottomSpan>
+                <BottomSpan>{item.name}</BottomSpan>
               </BottomTop>
               <BottomMiddle className="bottom__middle">
                 <Middle w="1px" className="middle">
@@ -220,7 +244,7 @@ const FeaturedAuction = () => {
                     </MiddleLeft>
                     <MiddleRight className="middle__right">
                       <MiddleText color="#43b055">Current Bid</MiddleText>
-                      <MiddlePrice>${item.CurrentBid}</MiddlePrice>
+                      <MiddlePrice>₦{amt}</MiddlePrice>
                     </MiddleRight>
                   </MiddleCon>
                 </Middle>
@@ -233,7 +257,7 @@ const FeaturedAuction = () => {
                     </MiddleLeft>
                     <MiddleRight className="middle__right">
                       <MiddleText color="#ee4730">Buy Now</MiddleText>
-                      <MiddlePrice>${item.CurrentPrice}</MiddlePrice>
+                      <MiddlePrice>${item.buyNowAmount}</MiddlePrice>
                     </MiddleRight>
                   </MiddleCon>
                 </Middle>
@@ -250,20 +274,22 @@ const FeaturedAuction = () => {
                   <BBTopRight className="bb_topRight">
                     <BBTopRightCon className="bb__topRight">
                       <BBTopSpan className="bb__topSpan" color="#43b055">
-                        {item.Bids} Bids
+                        {item.bids.length} Bids
                       </BBTopSpan>
                     </BBTopRightCon>
                   </BBTopRight>
                 </BBTop>
                 <BBbottom className="bb__bottom">
-                  <BBbottomBtn className="bb__bottomBtn">
-                    Submit A Bid
-                  </BBbottomBtn>
+                  <Link to={`/item-details/${item.id}`}>
+                    <BBbottomBtn className="bb__bottomBtn">
+                      Submit A Bid
+                    </BBbottomBtn>
+                  </Link>
                 </BBbottom>
               </BottomBottom>
             </CardBottom>
           </FBottomCard>
-        ))}
+})}
       </FeaturedAuctionsCard>
     </Container>
   );

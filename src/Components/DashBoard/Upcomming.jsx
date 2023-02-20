@@ -1,7 +1,12 @@
-import { Gavel, ShoppingBagRounded } from "@mui/icons-material";
+import { Delete, Gavel, ShoppingBagRounded } from "@mui/icons-material";
 import React from "react";
+import { useAlert } from "react-alert";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { MyBids__Upcomming } from "../../data";
+import { deleteAuction, getAllAuctions } from "../../Firebase Actions/auctionActions";
+import { setauctions, setuserauctions } from "../../redux/reducers/auctionSlice";
+import { setloading } from "../../redux/reducers/authSlice";
 const Container = styled.div`
   dsiplay: flex;
   align-items: center;
@@ -63,7 +68,7 @@ const CardTopIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 30;
   background: linear-gradient(323deg, #b122e6 0%, #ff63de 100%);
   box-shadow: 0px 8px 8px 0px rgb(0 0 0 / 13%);
 `;
@@ -184,28 +189,43 @@ const BBbottom = styled.div`
   justify-content: center;
   padding-top: 15px;
 `;
-const BBbottomBtn = styled.button`
-  background: linear-gradient(2deg, #3da9f5 0%, #683df5 100%);
-  box-shadow: -1.04px 4.891px 20px 0px rgb(69 49 183 / 50%);
-  border: none;
-  color: white;
-  padding: 15px 70px;
-  border-radius: 30px;
-  font-weight: 500;
-  font-size: 22px;
-  cursor: pointer;
-`;
 
 
-function Upcomming() {
+function Upcomming({data}) {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const alert = useAlert();
+
+  const handleDelete = async (e, id) => {
+    e.preventDefault();
+    dispatch(setloading(true));
+
+    await deleteAuction().then(async () => {
+      await getAllAuctions().then((value) => {
+        dispatch(setauctions(value.result));
+        dispatch(setuserauctions(value.result.filter((item) => item.userId === user.id)));
+        dispatch(setloading(false));
+        alert.success(<p style={{ textTransform: 'none' }}>Auction deleted successfully</p>);
+      });
+    });
+  }
+
   return (
     <Container>
-      {MyBids__Upcomming.map((item, ind) => (
-        <FBottomCard key={ind} className="fBottom__card">
+      {data.map((item, ind) => {
+        var amt = 0;
+
+        for (let index = 0; index < item.bids.length; index++) {
+          if (item.bids[index].amount > amt) {
+            amt = item.bids[index].amount.toFixed(2);
+          }
+        }
+
+        return <FBottomCard key={ind} className="fBottom__card">
           <CardTop className="card__top">
-            <CardTopImg className="card__topImg" src={item.img} />
-            <CardTopIcon className="card__topIcon">
-              <Gavel sx={{ fontSize: 20, color: "white" }} />
+            <CardTopImg className="card__topImg" src={item.images[0]} />
+            <CardTopIcon onClick={(e) => handleDelete(e, item.id)} className="card__topIcon">
+              <Delete sx={{ fontSize: 20, color: "white" }} />
             </CardTopIcon>
           </CardTop>
           <CardBottom className="card__bottom">
@@ -220,7 +240,7 @@ function Upcomming() {
                   </MiddleLeft>
                   <MiddleRight className="middle__right">
                     <MiddleText color="#43b055">Current Bid</MiddleText>
-                    <MiddlePrice>${item.CurrentBid}</MiddlePrice>
+                    <MiddlePrice>₦{amt}</MiddlePrice>
                   </MiddleRight>
                 </MiddleCon>
               </Middle>
@@ -233,7 +253,7 @@ function Upcomming() {
                   </MiddleLeft>
                   <MiddleRight className="middle__right">
                     <MiddleText color="#ee4730">Buy Now</MiddleText>
-                    <MiddlePrice>${item.CurrentPrice}</MiddlePrice>
+                    <MiddlePrice>₦{item.buyNowAmount}</MiddlePrice>
                   </MiddleRight>
                 </MiddleCon>
               </Middle>
@@ -250,20 +270,18 @@ function Upcomming() {
                 <BBTopRight className="bb_topRight">
                   <BBTopRightCon className="bb__topRight">
                     <BBTopSpan className="bb__topSpan" color="#43b055">
-                      {item.Bids} Bids
+                      {item.bids.length} Bids
                     </BBTopSpan>
                   </BBTopRightCon>
                 </BBTopRight>
               </BBTop>
               <BBbottom className="bb__bottom">
-                <BBbottomBtn className="bb__bottomBtn">
-                  Submit A Bid
-                </BBbottomBtn>
+                Status: {item.reviewStatus}
               </BBbottom>
             </BottomBottom>
           </CardBottom>
         </FBottomCard>
-      ))}
+})}
     </Container>
   );
 }

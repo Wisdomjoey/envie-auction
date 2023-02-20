@@ -135,7 +135,7 @@ function ProductQuestions() {
 
               <AccordionDetails sx={{ border: "none" }}>
                 All successful bidders can confirm their winning bid by checking
-                the “Sbidu”. In addition, all successful bidders will receive an
+                the “Attic”. In addition, all successful bidders will receive an
                 email notifying them of their winning bid after the auction
                 closes.
               </AccordionDetails>
@@ -181,7 +181,7 @@ function ProductQuestions() {
 
               <AccordionDetails sx={{ border: "none" }}>
                 All successful bidders can confirm their winning bid by checking
-                the “Sbidu”. In addition, all successful bidders will receive an
+                the “Attic”. In addition, all successful bidders will receive an
                 email notifying them of their winning bid after the auction
                 closes.
               </AccordionDetails>
@@ -227,7 +227,7 @@ function ProductQuestions() {
 
               <AccordionDetails sx={{ border: "none" }}>
                 All successful bidders can confirm their winning bid by checking
-                the “Sbidu”. In addition, all successful bidders will receive an
+                the “Attic”. In addition, all successful bidders will receive an
                 email notifying them of their winning bid after the auction
                 closes.
               </AccordionDetails>
@@ -273,7 +273,7 @@ function ProductQuestions() {
 
               <AccordionDetails sx={{ border: "none" }}>
                 All successful bidders can confirm their winning bid by checking
-                the “Sbidu”. In addition, all successful bidders will receive an
+                the “Attic”. In addition, all successful bidders will receive an
                 email notifying them of their winning bid after the auction
                 closes.
               </AccordionDetails>
@@ -318,7 +318,7 @@ function ProductQuestions() {
 
               <AccordionDetails sx={{ border: "none" }}>
                 All successful bidders can confirm their winning bid by checking
-                the “Sbidu”. In addition, all successful bidders will receive an
+                the “Attic”. In addition, all successful bidders will receive an
                 email notifying them of their winning bid after the auction
                 closes.
               </AccordionDetails>
@@ -363,7 +363,7 @@ function ProductQuestions() {
 
               <AccordionDetails sx={{ border: "none" }}>
                 All successful bidders can confirm their winning bid by checking
-                the “Sbidu”. In addition, all successful bidders will receive an
+                the “Attic”. In addition, all successful bidders will receive an
                 email notifying them of their winning bid after the auction
                 closes.
               </AccordionDetails>
@@ -406,7 +406,7 @@ function ProductQuestions() {
 
               <AccordionDetails sx={{ border: "none" }}>
                 All successful bidders can confirm their winning bid by checking
-                the “Sbidu”. In addition, all successful bidders will receive an
+                the “Attic”. In addition, all successful bidders will receive an
                 email notifying them of their winning bid after the auction
                 closes.
               </AccordionDetails>

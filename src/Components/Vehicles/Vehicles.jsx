@@ -1,4 +1,5 @@
 import { Gavel, ShoppingBagRounded } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 // import { Products } from "../../data";
 
@@ -27,8 +28,7 @@ const Wrapper = styled.div`
 `;
 
 const FBottomCard = styled.div`
-  flex: 1;
-  max-width:60%;
+  width: 28%;
   height: 570px;
   border-radius: 10px;
   box-shadow: 0px 9px 20px 0px rgb(22 26 57 / 36%);
@@ -58,7 +58,7 @@ const CardTopIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 30;
   background: linear-gradient(323deg, #b122e6 0%, #ff63de 100%);
   box-shadow: 0px 8px 8px 0px rgb(0 0 0 / 13%);
 `;
@@ -197,17 +197,25 @@ function Vehicles({ filteredList }) {
     <VehiclesCon className="flex aic jcc">
       <SortFilteredProducts>
         <Wrapper className=" flex aic jcc try">
-          {filteredList.map((products) => (
-            <FBottomCard className="fBottom__card">
+          {filteredList.map((products, ind) => {
+            var amt = 0;
+
+            for (let index = 0; index < products.bids.length; index++) {
+              if (products.bids[index].amount > amt) {
+                amt = products.bids[index].amount.toFixed(2);
+              }
+            }
+
+            return <FBottomCard key={ind} className="fBottom__card">
               <CardTop className="card__top">
-                <CardTopImg className="card__topImg" src={products.img} />
+                <CardTopImg className="card__topImg" src={products.images[0]} />
                 <CardTopIcon className="card__topIcon">
                   <Gavel sx={{ fontSize: 20, color: "white" }} />
                 </CardTopIcon>
               </CardTop>
               <CardBottom className="card__bottom">
                 <BottomTop className="bottom__top">
-                  <BottomSpan>{products.Name}</BottomSpan>
+                  <BottomSpan>{products.name}</BottomSpan>
                 </BottomTop>
                 <BottomMiddle className="bottom__middle">
                   <Middle w="1px" className="middle">
@@ -217,7 +225,7 @@ function Vehicles({ filteredList }) {
                       </MiddleLeft>
                       <MiddleRight className="middle__right">
                         <MiddleText color="#43b055">Current Bid</MiddleText>
-                        <MiddlePrice>${products.CurrentBid}</MiddlePrice>
+                        <MiddlePrice>₦{amt}</MiddlePrice>
                       </MiddleRight>
                     </MiddleCon>
                   </Middle>
@@ -230,7 +238,7 @@ function Vehicles({ filteredList }) {
                       </MiddleLeft>
                       <MiddleRight className="middle__right">
                         <MiddleText color="#ee4730">Buy Now</MiddleText>
-                        <MiddlePrice>${products.CurrentPrice}</MiddlePrice>
+                        <MiddlePrice>₦{products.buyNowAmount}</MiddlePrice>
                       </MiddleRight>
                     </MiddleCon>
                   </Middle>
@@ -253,14 +261,16 @@ function Vehicles({ filteredList }) {
                     </BBTopRight>
                   </BBTop>
                   <BBbottom className="bb__bottom">
-                    <BBbottomBtn className="bb__bottomBtn">
-                      Submit A Bid
-                    </BBbottomBtn>
+                    <Link to={`/item-details/${products.id}`}>
+                      <BBbottomBtn className="bb__bottomBtn">
+                        Submit A Bid
+                      </BBbottomBtn>
+                    </Link>
                   </BBbottom>
                 </BottomBottom>
               </CardBottom>
             </FBottomCard>
-          ))}
+})}
         </Wrapper>
       </SortFilteredProducts>
     </VehiclesCon>

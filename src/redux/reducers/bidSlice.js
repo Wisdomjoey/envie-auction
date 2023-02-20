@@ -1,15 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const bidSlice = createSlice({
-  name: 'bids',
+  name: 'bid',
   initialState: {
-    bids: [],
     userBids: []
   },
   reducers: {
-    setbids: (state, {payload}) => {
-      state.bids = payload;
-    },
     setuserbids: (state, {payload}) => {
       state.userBids = payload;
     },
@@ -19,6 +15,6 @@ const bidSlice = createSlice({
   }
 });
 
-export const { setbids, setuserbids } = bidSlice.actions;
+export const { setuserbids } = bidSlice.actions;
 
 export default bidSlice.reducer;

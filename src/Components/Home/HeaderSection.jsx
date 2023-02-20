@@ -6,8 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper";
 import { Gavel } from "@mui/icons-material";
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { increment } from '../../redux/reducers/counter';
+import { useSelector } from 'react-redux';
 
 const HeaderContentCon = styled.div`
     width: 100%;
@@ -15,7 +14,7 @@ const HeaderContentCon = styled.div`
     align-items: center;
     justify-content: center;
     position: relative;
-    z-index: 140;
+    z-index: 30;
 `
 const HeaderContent = styled.div`
     width: 100%;
@@ -55,7 +54,7 @@ const RightBtn = styled.button`
     font-weight: 500;
     margin-top: 30px;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 40;
 `
 const SlideImg = styled.img`
     width: 120%;
@@ -117,7 +116,7 @@ const SwiperCon = styled.div`
         background-color: transparent;
     }
 `
-const BidLink = styled.a`
+const BidLink = styled.div`
     width: 100px;
     height: 100px;
     background: linear-gradient(325deg, #f5317f 0%, #ff7c6e 100%);
@@ -127,7 +126,7 @@ const BidLink = styled.a`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 30;
     border-radius: 50%;
     top: 6rem;
     left: 0;
@@ -141,13 +140,8 @@ const BidText = styled.span`
 `
 
 export default function HeaderSection() {
-    const {value} = useSelector(state => state.counter);
-    const dispatch = useDispatch();
-
-    const increm = () => {
-        dispatch(increment());
-        console.log('done');
-    }
+    const { signed } = useSelector((state) => state.auth);
+    console.log(signed)
 
   return (
     <HeaderContentCon className="header__contentCon">
@@ -156,7 +150,7 @@ export default function HeaderSection() {
                 <RightText className="right__text">Convenient,</RightText>
                 <RightText className="right__text">Exclusive &</RightText>
                 <RightText className="right__text">Real-Time</RightText>
-                <RightText className="right__text">Bidding {value}</RightText>
+                <RightText className="right__text">Bidding</RightText>
                 <RightSpan className="right__span">Your Desired Space Is Right Here...</RightSpan>
                   <Link className='get__started' to='/register'><RightBtn className="right__btn">Get Started</RightBtn></Link>
             </LeftContent>
@@ -164,10 +158,12 @@ export default function HeaderSection() {
                 <SphereOne className="sphere__one">
                     <SphereTwo className="sphere__two">
                         <SphereThree className="sphere__three">
-                            <BidLink onClick={ () => increm() } className="bid__link">
-                                <Gavel sx={{ fontSize: 30, color: 'white' }} />
-                                <BidText className="bid__text">Bid Now</BidText>
-                            </BidLink>
+                              <Link to={signed ? '/auctions' : '/register'}>
+                                  <BidLink className="bid__link">
+                                      <Gavel sx={{ fontSize: 30, color: 'white' }} />
+                                      <BidText className="bid__text">Bid Now</BidText>
+                                  </BidLink>
+                            </Link>
                             <SwiperCon>
                                 <Swiper modules={[ EffectCoverflow, Autoplay ]} spaceBetween={ 100 } autoplay={{ delay: 3000 }} effect='coverflow'>
                                     {[swipe1, swipe2, swipe3].map((val, ind) => {

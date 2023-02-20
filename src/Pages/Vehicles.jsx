@@ -1,14 +1,16 @@
 import React, { Component } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import HeaderSection from "../Components/HeaderSection/HeaderSection";
 import Footer from "../Components/Home/Footer";
 import Navbar from "../Components/Home/Navbar";
+import Spinner from "../Components/utils/Spinner";
 import FeaturedAuction from "../Components/Vehicles/FeaturedAuction";
 import SortVehicles from "../Components/Vehicles/SortVehicles";
 import { Products } from "../data";
 
 
-const Vehicles_Container = styled.div`
+const VehiclesContainer = styled.div`
   width: 100%;
   background: url(./hero-bg.png);
   background-repeat: no-repeat;
@@ -23,19 +25,25 @@ const Vehicles_Container = styled.div`
 const Container = styled.div``;
 
 const Vehicles = () => {
+  const { loading } = useSelector((state) => state.auth);
+  window.scrollTo(0, 0);
+
   return (
-    <Vehicles_Container>
+    <>
+      <Spinner show={loading} />
+    <VehiclesContainer>
       <Container>
         <HeaderSection
           SingleRoute={false}
           Page="Pages"
-          CurrentPage={"Vehicles"}
+          CurrentPage={"Auctions"}
         />
       </Container>
       <FeaturedAuction />
       <SortVehicles />
       <Footer />
-    </Vehicles_Container>
+        </VehiclesContainer>
+    </>
   );
 };
 

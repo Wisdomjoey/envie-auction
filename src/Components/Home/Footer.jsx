@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import NewsLetter from './NewsLetter';
 import paypal from '../../images/paypal.png'
 import visa from '../../images/visa.png'
+import img from './footer-bg.jpg'
 import mastercard from '../../images/mastercard.png'
 import discover from '../../images/discover.png'
 import { LocalPhone, AllInbox, Send, LinkedIn, Instagram, Twitter, Fax, FacebookRounded } from '@mui/icons-material';
 
 
 const FooterCon = styled.div`
-   background:url(./footer-bg.jpg);
+  //  background:url(./footer-bg.jpg);
    background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -152,7 +153,7 @@ const FooterCopyrightTxt = styled.p`
 
 function Footer() {
   return (
-    <FooterCon>
+    <FooterCon style={{background: `url(${img})`}}>
       <Container>
         <NewsLetter />
         <Wrapper>
@@ -238,7 +239,7 @@ function Footer() {
             </BottomFooterMiddle>
             <BottomFooterRight>
               <FooterCopyrightTxt>© Copyright 2021 | </FooterCopyrightTxt>
-              <FooterCopyrightTxt color='#EE4730'>{" "} Sbidu </FooterCopyrightTxt>
+              <FooterCopyrightTxt color='#EE4730'>{" "} Attic </FooterCopyrightTxt>
               <FooterCopyrightTxt > {" By "} </FooterCopyrightTxt>
               <FooterCopyrightTxt color='#EE4730'> Uiaxis </FooterCopyrightTxt>
             </BottomFooterRight>

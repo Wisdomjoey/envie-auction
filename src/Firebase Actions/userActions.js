@@ -4,8 +4,8 @@ import { auth, db, storage } from "../firebase";
 
 async function createUser(uid, name, phone, address, username, file, email, utility) {
   try {
-    const storageRef = ref(storage, `verId/${file.name}`);
-    const storageRef1 = ref(storage, `utility/${utility.name}`);
+    const storageRef = ref(storage, `verId/${uid}`);
+    const storageRef1 = ref(storage, `utility/${uid}`);
 
     await uploadBytes(storageRef, file).then(async (value) => {
       await uploadBytes(storageRef1, utility).then(async (value1) => {
@@ -23,6 +23,7 @@ async function createUser(uid, name, phone, address, username, file, email, util
           verificationStatus: 'pending',
           accountNumber: '',
           email: email,
+          bidsWon: [],
           createdAt: Date.now().toString(),
           updatedAt: Date.now().toString(),
         });
@@ -81,7 +82,8 @@ return { result: users, status: true };
 }
 
 async function createBid(userId, auctionId, amount) {
-  await addDoc(doc(db, 'users', userId, 'bids'), {
+  try {
+    await addDoc(collection(db, 'users', userId, 'bids'), {
     id: '',
     auctionId: auctionId,
     amount: amount,
@@ -91,12 +93,30 @@ async function createBid(userId, auctionId, amount) {
   }).then(async (docRef) => {
     await updateDoc(doc(db, 'users', userId, 'bids', docRef.id), {
       id: docRef.id
-    }).catch((e) => {
+    });
+  });
 
-    })
-  }).catch((e) => {
-
-  })
+  return {result: null, status: true};
+  } catch (error) {
+    return {result: error, status: false};
+  }
 }
 
-export { createUser, updateUser, getUser, createBid, getUserByEmail, getAllUsers }
+async function getUserBids(userId) {
+  try {
+    const querySnapshot = await getDocs(collection(db, "users", userId, "bids"));
+
+  let bids = [];
+
+querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  bids.push(doc.data());
+});
+
+  return { result: bids, status: true };
+  } catch (error) {
+    return {result: error, status: false};
+  }
+}
+
+export { createUser, updateUser, getUser, createBid, getUserByEmail, getAllUsers, getUserBids }

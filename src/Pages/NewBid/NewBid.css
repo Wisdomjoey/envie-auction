@@ -1,0 +1,70 @@
+.container{
+  background: url(../../../public/hero-bg.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-sizing: border-box;
+  position: relative;
+  padding-top: 85px;
+  height: 90vh;
+  width: 100%;
+}
+
+.newProduct {
+  flex: 4;
+  margin: 80px 0;
+}
+
+.addProductTitle{
+    padding-left: 20px;
+    color:white;
+    margin-bottom:50px;
+}
+
+.addProductForm {
+  margin-top: 10px;
+  width: 80%;
+  margin-left: 70px;
+}
+
+/* .addProductItem {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 20px;
+}
+
+.addProductItem > label {
+  color: gray;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.addProductItem > input {
+  padding: 10px;
+}
+
+.addProductItem > select {
+  padding: 10px;
+}
+
+.addProductButtonCon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.addProductButton {
+  height: 30px;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: center;
+} */

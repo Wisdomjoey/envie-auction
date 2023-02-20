@@ -6,7 +6,9 @@ import RegisterAndStart from "../Components/Home/RegisterAndStart";
 import ManagementTeam from "../Components/AboutUs/ManagementTeam";
 import OurReviews from "../Components/Home/OurReviews";
 import Footer from "../Components/Home/Footer";
-const DashBoard_Con = styled.div`
+import { useSelector } from "react-redux";
+import Spinner from "../Components/utils/Spinner";
+const DashBoardCon = styled.div`
   background: url(./hero-bg.png);
   background-repeat: no-repeat;
   background-position: center;
@@ -17,7 +19,7 @@ const DashBoard_Con = styled.div`
   height: 90vh;
   color: #37406f;
 `;
-const AboutUs_Con = styled.div`
+const AboutUsCon = styled.div`
   padding: 0 5vh;
   width: 100%;
   box-sizing: border-box;
@@ -25,18 +27,24 @@ const AboutUs_Con = styled.div`
 `;
 
 function AboutUs() {
+  const { loading } = useSelector((state) => state.auth);
+  window.scrollTo(0, 0);
+
   return (
-    <DashBoard_Con>
+    <>
+      <Spinner show={loading} />
+    <DashBoardCon>
       <HeaderSection SingleRoute={false} Page="Page" CurrentPage="About us" />
-      <AboutUs_Con>
+      <AboutUsCon>
         <Experience />
         <WhatToExpect />
-      </AboutUs_Con>
+      </AboutUsCon>
       <RegisterAndStart />
       <ManagementTeam />
       <OurReviews />
       <Footer />
-    </DashBoard_Con>
+        </DashBoardCon>
+    </>
   );
 }
 

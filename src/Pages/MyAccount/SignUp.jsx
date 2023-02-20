@@ -269,7 +269,7 @@ function SignUp() {
   const [userdata, setdata] = useState({});
   const [isLoading, setloading] = useState(false);
   const navigate = useNavigate();
-  const {user, signed} = useSelector((state) => state.auth);
+  const {loading} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -328,7 +328,7 @@ function SignUp() {
 
   return (
       <>
-      {isLoading ? <Spinner /> :
+      <Spinner show={loading || isLoading} />
         <Container>
           <HeaderSection SingleRoute={false} Page="Pages" CurrentPage="Sign Up" />
           <SignUpCon>
@@ -440,7 +440,6 @@ function SignUp() {
           </SignUpCon>
           <Footer />
         </Container>
-      }
       </>
   );
 }

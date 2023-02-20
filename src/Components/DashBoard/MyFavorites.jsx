@@ -138,7 +138,7 @@ const CardTopIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 30;
   background: linear-gradient(323deg, #b122e6 0%, #ff63de 100%);
   box-shadow: 0px 8px 8px 0px rgb(0 0 0 / 13%);
 `;

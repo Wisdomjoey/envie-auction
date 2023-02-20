@@ -72,7 +72,7 @@ const SetProductDetails = styled.div`
 `;
 const Container = styled.div``;
 
-function ProductDSelection() {
+function ProductDSelection({data}) {
   const [active, SetActive] = useState("ProductDetails");
   return (
     <ProductDSelectionCon>
@@ -132,9 +132,9 @@ function ProductDSelection() {
         </Details>
       </ProductInfoWrapper>
       <SetProductDetails>
-        {active === "ProductDetails" && <ProductDescription />}
+        {active === "ProductDetails" && <ProductDescription data={data.description} />}
         {active === "Delivery_Option" && <ProductDeliveryOptions />}
-        {active === "BidHistory" && <ProductBidHistory />}
+        {active === "BidHistory" && <ProductBidHistory data={data.bids} />}
         {active === "Questions" && <ProductQuestions />}
       </SetProductDetails>
     </ProductDSelectionCon>

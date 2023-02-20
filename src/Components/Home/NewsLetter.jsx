@@ -119,7 +119,7 @@ function NewsLetter() {
                         </LeftContainer>
                         <RightContainer>
                             <NewsLetterTxtCon>
-                                <NewsLetterTxt fz='25px' fw={400} color='#693FF5'>Subscribe to Sbidu</NewsLetterTxt>
+                                <NewsLetterTxt fz='25px' fw={400} color='#693FF5'>Subscribe to Attic</NewsLetterTxt>
                             </NewsLetterTxtCon>
                             <NewsLetterTxtCon>
                                 <NewsLetterTxt fz='40px' fw={700} mt='15px' mb='15px'>To Get Exclusive Benefits</NewsLetterTxt>

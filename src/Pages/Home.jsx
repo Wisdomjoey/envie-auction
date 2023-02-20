@@ -11,6 +11,8 @@ import ClosingSoonSection from "../Components/Home/ClosingSoonSection";
 import RegisterAndStart from "../Components/Home/RegisterAndStart";
 import OurReviews from "../Components/Home/OurReviews";
 import Footer from "../Components/Home/Footer";
+import { useSelector } from "react-redux";
+import Spinner from "../Components/utils/Spinner";
 
 const HomeContainer = styled.div`
     width: 100%;
@@ -41,7 +43,12 @@ const BottomMask = styled.img`
 `
 
 export default function Home() {
-  return (
+    const { loading } = useSelector((state) => state.auth);
+    window.scrollTo(0, 0);
+
+    return (
+        <>
+            <Spinner show={loading} />
     <HomeContainer className='home__con'>
         <Header className='header'>
             <BottomMaskCon className="bottom__maskCon">
@@ -57,6 +64,7 @@ export default function Home() {
         <RegisterAndStart/>
         <OurReviews/>
         <Footer/>
-    </HomeContainer>
+        </HomeContainer>
+      </>
   )
 }

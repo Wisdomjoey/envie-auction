@@ -10,10 +10,7 @@ const authSlice = createSlice({
   },
   reducers: {
     setuser: (state, {payload}) => {
-      state.user = {
-        ...state.user,
-        ...payload
-      }
+      state.user = payload;
     },
     setsigned: (state, {payload}) => {
       state.signed = payload;

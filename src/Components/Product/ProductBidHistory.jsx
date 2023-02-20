@@ -93,7 +93,7 @@ const Button = styled.button`
   }
 `;
 
-function ProductBidHistory() {
+function ProductBidHistory({data}) {
   return (
     <Container>
       <BidHistoryCon>
@@ -104,81 +104,23 @@ function ProductBidHistory() {
           <BidHistoryTxt fz="20px">Unit Price</BidHistoryTxt>
         </BidHistoryHeader>
         <ClientsBidHistory>
-          <Clients>
-            <ClientsDetails>
-              <BidHistoryImg src={Cli} />
-              <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </ClientsDetails>
-            <ClientsBidDetails cl="black" fz="15px">
-              <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </ClientsBidDetails>
-            <ClientsBidDate cl="black" fz="15px">
-              <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </ClientsBidDate>
-            <ClientsReferrals cl="black" fz="15px">
-              <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </ClientsReferrals>
-          </Clients>
-          <Clients>
-            <ClientsDetails>
-              <BidHistoryImg src={Cli} />
-              <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </ClientsDetails>
-            <ClientsBidDetails cl="black" fz="15px">
-              <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </ClientsBidDetails>
-            <ClientsBidDate cl="black" fz="15px">
-              <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </ClientsBidDate>
-            <ClientsReferrals cl="black" fz="15px">
-              <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </ClientsReferrals>
-          </Clients>
-          <Clients>
-            <ClientsDetails>
-              <BidHistoryImg src={Cli} />
-              <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </ClientsDetails>
-            <ClientsBidDetails cl="black" fz="15px">
-              <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </ClientsBidDetails>
-            <ClientsBidDate cl="black" fz="15px">
-              <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </ClientsBidDate>
-            <ClientsReferrals cl="black" fz="15px">
-              <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </ClientsReferrals>
-          </Clients>
-          <Clients>
-            <ClientsDetails>
-              <BidHistoryImg src={Cli} />
-              <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </ClientsDetails>
-            <ClientsBidDetails cl="black" fz="15px">
-              <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </ClientsBidDetails>
-            <ClientsBidDate cl="black" fz="15px">
-              <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </ClientsBidDate>
-            <ClientsReferrals cl="black" fz="15px">
-              <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </ClientsReferrals>
-          </Clients>
-          <Clients>
-            <ClientsDetails>
-              <BidHistoryImg src={Cli} />
-              <BidHistoryTxt>Moses Watts</BidHistoryTxt>
-            </ClientsDetails>
-            <ClientsBidDetails cl="black" fz="15px">
-              <BidHistoryTxt>06/16/2021 </BidHistoryTxt>
-            </ClientsBidDetails>
-            <ClientsBidDate cl="black" fz="15px">
-              <BidHistoryTxt>02:45:25 PM </BidHistoryTxt>
-            </ClientsBidDate>
-            <ClientsReferrals cl="black" fz="15px">
-              <BidHistoryTxt>$900.00</BidHistoryTxt>
-            </ClientsReferrals>
-          </Clients>
+          {data.map((val, ind) => {
+            return <Clients key={ind}>
+              <ClientsDetails>
+                <BidHistoryImg src={Cli} />
+                <BidHistoryTxt>{val.userName}</BidHistoryTxt>
+              </ClientsDetails>
+              <ClientsBidDetails cl="black" fz="15px">
+                <BidHistoryTxt>{new Date(val.date).toISOString().slice(0, 9)}</BidHistoryTxt>
+              </ClientsBidDetails>
+              <ClientsBidDate cl="black" fz="15px">
+                <BidHistoryTxt>{new Date(val.date).toISOString().slice(11, 19)}</BidHistoryTxt>
+              </ClientsBidDate>
+              <ClientsReferrals cl="black" fz="15px">
+                <BidHistoryTxt>₦{val.amount}</BidHistoryTxt>
+              </ClientsReferrals>
+            </Clients>;
+          })}
                  </ClientsBidHistory>
                  <ButtonCon>
         <Button>LOAD MORE</Button>

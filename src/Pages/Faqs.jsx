@@ -1,8 +1,10 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Faq from "../Components/Faqs/Faq";
 import FaqCategory from "../Components/Faqs/FaqCategory";
 import HeaderSection from "../Components/HeaderSection/HeaderSection";
 import Footer from "../Components/Home/Footer";
+import Spinner from "../Components/utils/Spinner";
 const Container = styled.div`
   background: url(./hero-bg.png);
   background-repeat: no-repeat;
@@ -26,7 +28,7 @@ const HeaderTxt = styled.p`
   margin: 8px 0;
 `;
 
-const Faqs_Con = styled.div`
+const FaqsCon = styled.div`
 padding:0 5vh;
 display:flex;
 align-items:flex-start;
@@ -35,7 +37,12 @@ margin-bottom:100px;`
 ;
 
 function Faqs() {
+  const { loading } = useSelector((state) => state.auth);
+  window.scrollTo(0, 0);
+
   return (
+    <>
+      <Spinner show={loading} />
     <Container>
       <HeaderSection SingleRoute={false} Page="Pages" CurrentPage="Faqs" />
       <Header>
@@ -47,12 +54,13 @@ function Faqs() {
           looking for.
         </HeaderTxt>
       </Header>
-      <Faqs_Con>
+      <FaqsCon>
         <Faq />
         <FaqCategory />
-      </Faqs_Con>
+      </FaqsCon>
       <Footer/>
-    </Container>
+        </Container>
+    </>
   );
 }
 

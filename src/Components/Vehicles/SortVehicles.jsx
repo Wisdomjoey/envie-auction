@@ -3,7 +3,8 @@ import * as React from "react";
 import styled from "styled-components";
 import { Search } from "@mui/icons-material";
 // import { Vehi_cles } from "../../data";
-import { Vehicles } from "../../data";
+import Vehicles from "./Vehicles";
+import { useSelector } from "react-redux";
 
 const SortVehiclesC = styled.div`
   margin-top: 100px;
@@ -80,14 +81,8 @@ const Input = styled.input`
 `;
 
 function SortVehicles() {
-  const Sorts = [
-    { label: "All", value: "All" },
-    { label: "Bike", value: "Bike" },
-    { label: "Car", value: "Car" },
-    { label: "Suv", value: "Suv" },
-    { label: "Truck", value: "Truck" },
-  ];
   const Show = [
+    { label: "All", value: "All" },
     { label: "09", value: "09" },
     { label: "21", value: "21" },
     { label: "30", value: "30" },
@@ -97,31 +92,35 @@ function SortVehicles() {
 
   const [Value, setValue] = React.useState();
   const [filter, setFilter] = useState([]);
+  const { auctions } = useSelector((state) => state.auction);
 
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Add default value on page load
   useEffect(() => {
-    setFilter(Vehicles);
-  }, []);
-
-  // Function to get filtered list
-  function getFilteredList() {
-    // Avoid filter when selectedCategory is null
-    if (selectedCategory === "All") {
-      return filter;
-    }
-    return filter.filter((item) => item.Cat === selectedCategory);
-  }
+    setFilter(auctions);
+  }, [auctions]);
 
   // Avoid duplicate function calls with useMemo
-  var filteredList = React.useMemo(getFilteredList, [selectedCategory, filter]);
+  var filteredList = React.useMemo(() => filter, [filter]);
 
   function handleCategoryChange(event) {
     setSelectedCategory(event.target.value);
+
+    if (event.target.value === 'All' || parseInt(event.target.value) > auctions.length || event.target.value === '') {
+      setFilter(auctions);
+    } else {
+      var list = [].slice(0, parseInt(event.target.value));
+
+      setFilter(list);
+    }
   }
   function handleSearchChange(event) {
     setValue(event.target.value);
+
+    var list = auctions.filter((item) => item.name.includes(event.target.value));
+
+    setFilter(list);
   }
 
   return (
@@ -129,21 +128,13 @@ function SortVehicles() {
       <SortVehiclesCon>
         <SortProducts>
           <SortForm>
-            <P>Sort By : </P>
-            <Sortselect name="sort by" onChange={handleCategoryChange}>
-              {Sorts.map((option) => (
-                <Sortoption value={option.value}>{option.label}</Sortoption>
-              ))}
-            </Sortselect>
-          </SortForm>
-          <SortForm>
             <P>Show : </P>
             <Sortselect
               name="show"
               onChange={handleCategoryChange}
             >
-              {Show.map((option) => (
-                <Sortoption value={option.value}>{option.label}</Sortoption>
+              {Show.map((option, ind) => (
+                <Sortoption key={ind} value={option.value}>{option.label}</Sortoption>
               ))}
             </Sortselect>
           </SortForm>

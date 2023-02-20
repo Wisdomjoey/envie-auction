@@ -1,4 +1,6 @@
 import { Gavel } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Closing_Soon_Products } from '../../data';
@@ -45,7 +47,7 @@ const ClosingProducts = styled.div`
     max-width: calc(1260px - 60px);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap:wrap;
     margin-top: -300px;
     background-color:white;
@@ -88,7 +90,7 @@ const BidLink = styled.div`
     position: absolute;
     bottom: 10px;
     right: 10px;
-    z-index:100;
+    z-index:30;
     background: linear-gradient(323deg, #b122e6 0%, #ff63de 100%);
 `
 const ClosingProductsImg = styled.img`
@@ -108,9 +110,19 @@ const ClosingSoonProductsNameCon = styled.div`
     padding-bottom: 10px;
     margin-bottom: 10px;
     width: 100%;
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
 `
 const ClosingSoonProductsName = styled.p`
      font-size:22px;
+    cursor: pointer;
+
+    &:hover {
+        color: #ee4730;
+    }
 `
 
 const ClosingSoonProductsCurBidCon = styled.div`
@@ -167,6 +179,17 @@ const Button = styled.button`
 
 
 export default function ClosingSoonSection() {
+    const [data, setdata] = useState([]);
+    const { auctions } = useSelector((state) => state.auction);
+
+    useEffect(() => {
+        var day = 24 * 60 * 60 * 1000;
+
+        const list = auctions.filter((item) => item.bidEndTime - Date.now() < day);
+
+        setdata(list);
+    }, [auctions])
+
     return (
         <EndingContainer className='ending__container'>
             <EndingContentCon className='ending__contentCon'>
@@ -176,12 +199,20 @@ export default function ClosingSoonSection() {
                     <ContentSpan className='content__span' fw={300} fz='19px' mb='50px'>Bid and win great deals,Our auction process is simple, efficient, and transparent.</ContentSpan>
                 </EndingContentConBackGround>
                 <ClosingProducts className='closing__products'>
-                    {Closing_Soon_Products.map((item, ind) => (
-                        <ClosingProductsCon className='closing__productsCon' key={ind}>
+                    {data.map((item, ind) => {
+                        var amt = 0;
+
+                        for (let index = 0; index < item.bids.length; index++) {
+                            if (item.bids[index].amount > amt) {
+                                amt = item.bids[index].amount.toFixed(2);
+                            }
+                        }
+
+                        return <ClosingProductsCon className='closing__productsCon' key={ind}>
                             <ClosingProductsLeft>
                                 <ClosingProductsImgCon className='ClosingSoonProducts'>
-                                    <ClosingProductsImg className='ClosingSoonProductsImage' src={item.img} alt='closing soon products' />
-                                    <Link to='/item-details'>
+                                    <ClosingProductsImg className='ClosingSoonProductsImage' src={item.images[0]} alt='closing soon products' />
+                                    <Link to={`/item-details/${item.id}`}>
                                         <BidLink className='BidLink'>
                                             <Gavel sx={{ color: 'white', fontSize: 22 }} />
                                         </BidLink>
@@ -190,7 +221,9 @@ export default function ClosingSoonSection() {
                             </ClosingProductsLeft>
                             <ClosingProductsRight>
                                 <ClosingSoonProductsNameCon>
-                                    <ClosingSoonProductsName>{item.name}</ClosingSoonProductsName>
+                                    <Link to={`/item-details/${item.id}`}>
+                                        <ClosingSoonProductsName>{item.name}</ClosingSoonProductsName>
+                                    </Link>
                                 </ClosingSoonProductsNameCon>
 
                                 <ClosingSoonProductsCurBidCon>
@@ -204,21 +237,23 @@ export default function ClosingSoonSection() {
                                             Current Bid
                                         </ClosingSoonProductsBidDetailsTxt>
                                         <ClosingSoonProductsBidDetailsTxt fz='20px' >
-                                            {item.CurrentBid}
+                                            ₦{amt}
                                         </ClosingSoonProductsBidDetailsTxt>
                                     </ClosingSoonProductsCurBidRight>
                                 </ClosingSoonProductsCurBidCon>
                                 <ClosingSoonProductsTotBidCon>
                                     <ClosingSoonProductsTotBid>
                                         <ClosingSoonProductsBidDetailsTxt>Total Bids:</ClosingSoonProductsBidDetailsTxt>
-                                        <ClosingSoonProductsBidDetailsTxt color='#43b055' >{item.TotalBid}</ClosingSoonProductsBidDetailsTxt>
+                                        <ClosingSoonProductsBidDetailsTxt color='#43b055' >{item.bids.length}</ClosingSoonProductsBidDetailsTxt>
                                     </ClosingSoonProductsTotBid>
                                 </ClosingSoonProductsTotBidCon>
                             </ClosingProductsRight>
                         </ClosingProductsCon>
-                    ))}
+                    })}
                     <ButtonCon>
-                        <Button>See All Auctions</Button>
+                        <Link to='/auctions'>
+                            <Button>See All Auctions</Button>
+                        </Link>
                     </ButtonCon>
                 </ClosingProducts>
             </EndingContentCon>

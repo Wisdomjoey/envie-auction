@@ -6,6 +6,9 @@ import auction1 from '../../images/auction-1.jpg';
 import auction2 from '../../images/auction-2.jpg';
 import auction3 from '../../images/auction-3.jpg';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const FeaturedContainer = styled.div`
     width: 100%;
@@ -69,7 +72,7 @@ const CardTopIcon = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 30;
     background: linear-gradient(323deg, #b122e6 0%, #ff63de 100%);
     box-shadow: 0px 8px 8px 0px rgb(0 0 0 / 13%);
 `
@@ -82,11 +85,14 @@ const CardBottom = styled.div`
 const BottomTop = styled.div`
     width: 100%;
     padding: 15px 0;
+  text-overflow: ellipsis;
 `
 const BottomSpan = styled.span`
     font-size: 22px;
     font-weight: 500;
+    width: 100%;
     color: #171D1C;
+  text-overflow: ellipsis;
 `
 const BottomMiddle = styled.div`
     display: flex;
@@ -103,7 +109,7 @@ const Middle = styled.div`
 
     &::after {
         content: '';
-        width: ${ props => props.w };
+        width: ${props => props.w};
         left: 0;
         height: 100%;
         top: 15px;
@@ -121,7 +127,7 @@ const MiddleCon = styled.div`
 const MiddleText = styled.span`
     font-size: 14px;
     font-weight: 300;
-    color: ${ props => props.color };
+    color: ${props => props.color};
 `
 const MiddlePrice = styled.span`
     font-size: 20px;
@@ -151,7 +157,7 @@ const BBTop = styled.div`
     padding-bottom: 15px;
 `
 const BBTopSpan = styled.span`
-    color: ${ props => props.color };
+    color: ${props => props.color};
     font-size: 17px;
 `
 const BBTopLeft = styled.div`
@@ -203,180 +209,94 @@ const BBbottomBtn = styled.button`
 `
 
 export default function FeaturedSection() {
-  return (
-    <FeaturedContainer className="featured__container">
-        <FeaturedImg className="featured__img" src={ feat } />
-        <FeaturedCon className="featured__con">
-            <Featured className="featured">
-                <HeadTop txtHead='Featured Items' txtSpan='Start Winning Cars With Comfort' showBtn={ true } />
-                <FeaturedBottom className="featured__bottom">
-                    <FBottomCard className="fBottom__card">
-                        <CardTop className="card__top">
-                            <Link to='/item-details'><CardTopImg className="card__topImg" src={auction1} /></Link>
-                            <Link to='/item-details'>
-                                  <CardTopIcon className="card__topIcon">
-                                      <Gavel sx={{ fontSize: 20, color: 'white' }} />
-                                  </CardTopIcon>
-                            </Link>
-                        </CardTop>
-                        <CardBottom className="card__bottom">
-                            <BottomTop className="bottom__top">
-                                <BottomSpan>2018 Hyundai Sonata</BottomSpan>
-                            </BottomTop>
-                            <BottomMiddle className="bottom__middle">
-                                <Middle w='1px' className="middle">
-                                    <MiddleCon className="middle__con">
-                                        <MiddleLeft className="middle__left">
-                                            <Gavel sx={{ color: '#43b055', fontSize: 30 }} />
-                                        </MiddleLeft>
-                                        <MiddleRight className="middle__right">
-                                            <MiddleText color='#43b055'>Current Bid</MiddleText>
-                                            <MiddlePrice>$800.00</MiddlePrice>
-                                        </MiddleRight>
-                                    </MiddleCon>
-                                </Middle>
-                                <Middle className="middle">
-                                    <MiddleCon className="middle__con">
-                                        <MiddleLeft className="middle__left">
-                                            <ShoppingBagRounded sx={{ color: '#ee4730', fontSize: 30 }} />
-                                        </MiddleLeft>
-                                        <MiddleRight className="middle__right">
-                                            <MiddleText color='#ee4730'>Buy Now</MiddleText>
-                                            <MiddlePrice>$800.00</MiddlePrice>
-                                        </MiddleRight>
-                                    </MiddleCon>
-                                </Middle>
-                            </BottomMiddle>
-                            <BottomBottom className="bottom__bottom">
-                                <BBTop className="bb__top">
-                                    <BBTopLeft className="bb__topLeft">
-                                        <BBTopLeftCon className="bb__topLeftCon">
-                                            <BBTopSpan className="bb__topSpan" color="#f5317f">1d : 12h : 12m : 60s</BBTopSpan>
-                                        </BBTopLeftCon>
-                                    </BBTopLeft>
-                                    <BBTopRight className="bb_topRight">
-                                        <BBTopRightCon className="bb__topRight">
-                                            <BBTopSpan className="bb__topSpan" color="#43b055">30 Bids</BBTopSpan>
-                                        </BBTopRightCon>
-                                    </BBTopRight>
-                                </BBTop>
-                                <BBbottom className="bb__bottom">
-                                    <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
-                                </BBbottom>
-                            </BottomBottom>
-                        </CardBottom>
-                    </FBottomCard>
-                    <FBottomCard className="fBottom__card">
-                        <CardTop className="card__top">
-                            <CardTopImg className="card__topImg" src={ auction2 } />
-                            <CardTopIcon className="card__topIcon">
-                                <Gavel sx={{ fontSize: 20, color: 'white' }} />
-                            </CardTopIcon>
-                        </CardTop>
-                        <CardBottom className="card__bottom">
-                            <BottomTop className="bottom__top">
-                                <BottomSpan>2018 Hyundai Sonata</BottomSpan>
-                            </BottomTop>
-                            <BottomMiddle className="bottom__middle">
-                                <Middle w='1px' className="middle">
-                                    <MiddleCon className="middle__con">
-                                        <MiddleLeft className="middle__left">
-                                            <Gavel sx={{ color: '#43b055', fontSize: 30 }} />
-                                        </MiddleLeft>
-                                        <MiddleRight className="middle__right">
-                                            <MiddleText color='#43b055'>Current Bid</MiddleText>
-                                            <MiddlePrice>$800.00</MiddlePrice>
-                                        </MiddleRight>
-                                    </MiddleCon>
-                                </Middle>
-                                <Middle className="middle">
-                                    <MiddleCon className="middle__con">
-                                        <MiddleLeft className="middle__left">
-                                            <ShoppingBagRounded sx={{ color: '#ee4730', fontSize: 30 }} />
-                                        </MiddleLeft>
-                                        <MiddleRight className="middle__right">
-                                            <MiddleText color='#ee4730'>Buy Now</MiddleText>
-                                            <MiddlePrice>$800.00</MiddlePrice>
-                                        </MiddleRight>
-                                    </MiddleCon>
-                                </Middle>
-                            </BottomMiddle>
-                            <BottomBottom className="bottom__bottom">
-                                <BBTop className="bb__top">
-                                    <BBTopLeft className="bb__topLeft">
-                                        <BBTopLeftCon className="bb__topLeftCon">
-                                            <BBTopSpan className="bb__topSpan" color="#f5317f">1d : 12h : 12m : 60s</BBTopSpan>
-                                        </BBTopLeftCon>
-                                    </BBTopLeft>
-                                    <BBTopRight className="bb_topRight">
-                                        <BBTopRightCon className="bb__topRight">
-                                            <BBTopSpan className="bb__topSpan" color="#43b055">30 Bids</BBTopSpan>
-                                        </BBTopRightCon>
-                                    </BBTopRight>
-                                </BBTop>
-                                <BBbottom className="bb__bottom">
-                                    <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
-                                </BBbottom>
-                            </BottomBottom>
-                        </CardBottom>
-                    </FBottomCard>
-                    <FBottomCard className="fBottom__card">
-                        <CardTop className="card__top">
-                            <CardTopImg className="card__topImg" src={ auction3 } />
-                            <CardTopIcon className="card__topIcon">
-                                <Gavel sx={{ fontSize: 20, color: 'white' }} />
-                            </CardTopIcon>
-                        </CardTop>
-                        <CardBottom className="card__bottom">
-                            <BottomTop className="bottom__top">
-                                <BottomSpan>2018 Hyundai Sonata</BottomSpan>
-                            </BottomTop>
-                            <BottomMiddle className="bottom__middle">
-                                <Middle w='1px' className="middle">
-                                    <MiddleCon className="middle__con">
-                                        <MiddleLeft className="middle__left">
-                                            <Gavel sx={{ color: '#43b055', fontSize: 30 }} />
-                                        </MiddleLeft>
-                                        <MiddleRight className="middle__right">
-                                            <MiddleText color='#43b055'>Current Bid</MiddleText>
-                                            <MiddlePrice>$800.00</MiddlePrice>
-                                        </MiddleRight>
-                                    </MiddleCon>
-                                </Middle>
-                                <Middle className="middle">
-                                    <MiddleCon className="middle__con">
-                                        <MiddleLeft className="middle__left">
-                                            <ShoppingBagRounded sx={{ color: '#ee4730', fontSize: 30 }} />
-                                        </MiddleLeft>
-                                        <MiddleRight className="middle__right">
-                                            <MiddleText color='#ee4730'>Buy Now</MiddleText>
-                                            <MiddlePrice>$800.00</MiddlePrice>
-                                        </MiddleRight>
-                                    </MiddleCon>
-                                </Middle>
-                            </BottomMiddle>
-                            <BottomBottom className="bottom__bottom">
-                                <BBTop className="bb__top">
-                                    <BBTopLeft className="bb__topLeft">
-                                        <BBTopLeftCon className="bb__topLeftCon">
-                                            <BBTopSpan className="bb__topSpan" color="#f5317f">1d : 12h : 12m : 60s</BBTopSpan>
-                                        </BBTopLeftCon>
-                                    </BBTopLeft>
-                                    <BBTopRight className="bb_topRight">
-                                        <BBTopRightCon className="bb__topRight">
-                                            <BBTopSpan className="bb__topSpan" color="#43b055">30 Bids</BBTopSpan>
-                                        </BBTopRightCon>
-                                    </BBTopRight>
-                                </BBTop>
-                                <BBbottom className="bb__bottom">
-                                    <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
-                                </BBbottom>
-                            </BottomBottom>
-                        </CardBottom>
-                    </FBottomCard>
-                </FeaturedBottom>
-            </Featured>
-        </FeaturedCon>
-    </FeaturedContainer>
-  )
+    const [data, setdata] = useState([]);
+    const { auctions } = useSelector((state) => state.auction);
+
+    useEffect(() => {
+        const list = auctions.filter((item) => item.status === 'featured');
+
+        setdata(list);
+        console.log(auctions);
+    }, [auctions])
+
+    return (
+        <FeaturedContainer className="featured__container">
+            <FeaturedImg className="featured__img" src={feat} />
+            <FeaturedCon className="featured__con">
+                <Featured className="featured">
+                    <HeadTop txtHead='Featured Items' txtSpan='Start Winning Cars With Comfort' showBtn={true} />
+                    <FeaturedBottom className="featured__bottom">
+                        {data.map((item, ind) => {
+                            var amt = 0;
+
+                            for (let index = 0; index < item.bids.length; index++) {
+                                if (item.bids[index].amount > amt) {
+                                    amt = item.bids[index].amount.toFixed(2);
+                                }
+                            }
+
+                            return <FBottomCard key={ind} className="fBottom__card">
+                                <CardTop className="card__top">
+                                    <Link to={`/item-details/${item.id}`}><CardTopImg className="card__topImg" src={item.images[0]} /></Link>
+                                    <Link to={`/item-details/${item.id}`}>
+                                        <CardTopIcon className="card__topIcon">
+                                            <Gavel sx={{ fontSize: 20, color: 'white' }} />
+                                        </CardTopIcon>
+                                    </Link>
+                                </CardTop>
+                                <CardBottom className="card__bottom">
+                                    <BottomTop className="bottom__top">
+                                        <BottomSpan>{item.name}</BottomSpan>
+                                    </BottomTop>
+                                    <BottomMiddle className="bottom__middle">
+                                        <Middle w='1px' className="middle">
+                                            <MiddleCon className="middle__con">
+                                                <MiddleLeft className="middle__left">
+                                                    <Gavel sx={{ color: '#43b055', fontSize: 30 }} />
+                                                </MiddleLeft>
+                                                <MiddleRight className="middle__right">
+                                                    <MiddleText color='#43b055'>Current Bid</MiddleText>
+                                                    <MiddlePrice>₦{amt}</MiddlePrice>
+                                                </MiddleRight>
+                                            </MiddleCon>
+                                        </Middle>
+                                        <Middle className="middle">
+                                            <MiddleCon className="middle__con">
+                                                <MiddleLeft className="middle__left">
+                                                    <ShoppingBagRounded sx={{ color: '#ee4730', fontSize: 30 }} />
+                                                </MiddleLeft>
+                                                <MiddleRight className="middle__right">
+                                                    <MiddleText color='#ee4730'>Buy Now</MiddleText>
+                                                    <MiddlePrice>₦{item.buyNowAmount}.00</MiddlePrice>
+                                                </MiddleRight>
+                                            </MiddleCon>
+                                        </Middle>
+                                    </BottomMiddle>
+                                    <BottomBottom className="bottom__bottom">
+                                        <BBTop className="bb__top">
+                                            <BBTopLeft className="bb__topLeft">
+                                                <BBTopLeftCon className="bb__topLeftCon">
+                                                    <BBTopSpan className="bb__topSpan" color="#f5317f">1d : 12h : 12m : 60s</BBTopSpan>
+                                                </BBTopLeftCon>
+                                            </BBTopLeft>
+                                            <BBTopRight className="bb_topRight">
+                                                <BBTopRightCon className="bb__topRight">
+                                                    <BBTopSpan className="bb__topSpan" color="#43b055">{item.bids.length}</BBTopSpan>
+                                                </BBTopRightCon>
+                                            </BBTopRight>
+                                        </BBTop>
+                                        <BBbottom className="bb__bottom">
+                                            <Link to={`/item-details/${item.id}`}>
+                                                <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
+                                            </Link>
+                                        </BBbottom>
+                                    </BottomBottom>
+                                </CardBottom>
+                            </FBottomCard>;
+                        })}
+                    </FeaturedBottom>
+                </Featured>
+            </FeaturedCon>
+        </FeaturedContainer>
+    )
 }

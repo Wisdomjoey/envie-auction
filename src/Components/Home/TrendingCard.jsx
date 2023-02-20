@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Gavel } from '@mui/icons-material';
 import { TrendingItems } from '../../data'
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const TrendingCardC = styled.div`
     width: 100%;
@@ -22,6 +25,7 @@ const TrendingCardCon = styled.div`
 const TrendingCardLeft = styled.div`
     width: 360px;
     height: 100%;
+    overflow: hidden;
     background: #f6f6ff;
     border-radius: 10px;
     position: relative;
@@ -44,7 +48,7 @@ const CardTopIcon = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 30;
     background: linear-gradient(323deg, #b122e6 0%, #ff63de 100%);
     box-shadow: 0px 8px 8px 0px rgb(0 0 0 / 13%);
 `
@@ -60,14 +64,15 @@ const TrendingCardMiddleTop = styled.div`
     justify-content: flex-start;
     border-bottom: 1px solid #bccaea;
     padding: 10px 0;
-`
-const TopLink = styled.a`
-    text-decoration: none;
+
+    a {
+        text-decoration: none;
     color: black;
     cursor: pointer;
 
     &:hover {
         color: #ee4730;
+    }
     }
 `
 const TopSpan = styled.span`
@@ -121,6 +126,10 @@ const TrendingCardRightCon = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    a {
+        text-decoration: none;
+    }
 `
 const TimerCon = styled.div`
     width: 100%;
@@ -197,13 +206,30 @@ const BBbottomBtn = styled.button`
 `
 
 export default function TrendingCard() {
+    const [data, setdata] = useState([]);
+    const { auctions } = useSelector((state) => state.auction);
+
+    useEffect(() => {
+        const list = auctions.filter((item) => item.status === 'trending');
+
+        setdata(list);
+    }, [auctions]);
+
     return (
         <TrendingCardC>
-            {TrendingItems.map((item, ind) => (
-                <TrendingCardCon className='trending__cardCon' key={ind}>
+            {data.map((item, ind) => {
+                var amt = 0;
+
+                for (let index = 0; index < item.bids.length; index++) {
+                    if (item.bids[index].amount > amt) {
+                        amt = item.bids[index].amount.toFixed(2);
+                    }
+                }
+
+                return <TrendingCardCon className='trending__cardCon' key={ind}>
                     <TrendingCardLeft className='trending__cardLeft'>
-                        <TrendingCardImg src={item.img} className='trending__cardImg' />
-                        <Link to='/item-details'>
+                        <TrendingCardImg src={item.images[0]} className='trending__cardImg' />
+                        <Link to={`/item-details/${item.id}`}>
                             <CardTopIcon className="card__topIcon">
                                 <Gavel sx={{ fontSize: 20, color: 'white' }} />
                             </CardTopIcon>
@@ -211,56 +237,18 @@ export default function TrendingCard() {
                     </TrendingCardLeft>
                     <TrendingCardMiddle className='trending__cardMiddle'>
                         <TrendingCardMiddleTop className='trending__middleTop'>
-                            <TopLink href="/item-details">
+                            <Link to={`/item-details/${item.id}`}>
                                 <TopSpan className='top__span'>{item.name}</TopSpan>
-                            </TopLink>
+                            </Link>
                         </TrendingCardMiddleTop>
                         <TrendingCardMiddleBottom className='trending__middleBottom'>
-                            <BottomLeft className='bottom__left'>
-                                <BottomSpan className='bottom__span'>
-                                    <P>Number</P>
-                                    <P>:</P>
-                                    {item.Number}
-                                </BottomSpan>
-                                <BottomSpan className='bottom__span'>
-                                    <P>Vin</P>
-                                    <P>:</P>
-                                    {item.Vin}
-                                </BottomSpan>
-                                <BottomSpan className='bottom__span'>
-                                    <P>Millage</P>
-                                    <P>:</P>
-                                    {item.Milage}
-                                </BottomSpan>
-                                <BottomSpan className='bottom__span'>
-                                    <P>Location</P>
-                                    <P>:</P>
-                                    {item.Location}
-                                </BottomSpan>
-                            </BottomLeft>
-                            <BottomRight className='bottom__right'>
-                                <BottomSpan className='bottom__span'>
-                                    <P>Engine</P>
-                                    <P>:</P>
-                                    {item.Engine}
-                                </BottomSpan>
-                                <BottomSpan className='bottom__span'>
-                                    <P>Transmission</P>
-                                    <P>:</P>
-                                    {item.Transmission}
-                                </BottomSpan>
-                                <BottomSpan className='bottom__span'>
-                                    <P>Body</P>
-                                    <P>:</P>
-                                    {item.Body}
-                                </BottomSpan>
-                            </BottomRight>
+                            <BottomSpan>{item.description}</BottomSpan>
                         </TrendingCardMiddleBottom>
                     </TrendingCardMiddle>
                     <TrendingCardRight className='trending__cardRight'>
                         <TrendingCardRightCon className='trending__cardRightCon'>
                             <TimerCon className='timer__con'>
-                                <Timer className='timer'>{item.TimeRemaining}</Timer>
+                                <Timer className='timer'>{0}</Timer>
                             </TimerCon>
                             <MiddleCon className="middle__con">
                                 <MiddleLeft className="middle__left">
@@ -268,20 +256,22 @@ export default function TrendingCard() {
                                 </MiddleLeft>
                                 <MiddleRight className="middle__right">
                                     <MiddleText color='#43b055'>Current Bid</MiddleText>
-                                    <MiddlePrice>${item.CurrentBid}</MiddlePrice>
+                                    <MiddlePrice>₦{amt}</MiddlePrice>
                                 </MiddleRight>
                             </MiddleCon>
                             <TotalBidCon className='total__bidCon'>
                                 <TotalBidSpan className='total__bidSpan'>
                                     Total Bids :
-                                    <TotalBidP>{item.TotalBids}</TotalBidP>
+                                    <TotalBidP>{item.bids.length}</TotalBidP>
                                 </TotalBidSpan>
                             </TotalBidCon>
-                            <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
+                            <Link to={`/item-details/${item.id}`}>
+                                <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
+                            </Link>
                         </TrendingCardRightCon>
                     </TrendingCardRight>
                 </TrendingCardCon>
-            ))}
+})}
         </TrendingCardC>
     )
 }

@@ -6,6 +6,7 @@ import ActiveBids from "../../images/active_bids.png";
 import itemsWon from "../../images/itemsWon.png";
 import favorites from "../../images/favorites.png";
 import History from "../../Components/myaccount/dashboard/History";
+import { useSelector } from "react-redux";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,7 +24,7 @@ const Container = styled.div`
   width: 100%;
   box-sizing: border-box;
 `;
-const RightWrapper_Top = styled.div`
+const RightWrapperTop = styled.div`
   background-color: white;
   border-radius: 10px;
   width: 100%;
@@ -64,11 +65,11 @@ const ActivityImgCon = styled.div`
   max-height: 100px;
   //    background-color:red;
 `;
-const Activity_Img = styled.img`
+const ActivityImg = styled.img`
   //    flex:1;
   width: 70%;
 `;
-const ActivityTxt_Con = styled.div`
+const ActivityTxtCon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,7 +79,7 @@ const ActivityTxt = styled.div`
   font-size: ${(props) => props.fz};
   font-weight: ${(props) => props.fw};
 `;
-const RightWrapper_Bottom = styled.div`
+const RightWrapperBottom = styled.div`
   background-color: white;
   border-radius: 10px;
   width: 100%;
@@ -88,14 +89,14 @@ const RightWrapper_Bottom = styled.div`
 `;
 
 const Purchasing = styled.div``;
-const Purchasing_txt = styled.p`
+const Purchasingtxt = styled.p`
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 20px;
 `;
 
-const PurchasingTable_Con = styled.div``;
-const PurchasingTable_Header = styled.div`
+const PurchasingTableCon = styled.div``;
+const PurchasingTableHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -103,27 +104,28 @@ const PurchasingTable_Header = styled.div`
   // padding-bottom: 10px;
 `;
 
-const PurchasingTable_Header_TxtCon = styled.div`
+const PurchasingTableHeaderTxtCon = styled.div`
   // padding:3px;
   margin-right: 15px;
   cursor: pointer;
   `;
   
-  const PurchasingTable_Header_Txt = styled.p`
+  const PurchasingTableHeaderTxt = styled.p`
   font-size: 22px;
   font-weight: 400;
   margin-bottom:10px;
 `;
 
-const TableDetails_Con = styled.div``;
+const TableDetailsCon = styled.div``;
 
 function DashBoard() {
-    const [activePurchase, SetActivePurchase] = useState("Current");
+  const [activePurchase, SetActivePurchase] = useState("Current");
+  const { userBids } = useSelector((state) => state.bid);
 
   return (
     <Wrapper>
       <Container>
-        <RightWrapper_Top>
+        <RightWrapperTop>
           <MyActivity>
             <MyActivityTxt>My Activty</MyActivityTxt>
           </MyActivity>
@@ -131,52 +133,52 @@ function DashBoard() {
           <Activities>
             <Activity>
               <ActivityImgCon>
-                <Activity_Img src={ActiveBids} alt="ActiveBids" />
+                <ActivityImg src={ActiveBids} alt="ActiveBids" />
               </ActivityImgCon>
-              <ActivityTxt_Con>
+              <ActivityTxtCon>
                 <ActivityTxt fz="39px" fw={500}>
-                  80
+                  {userBids.length}
                 </ActivityTxt>
                 <ActivityTxt fz="19px" fw={500}>
                   Active Bids
                 </ActivityTxt>
-              </ActivityTxt_Con>
+              </ActivityTxtCon>
             </Activity>
             <Activity>
               <ActivityImgCon>
-                <Activity_Img src={itemsWon} alt="ActiveBids" />
+                <ActivityImg src={itemsWon} alt="ActiveBids" />
               </ActivityImgCon>
-              <ActivityTxt_Con>
+              <ActivityTxtCon>
                 <ActivityTxt fz="39px" fw={500}>
-                  15
+                  {userBids.filter((item) => item.bidStatus === 'won').length}
                 </ActivityTxt>
                 <ActivityTxt fz="19px" fw={500}>
                   items Won
                 </ActivityTxt>
-              </ActivityTxt_Con>
+              </ActivityTxtCon>
             </Activity>
             <Activity>
               <ActivityImgCon>
-                <Activity_Img src={favorites} alt="ActiveBids" />
+                <ActivityImg src={favorites} alt="ActiveBids" />
               </ActivityImgCon>
-              <ActivityTxt_Con>
+              <ActivityTxtCon>
                 <ActivityTxt fz="39px" fw={500}>
-                  115
+                  0
                 </ActivityTxt>
                 <ActivityTxt fz="19px" fw={500}>
                   Favorites
                 </ActivityTxt>
-              </ActivityTxt_Con>
+              </ActivityTxtCon>
             </Activity>
           </Activities>
-        </RightWrapper_Top>
-        <RightWrapper_Bottom>
+        </RightWrapperTop>
+        <RightWrapperBottom>
           <Purchasing>
-            <Purchasing_txt>Purchasing</Purchasing_txt>
+            <Purchasingtxt>My Bids</Purchasingtxt>
           </Purchasing>
-          <PurchasingTable_Con>
-            <PurchasingTable_Header>
-              <PurchasingTable_Header_TxtCon
+          <PurchasingTableCon>
+            <PurchasingTableHeader>
+              <PurchasingTableHeaderTxtCon
                 style={
                   activePurchase === "Current"
                     ? { borderBottom: "3px solid red" }
@@ -186,23 +188,23 @@ function DashBoard() {
                   SetActivePurchase("Current");
                 }}
               >
-                <PurchasingTable_Header_Txt>Current</PurchasingTable_Header_Txt>
-              </PurchasingTable_Header_TxtCon>
+                <PurchasingTableHeaderTxt>Current</PurchasingTableHeaderTxt>
+              </PurchasingTableHeaderTxtCon>
 
-              <PurchasingTable_Header_TxtCon
+              <PurchasingTableHeaderTxtCon
                 style={
-                  activePurchase === "Pending"
+                  activePurchase === "Won"
                     ? { borderBottom: "3px solid red" }
                     : {}
                 }
                 onClick={() => {
-                  SetActivePurchase("Pending");
+                  SetActivePurchase("Won");
                 }}
               >
-                <PurchasingTable_Header_Txt>Pending</PurchasingTable_Header_Txt>
-              </PurchasingTable_Header_TxtCon>
+                <PurchasingTableHeaderTxt>Pending</PurchasingTableHeaderTxt>
+              </PurchasingTableHeaderTxtCon>
 
-              <PurchasingTable_Header_TxtCon
+              <PurchasingTableHeaderTxtCon
                 style={
                   activePurchase === "History"
                     ? { borderBottom: "3px solid red" }
@@ -212,17 +214,17 @@ function DashBoard() {
                   SetActivePurchase("History");
                 }}
               >
-                <PurchasingTable_Header_Txt>History</PurchasingTable_Header_Txt>
-              </PurchasingTable_Header_TxtCon>
-            </PurchasingTable_Header>
+                <PurchasingTableHeaderTxt>History</PurchasingTableHeaderTxt>
+              </PurchasingTableHeaderTxtCon>
+            </PurchasingTableHeader>
             <HR />
-            <TableDetails_Con>
-              {activePurchase === "Current" && <CurrentBids />}
-              {activePurchase === "Pending" && <PendingBids />}
-              {activePurchase === "History" && <History />}
-            </TableDetails_Con>
-          </PurchasingTable_Con>
-        </RightWrapper_Bottom>
+            <TableDetailsCon>
+              {activePurchase === "Current" && <CurrentBids data={userBids.filter((item) => item.bidStatus === 'ongoing')} />}
+              {activePurchase === "Won" && <PendingBids data={userBids.filter((item) => item.bidStatus === 'won')} />}
+              {activePurchase === "History" && <History data={userBids.filter((item) => item.bidStatus !== 'ongoing')} />}
+            </TableDetailsCon>
+          </PurchasingTableCon>
+        </RightWrapperBottom>
       </Container>
     </Wrapper>
   );

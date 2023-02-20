@@ -1,5 +1,7 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import ErrorImg from '../images/error.png';
+import Spinner from "../Components/utils/Spinner";
+import errorImg from '../images/error.png';
 const Container = styled.div`
    width:100vw;
    height:100%;
@@ -16,7 +18,7 @@ justify-content:center';
 width:100%;
 `;
 
-const Error_Img = styled.img`
+const ErrorImg = styled.img`
 margin-top:50px;
 width:60%;
 `
@@ -37,11 +39,16 @@ const A = styled.a`
   margin: 0 5px;
 `;
 
-function Error () {
+function Error() {
+  const { loading } = useSelector((state) => state.auth);
+  window.scrollTo(0, 0);
+
   return (
+    <>
+      <Spinner show={loading} />
     <Container>
       <ErrorImage className="flex acc jcc">
-        <Error_Img src={ErrorImg} />
+        <ErrorImg src={errorImg} />
       </ErrorImage>
       <ErrorMessage className="flex acc jcc">
         <ErrorTxt>
@@ -49,7 +56,8 @@ function Error () {
           <A href="#">homepage</A>
         </ErrorTxt>
       </ErrorMessage>
-    </Container>
+        </Container>
+    </>
   );
 }
 

@@ -23,7 +23,7 @@ const Table = styled.table`
   align-items: center;
   justify-content: space-between;
 `;
-const TbodyTr = styled.div`
+const TbodyTr = styled.tbody`
   display: flex;
   align-items: center;
   // flex-wrap: wrap;
@@ -74,57 +74,14 @@ const InfoText = styled.p`
    color:grey;
 `;
 
-function ProductDescription() {
+function ProductDescription({data}) {
   return (
     <Container>
       <Header>
         <HeaderTxt>2012 Ford Escape Hybrid (Brooklyn, NY 11214)</HeaderTxt>
       </Header>
       <ProductTable>
-        <Table className="product-info-Table">
-          <Tbody>
-            <TbodyTr>
-              <Tr>
-                <Th>Condition </Th>
-                <Td>New</Td>
-              </Tr>
-              <Tr>
-                <Th>Mileage </Th>
-                <Td>15,000 miles</Td>
-              </Tr>
-            </TbodyTr>
-            <TbodyTr>
-              <Tr className="ev">
-                <Th>Year</Th>
-                <Td>09-2017</Td>
-              </Tr>
-              <Tr className="ev">
-                <Th>Engine </Th>
-                <Td>I-4 1,5 l</Td>
-              </Tr>
-            </TbodyTr>
-            <TbodyTr>
-              <Tr>
-                <Th>Fuel </Th>
-                <Td>Regular</Td>
-              </Tr>
-              <Tr>
-                <Th>Transmission </Th>
-                <Td>Automatic</Td>
-              </Tr>
-            </TbodyTr>
-            <TbodyTr>
-              <Tr className="ev">
-                <Th>Color </Th>
-                <Td>Blue</Td>
-              </Tr>
-              <Tr className="ev">
-                <Th>Doors </Th>
-                <Td>5</Td>
-              </Tr>
-            </TbodyTr>
-          </Tbody>
-        </Table>
+        {data}
       </ProductTable>
       <ProductInfoCon>
         <ProductInfo>
@@ -179,7 +136,7 @@ function ProductDescription() {
           </InfoText>
           <InfoText>Condition: Untested - Sold As-Is</InfoText>
           <InfoText>
-            Employees of Sbidu, its subcontractors and affiliated companies,
+            Employees of Attic, its subcontractors and affiliated companies,
             employees of the NYC Government and those bidding on behalf of
             PropertyRoom.com, its subcontractors and affiliated companies and
             employees of the NYC Government are not permitted to bid on or
@@ -208,7 +165,7 @@ function ProductDescription() {
         <ProductInfo>
           <InfoHeaderText>Bidding</InfoHeaderText>
           <InfoText>
-            At this time Sbidu only accepts bidders from the United States,
+            At this time Attic only accepts bidders from the United States,
             Canada and Mexico on Vehicles and Heavy Industrial Equipment. The
             Bid Now button will appear on auctions where you are qualified to
             place a bid
@@ -226,7 +183,7 @@ function ProductDescription() {
             All applicable shipping, logistics, transportation, customs, fees,
             taxes, export/import activities and all associated costs are the
             sole responsibility of the BUYER. No shipping, customs, export or
-            import assistance is available from Sbidu
+            import assistance is available from Attic
           </InfoText>
           <InfoText>
             When applicable for a given ASSET, BUYER bears responsibility for

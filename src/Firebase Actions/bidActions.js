@@ -1,14 +1,14 @@
 import { doc, addDoc, updateDoc, getDoc, deleteDoc, getDocs, collection } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-async function createBid(name, price, status) {
+async function createBid(name, price, userId) {
   try {
     await addDoc(doc(db, 'bids'), {
     id: '',
     userName: name,
     price: price,
-    bidStatus: status,
-    userId: auth.currentUser.uid,
+    bidStatus: 'inprogress',
+    userId: userId,
           createdAt: Date.now().toString(),
           updatedAt: Date.now().toString(),
   }).then(async (docRef) => {

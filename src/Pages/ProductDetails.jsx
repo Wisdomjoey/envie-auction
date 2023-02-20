@@ -61,9 +61,12 @@ const SetProductDetails = styled.div`
 
 function ProductDetails() {
   const [productDetails, SetProductDetails] = useState("Description");
+  window.scrollTo(0, 0);
+
   useEffect(() => {
     console.log(productDetails);
   }, [productDetails]);
+
   return (
     <ProductDetailsCon>
       <HeaderSection/>

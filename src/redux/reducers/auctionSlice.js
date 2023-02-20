@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const auctionSlice = createSlice({
-  name: 'auctions',
+  name: 'auction',
   initialState: {
     auctions: [],
     userAuctions: []
@@ -11,7 +11,7 @@ const auctionSlice = createSlice({
       state.auctions = payload;
     },
     setuserauctions: (state, {payload}) => {
-      state.auctions = payload;
+      state.userAuctions = payload;
     },
   },
   extraReducers: (builder) => {

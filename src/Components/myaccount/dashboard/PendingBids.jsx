@@ -1,4 +1,7 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 const Container = styled.div``;
 const Table = styled.table`
@@ -8,9 +11,9 @@ const Table = styled.table`
   width: 100%;
 `;
 
-const Table_Body = styled.tbody``;
+const TableBody = styled.tbody``;
 
-const Table_Tr = styled.tr`
+const TableTr = styled.tr`
   text-align: left;
   margin-right: 8px;
   width: 100%;
@@ -20,121 +23,54 @@ const Table_Tr = styled.tr`
     // background-color: #e0e0f1;
   }
 `;
-const Table_Th = styled.th`
+const TableTh = styled.th`
   margin: 8px;
   padding: 10px;
   text-align: left;
 `;
-const Table_Td = styled.td`
+const TableTd = styled.td`
   padding: 10px;
   margin: 8px;
   text-align: left;
 `;
 
-function PendingBids() {
+function PendingBids({ data }) {
+  const [auctions, setauctions] = useState([]);
+  const [loading, setloading] = useState(true);
+  const { userAuctions } = useSelector((state) => state.auction);
+
+  useEffect(() => {
+    var list = [];
+
+    for (let index = 0; index < data.length; index++) {
+      list.push(userAuctions.filter((item) => item.id === data[index].auctionId)[0]);
+    }
+
+    setauctions(list);
+    setloading(false);
+  }, [data, userAuctions]);
+
   return (
     <Container>
       <Table>
-        <Table_Body>
-          <Table_Tr>
-            <Table_Th>item</Table_Th>
-            <Table_Th>Bid Price</Table_Th>
-            <Table_Th>Highest Bid</Table_Th>
-            <Table_Th>Lowest Bid</Table_Th>
-            <Table_Th>Expires</Table_Th>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-          <Table_Tr>
-            <Table_Td>2018 Hyundai Sonata</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-            <Table_Td> $1,775.00</Table_Td>
-          </Table_Tr>
-        </Table_Body>
+        <TableBody>
+          <TableTr>
+            <TableTh>item</TableTh>
+            <TableTh>Bid Price</TableTh>
+            <TableTh>Highest Bid</TableTh>
+            <TableTh>Lowest Bid</TableTh>
+            <TableTh>Expires</TableTh>
+          </TableTr>
+          {data.map((val, ind) => {
+            return <TableTr key={ind}>
+              <TableTd>{auctions[ind].name}</TableTd>
+              <TableTd> ₦{val.amount}</TableTd>
+              <TableTd> ₦0</TableTd>
+              <TableTd> ₦0</TableTd>
+              <TableTd> 0 days</TableTd>
+            </TableTr>;
+          })}
+        </TableBody>
       </Table>
     </Container>
   );

@@ -23,6 +23,14 @@ import img from "../../images/product1.png";
 import ActiveBidders from "../../images/ActiveBidders.png";
 import watching from "../../images/watching.png";
 import searchIcon from "../../images/search-icon.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
+import { createBid, getUserBids } from "../../Firebase Actions/userActions";
+import { getAllAuctions, updateAuction } from "../../Firebase Actions/auctionActions";
+import { setauctions, setuserauctions } from "../../redux/reducers/auctionSlice";
+import { getAllBids } from "../../Firebase Actions/bidActions";
+import { setbids, setuserbids } from "../../redux/reducers/bidSlice";
+import Spinner from "../utils/Spinner";
 
 
 const ProductHomeSectionCon = styled.div`
@@ -48,12 +56,7 @@ const ImageSliderCon = styled.div`
   flex-direction: column;
 `;
 const MainImgCon = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 50px;
+  width: 800px;
 `;
 const MainImg = styled.img`
   box-shadow: 0px 9px 30px 0px rgb(22 26 57 / 16%);
@@ -242,6 +245,11 @@ const BidDetailsCon = styled.div`
   justify-content: flex-start;
   flex-direction: column;
   padding-right: 8px;
+`;
+const BidDetailsConC = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BidDetails = styled.div`
@@ -453,56 +461,109 @@ const SetProductDetails = styled.div`
 
 
 
-const ProductHomeSection = () =>{
+const ProductHomeSection = ({ data }) => {
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [amount, setamount] = useState(0);
+  const [isLoading, setloading] = useState(false);
+  const { signed } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const alert = useAlert();
+  var amt = 0;
+
+  console.log(data)
+  for (let index = 0; index < data.bids.length; index++) {
+    if (data.bids[index].amount > amt) {
+      amt = data.bids[index].amount.toFixed(2);
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (signed) {
+      if (amount === '') {
+        alert.error(<p style={{ textTransform: 'none' }}>Field should not be empty</p>);
+      } else {
+        if (data.bids.filter((item) => item.userId === user.id).length > 0) {
+          alert.error(<p style={{ textTransform: 'none' }}>You already placed a bid on this auction</p>);
+        } else {
+          if (parseFloat(amount) >= parseFloat(data.minBidAmount)) {
+            if (parseFloat(amount) > amt) {
+              setloading(true);
+
+              await createBid(user.id, data.id, parseFloat(amount)).then(async (value) => {
+                if (value.status) {
+                  await updateAuction(data.id, {
+                    bids: [...data.bids, {
+                      userId: user.id,
+                      userName: user.name,
+                      date: Date.now(),
+                      amount: parseFloat(amount)
+                    }]
+                  }).then(async () => {
+                    await getAllAuctions().then(async (value1) => {
+                      dispatch(setauctions(value1.result));
+                      dispatch(setuserauctions(value1.result.filter((item) => item.userId === user.id)));
+
+                      await getUserBids(user.id).then((value2) => {
+                        if (value2.status) {
+                          dispatch(setuserbids(value2.result));
+                          alert.success(<p style={{ textTransform: 'none' }}>Bid has been uploaded</p>);
+                          setamount(0);
+                        } else {
+                          alert.error(<p style={{ textTransform: 'none' }}>An Error occurred</p>);
+                          console.log(value2.result);
+                        }
+                      })
+                    });
+                  })
+                } else {
+                  alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
+                  console.log(value.result);
+                }
+              });
+
+              setloading(false);
+            } else {
+              alert.error(<p style={{ textTransform: 'none' }}>Your bid amount is lower than the current highest bid</p>);
+            }
+          } else {
+            alert.error(<p style={{ textTransform: 'none' }}>Bid amount cannot be lower than the minimum amount</p>);
+          }
+        }
+      }
+    } else {
+      alert.error(<p style={{ textTransform: 'none' }}>You are not logged in</p>);
+    }
+  }
 
   return (
+        <>
+      <Spinner show={isLoading} />
     <ProductHomeSectionCon>
       <ImageSliderCon>
-        <Swiper
-          style={{
-            "--swiper-navigation-color": "#fff",
-            "--swiper-pagination-color": "#fff",
-          }}
-          loop={true}
-          spaceBetween={10}
-          navigation={true}
-          thumbs={{ swiper: thumbsSwiper }}
-          modules={[FreeMode, Navigation, Thumbs]}
-          className="mySwiper2"
-        >
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-        </Swiper>
+        <MainImgCon>
+          <Swiper
+            style={{
+              "--swiper-navigation-color": "#fff",
+              "--swiper-pagination-color": "#fff",
+            }}
+            loop={true}
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="mySwiper2"
+          >
+            {data.images.map((val, ind) => {
+              return <SwiperSlide key={ind}>
+                <img alt='' src={val} />
+              </SwiperSlide>;
+            })}
+          </Swiper>
+        </MainImgCon>
         <Swiper
           onSwiper={setThumbsSwiper}
           loop={true}
@@ -513,36 +574,11 @@ const ProductHomeSection = () =>{
           modules={[FreeMode, Navigation, Thumbs]}
           className="mySwiper"
         >
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
-          <SwiperSlide>
-            <img alt='' src={img} />
-          </SwiperSlide>
+          {data.images.map((val, ind) => {
+            return <SwiperSlide key={ind}>
+              <img alt='' src={val} />
+            </SwiperSlide>;
+          })}
         </Swiper>
       </ImageSliderCon>
 
@@ -552,7 +588,7 @@ const ProductHomeSection = () =>{
         <ProductInfoLeftCon>
           <ProductInfo>
             <ProductInfoTop>
-              <ProductName>The Breeze Zodiac IX</ProductName>
+              <ProductName>{data.name}</ProductName>
             </ProductInfoTop>
             <ProductInfoBottom>
               <ListingId>Listing ID: 14076242</ListingId>
@@ -566,7 +602,7 @@ const ProductHomeSection = () =>{
                 Current Price
               </ProductPriceLeftTxt>
               <ProductPriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
-                Buyer's Premium
+                Minimum Bidding
               </ProductPriceLeftTxt>
               <ProductPriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
                 Bid Increment (US)
@@ -582,33 +618,33 @@ const ProductHomeSection = () =>{
                 mb="20px"
                 mt="20px"
               >
-                US $700.00
+                ₦{amt}
               </ProductPriceLeftTxt>
               <ProductPriceLeftTxt mt="10px" mb="10px" fz="19px">
-                10.00%
+                ₦{data.minBidAmount}
               </ProductPriceLeftTxt>
               <ProductPriceLeftTxt mt="10px" mb="10px" fz="19px">
-                $50.00
+                ₦10,000.00
               </ProductPriceLeftTxt>
               {/* </ProductPriceRightTxtCon> */}
             </ProductPriceRight>
           </ProductPrice>
           <AuctionTimeHr mg="25px" wd="95%" />
 
-          <SubmitBid>
+          <SubmitBid id='submitbid'>
             <SubmitBidImgCon>
               <SubmitBidImg src={searchIcon} alt="searchIcon" />
             </SubmitBidImgCon>
             <InputContainer>
-              <Input placeholder="Enter Your Bid Amount" />
+              <Input type='number' onChange={(e) => setamount(e.target.value)} placeholder="Enter Your Bid Amount" />
             </InputContainer>
             <SubmitBidButtonCon>
-              <SubmitBidButton>Submit A Bid</SubmitBidButton>
+              <SubmitBidButton onClick={(e) => handleSubmit(e)}>Submit A Bid</SubmitBidButton>
             </SubmitBidButtonCon>
           </SubmitBid>
           <BuyProductCon>
             <BuyNowBtnCon>
-              <BuyBtn>BUY NOW: $4,200</BuyBtn>
+              <BuyBtn>BUY NOW: ₦{data.buyNowAmount}</BuyBtn>
             </BuyNowBtnCon>
             <WishListBtnCon>
               <WishListButton>
@@ -626,7 +662,8 @@ const ProductHomeSection = () =>{
           </BuyProductCon>
         </ProductInfoLeftCon>
         {/* End Of ProductInfoLeftCon */}
-
+        <br />
+        <br />
         <ProductInfoRight>
           <ProductInfoRightCon>
             <AuctionTimeRemaining>
@@ -639,45 +676,47 @@ const ProductHomeSection = () =>{
             </AuctionTimeRemaining>
             <BidDetailsCon>
               <AuctionTimeHr mg="5px" wd="100%" />
-              <BidDetails>
-                {/* <BidDetailsImgCon> */}
-                <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
-                {/* </BidDetailsImgCon> */}
-                <BidDetailsImgTxtCon>
-                  <BidDetailsImgTxt fw={600} fz="35px">
-                    61
-                  </BidDetailsImgTxt>
-                  <BidDetailsImgTxt fw={400} fz="13px">
-                    Active Bidders
-                  </BidDetailsImgTxt>
-                </BidDetailsImgTxtCon>
-              </BidDetails>
-              <BidDetails>
-                {/* <BidDetailsImgCon> */}
-                <BidDetailsImg src={watching} alt="watching" />
-                {/* </BidDetailsImgCon> */}
-                <BidDetailsImgTxtCon>
-                  <BidDetailsImgTxt fw={600} fz="35px">
-                    203
-                  </BidDetailsImgTxt>
-                  <BidDetailsImgTxt fw={400} fz="13px">
-                    Watching
-                  </BidDetailsImgTxt>
-                </BidDetailsImgTxtCon>
-              </BidDetails>
-              <BidDetails>
-                {/* <BidDetailsImgCon> */}
-                <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
-                {/* </BidDetailsImgCon> */}
-                <BidDetailsImgTxtCon>
-                  <BidDetailsImgTxt fw={600} fz="35px">
-                    82
-                  </BidDetailsImgTxt>
-                  <BidDetailsImgTxt fw={400} fz="13px">
-                    TotalBid
-                  </BidDetailsImgTxt>
-                </BidDetailsImgTxtCon>
-              </BidDetails>
+              <BidDetailsConC>
+                <BidDetails>
+                  {/* <BidDetailsImgCon> */}
+                  <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
+                  {/* </BidDetailsImgCon> */}
+                  <BidDetailsImgTxtCon>
+                    <BidDetailsImgTxt fw={600} fz="35px">
+                      {data.bids.length}
+                    </BidDetailsImgTxt>
+                    <BidDetailsImgTxt fw={400} fz="13px">
+                      Active Bidders
+                    </BidDetailsImgTxt>
+                  </BidDetailsImgTxtCon>
+                </BidDetails>
+                <BidDetails>
+                  {/* <BidDetailsImgCon> */}
+                  <BidDetailsImg src={watching} alt="watching" />
+                  {/* </BidDetailsImgCon> */}
+                  <BidDetailsImgTxtCon>
+                    <BidDetailsImgTxt fw={600} fz="35px">
+                      0
+                    </BidDetailsImgTxt>
+                    <BidDetailsImgTxt fw={400} fz="13px">
+                      Watching
+                    </BidDetailsImgTxt>
+                  </BidDetailsImgTxtCon>
+                </BidDetails>
+                <BidDetails>
+                  {/* <BidDetailsImgCon> */}
+                  <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
+                  {/* </BidDetailsImgCon> */}
+                  <BidDetailsImgTxtCon>
+                    <BidDetailsImgTxt fw={600} fz="35px">
+                      {data.bids.length}
+                    </BidDetailsImgTxt>
+                    <BidDetailsImgTxt fw={400} fz="13px">
+                      TotalBid
+                    </BidDetailsImgTxt>
+                  </BidDetailsImgTxtCon>
+                </BidDetails>
+              </BidDetailsConC>
             </BidDetailsCon>
           </ProductInfoRightCon>
           <UseFullLinks>
@@ -686,7 +725,8 @@ const ProductHomeSection = () =>{
           </UseFullLinks>
         </ProductInfoRight>
       </ProductInfoCon>
-    </ProductHomeSectionCon>
+        </ProductHomeSectionCon>
+    </>
   );
 }
 
