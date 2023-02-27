@@ -9,7 +9,7 @@ import Spinner from "../../Components/utils/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { createAuction, getAllAuctions } from "../../Firebase Actions/auctionActions";
-import { setauctions } from "../../redux/reducers/auctionSlice";
+import { setauctions, setuserauctions } from "../../redux/reducers/auctionSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 // import storage from "../../firebase";
@@ -141,17 +141,21 @@ export default function NewBid() {
             await getAllAuctions().then((value) => {
               if (value.status) {
                 dispatch(setauctions(value.result));
+                dispatch(setuserauctions(value.result.filter((item) => item.userId === user.id)));
                 alert.success(<p style={{ textTransform: 'none' }}>Auction created Successfully</p>);
               } else {
+                alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
                 console.log(value.result);
               }
             })
           } else {
+            alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
             console.log(value.result);
           }
         });
 
         setloading(false);
+        setdata({});
       } else {
         alert.error(<p style={{ textTransform: 'none' }}>Please upload only images</p>);
       }

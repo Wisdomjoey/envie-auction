@@ -1,23 +1,16 @@
 import { Delete, Gavel, ShoppingBagRounded } from "@mui/icons-material";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { MyBids__Upcomming } from "../../data";
 import { deleteAuction, getAllAuctions } from "../../Firebase Actions/auctionActions";
 import { setauctions, setuserauctions } from "../../redux/reducers/auctionSlice";
 import { setloading } from "../../redux/reducers/authSlice";
-const Container = styled.div`
-  dsiplay: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 100%;
-  height: 87%;
-  display: flex;
-  gap: 30px;
-  margin-bottom: 100px;
-`;
+
 const FeaturedAuctionsCard = styled.div`
 `;
 const FeturedProduct = styled.div`
@@ -71,6 +64,7 @@ const CardTopIcon = styled.div`
   z-index: 30;
   background: linear-gradient(323deg, #b122e6 0%, #ff63de 100%);
   box-shadow: 0px 8px 8px 0px rgb(0 0 0 / 13%);
+  cursor: pointer;
 `;
 const CardBottom = styled.div`
   height: 275px;
@@ -191,98 +185,112 @@ const BBbottom = styled.div`
 `;
 
 
-function Upcomming({data}) {
+function Upcomming({ item }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const alert = useAlert();
+  const [days, setdays] = useState();
+  const [hours, sethours] = useState();
+  const [minutes, setminutes] = useState();
+  const [seconds, setseconds] = useState();
+
+  const getTime = (ms) => {
+    const time = ms - Date.now();
+
+    setdays(Math.floor(time / (1000 * 60 * 60 * 24)));
+    sethours(Math.floor((time / (1000 * 60 * 60)) % 24));
+    setminutes(Math.floor((time / 1000 / 60) % 60));
+    setseconds(Math.floor((time / 1000) % 60));
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => getTime(item.bidEndTime), 1000);
+
+    return () => clearInterval(interval);
+  }, [item.bidEndTime])
 
   const handleDelete = async (e, id) => {
     e.preventDefault();
     dispatch(setloading(true));
 
-    await deleteAuction().then(async () => {
+    await deleteAuction(id).then(async () => {
       await getAllAuctions().then((value) => {
         dispatch(setauctions(value.result));
         dispatch(setuserauctions(value.result.filter((item) => item.userId === user.id)));
-        dispatch(setloading(false));
         alert.success(<p style={{ textTransform: 'none' }}>Auction deleted successfully</p>);
       });
     });
   }
 
+  var amt = 0;
+
+  for (let index = 0; index < item.bids.length; index++) {
+    if (item.bids[index].amount > amt) {
+      amt = item.bids[index].amount;
+    }
+  }
+
   return (
-    <Container>
-      {data.map((item, ind) => {
-        var amt = 0;
-
-        for (let index = 0; index < item.bids.length; index++) {
-          if (item.bids[index].amount > amt) {
-            amt = item.bids[index].amount.toFixed(2);
-          }
-        }
-
-        return <FBottomCard key={ind} className="fBottom__card">
-          <CardTop className="card__top">
-            <CardTopImg className="card__topImg" src={item.images[0]} />
-            <CardTopIcon onClick={(e) => handleDelete(e, item.id)} className="card__topIcon">
-              <Delete sx={{ fontSize: 20, color: "white" }} />
-            </CardTopIcon>
-          </CardTop>
-          <CardBottom className="card__bottom">
-            <BottomTop className="bottom__top">
-              <BottomSpan>{item.Name}</BottomSpan>
-            </BottomTop>
-            <BottomMiddle className="bottom__middle">
-              <Middle w="1px" className="middle">
-                <MiddleCon className="middle__con">
-                  <MiddleLeft className="middle__left">
-                    <Gavel sx={{ color: "#43b055", fontSize: 40 }} />
-                  </MiddleLeft>
-                  <MiddleRight className="middle__right">
-                    <MiddleText color="#43b055">Current Bid</MiddleText>
-                    <MiddlePrice>₦{amt}</MiddlePrice>
-                  </MiddleRight>
-                </MiddleCon>
-              </Middle>
-              <Middle className="middle">
-                <MiddleCon className="middle__con">
-                  <MiddleLeft className="middle__left">
-                    <ShoppingBagRounded
-                      sx={{ color: "#ee4730", fontSize: 40 }}
-                    />
-                  </MiddleLeft>
-                  <MiddleRight className="middle__right">
-                    <MiddleText color="#ee4730">Buy Now</MiddleText>
-                    <MiddlePrice>₦{item.buyNowAmount}</MiddlePrice>
-                  </MiddleRight>
-                </MiddleCon>
-              </Middle>
-            </BottomMiddle>
-            <BottomBottom className="bottom__bottom">
-              <BBTop className="bb__top">
-                <BBTopLeft className="bb__topLeft">
-                  <BBTopLeftCon className="bb__topLeftCon">
-                    <BBTopSpan className="bb__topSpan" color="#f5317f">
-                      1d : 12h : 12m : 60s
-                    </BBTopSpan>
-                  </BBTopLeftCon>
-                </BBTopLeft>
-                <BBTopRight className="bb_topRight">
-                  <BBTopRightCon className="bb__topRight">
-                    <BBTopSpan className="bb__topSpan" color="#43b055">
-                      {item.bids.length} Bids
-                    </BBTopSpan>
-                  </BBTopRightCon>
-                </BBTopRight>
-              </BBTop>
-              <BBbottom className="bb__bottom">
-                Status: {item.reviewStatus}
-              </BBbottom>
-            </BottomBottom>
-          </CardBottom>
-        </FBottomCard>
-})}
-    </Container>
+    <FBottomCard className="fBottom__card">
+      <CardTop className="card__top">
+        <CardTopImg className="card__topImg" src={item.images[0]} />
+        <CardTopIcon onClick={(e) => handleDelete(e, item.id)} className="card__topIcon">
+          <Delete sx={{ fontSize: 20, color: "white" }} />
+        </CardTopIcon>
+      </CardTop>
+      <CardBottom className="card__bottom">
+        <BottomTop className="bottom__top">
+          <BottomSpan>{item.Name}</BottomSpan>
+        </BottomTop>
+        <BottomMiddle className="bottom__middle">
+          <Middle w="1px" className="middle">
+            <MiddleCon className="middle__con">
+              <MiddleLeft className="middle__left">
+                <Gavel sx={{ color: "#43b055", fontSize: 40 }} />
+              </MiddleLeft>
+              <MiddleRight className="middle__right">
+                <MiddleText color="#43b055">Current Bid</MiddleText>
+                <MiddlePrice>₦{amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
+              </MiddleRight>
+            </MiddleCon>
+          </Middle>
+          <Middle className="middle">
+            <MiddleCon className="middle__con">
+              <MiddleLeft className="middle__left">
+                <ShoppingBagRounded
+                  sx={{ color: "#ee4730", fontSize: 40 }}
+                />
+              </MiddleLeft>
+              <MiddleRight className="middle__right">
+                <MiddleText color="#ee4730">Buy Now</MiddleText>
+                <MiddlePrice>₦{item.buyNowAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
+              </MiddleRight>
+            </MiddleCon>
+          </Middle>
+        </BottomMiddle>
+        <BottomBottom className="bottom__bottom">
+          <BBTop className="bb__top">
+            <BBTopLeft className="bb__topLeft">
+              <BBTopLeftCon className="bb__topLeftCon">
+                <BBTopSpan className="bb__topSpan" color="#f5317f">
+                  {days}d : {hours}h : {minutes}m : {seconds}s
+                </BBTopSpan>
+              </BBTopLeftCon>
+            </BBTopLeft>
+            <BBTopRight className="bb_topRight">
+              <BBTopRightCon className="bb__topRight">
+                <BBTopSpan className="bb__topSpan" color="#43b055">
+                  {item.bids.length} Bids
+                </BBTopSpan>
+              </BBTopRightCon>
+            </BBTopRight>
+          </BBTop>
+          <BBbottom className="bb__bottom">
+            Status: {item.reviewStatus}
+          </BBbottom>
+        </BottomBottom>
+      </CardBottom>
+    </FBottomCard>
   );
 }
 

@@ -120,7 +120,7 @@ const TableDetailsCon = styled.div``;
 
 function DashBoard() {
   const [activePurchase, SetActivePurchase] = useState("Current");
-  const { userBids } = useSelector((state) => state.bid);
+  const { userBids, bidWon } = useSelector((state) => state.bid);
 
   return (
     <Wrapper>
@@ -150,7 +150,7 @@ function DashBoard() {
               </ActivityImgCon>
               <ActivityTxtCon>
                 <ActivityTxt fz="39px" fw={500}>
-                  {userBids.filter((item) => item.bidStatus === 'won').length}
+                  {bidWon}
                 </ActivityTxt>
                 <ActivityTxt fz="19px" fw={500}>
                   items Won
@@ -193,19 +193,6 @@ function DashBoard() {
 
               <PurchasingTableHeaderTxtCon
                 style={
-                  activePurchase === "Won"
-                    ? { borderBottom: "3px solid red" }
-                    : {}
-                }
-                onClick={() => {
-                  SetActivePurchase("Won");
-                }}
-              >
-                <PurchasingTableHeaderTxt>Pending</PurchasingTableHeaderTxt>
-              </PurchasingTableHeaderTxtCon>
-
-              <PurchasingTableHeaderTxtCon
-                style={
                   activePurchase === "History"
                     ? { borderBottom: "3px solid red" }
                     : {}
@@ -219,9 +206,8 @@ function DashBoard() {
             </PurchasingTableHeader>
             <HR />
             <TableDetailsCon>
-              {activePurchase === "Current" && <CurrentBids data={userBids.filter((item) => item.bidStatus === 'ongoing')} />}
-              {activePurchase === "Won" && <PendingBids data={userBids.filter((item) => item.bidStatus === 'won')} />}
-              {activePurchase === "History" && <History data={userBids.filter((item) => item.bidStatus !== 'ongoing')} />}
+              {activePurchase === "Current" && <CurrentBids data={userBids} />}
+              {activePurchase === "History" && <History data={userBids} />}
             </TableDetailsCon>
           </PurchasingTableCon>
         </RightWrapperBottom>

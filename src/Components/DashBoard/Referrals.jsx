@@ -106,10 +106,20 @@ const Submit = styled.button`
   margin-top:20px;
   margin-bottom:20px;
 `;
+const Container1 = styled.div`
+  dsiplay: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 87%;
+  display: flex;
+  gap: 30px;
+  margin-bottom: 100px;
+`;
 
 function Referrals() {
   const { userAuctions, loading } = useSelector((state) => state.auction);
-  console.log(userAuctions);
 
   return (
         <>
@@ -123,13 +133,17 @@ function Referrals() {
         </PersonalProfileHeader>
       </PersonalProfileWrapper>
       <Components>
-      <Upcomming data={userAuctions} />
+          <Container1>
+            {userAuctions.map((item, ind) => {
+              return <Upcomming item={item} key={ind} />
+            })}
+          </Container1>
       </Components>
-      <Link to='/create-auction'>
         <SubmitCon>
-          <Submit>Logout</Submit>
-        </SubmitCon>
+      <Link to='/create-auction'>
+          <Submit>Create Auction</Submit>
       </Link>
+        </SubmitCon>
         </Container>
     </>
   );

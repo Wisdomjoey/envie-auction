@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { setbidwon } from "../../../redux/reducers/bidSlice";
 const Container = styled.div``;
 const Table = styled.table`
   border-collapse: collapse;
@@ -35,39 +36,61 @@ const TableTd = styled.td`
 `;
 
 function History({ data }) {
-  const [auctions, setauctions] = useState([]);
+  const [auction, setauctions] = useState([]);
   const [loading, setloading] = useState(true);
-  const { userAuctions } = useSelector((state) => state.auction);
+  const { auctions } = useSelector((state) => state.auction);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     var list = [];
 
     for (let index = 0; index < data.length; index++) {
-      list.push(userAuctions.filter((item) => item.id === data[index].auctionId)[0]);
+      const auc = auctions.filter((item) => item.id === data[index].auctionId && item.bidEndTime - Date.now() <= 0)[0]
+
+      if (auc !== undefined) {
+        list.push(auc);
+      }
     }
 
     setauctions(list);
     setloading(false);
-  }, [data, userAuctions]);
+  }, [data, auctions]);
 
-  return (
+  return !loading && (
     <Container>
       <Table>
         <TableBody>
           <TableTr>
-            <TableTh>item</TableTh>
+            <TableTh>Item</TableTh>
             <TableTh>Bid Price</TableTh>
             <TableTh>Highest Bid</TableTh>
             <TableTh>Lowest Bid</TableTh>
-            <TableTh>Expires</TableTh>
+            <TableTh>Status</TableTh>
           </TableTr>
-          {data.map((val, ind) => {
+          {auction.length !== 0 && data.map((val, ind) => {
+            var amtH = 0;
+
+            for (let index = 0; index < auction[ind].bids.length; index++) {
+              if (auction[ind].bids[index].amount > amtH) {
+                amtH = auction[ind].bids[index].amount;
+              }
+            }
+            var amtL = amtH;
+
+            for (let index = 0; index < auction[ind].bids.length; index++) {
+              if (auction[ind].bids[index].amount < amtL) {
+                amtL = auction[ind].bids[index].amount;
+              }
+            }
+
+            if (val.amount >= amtH) dispatch(setbidwon())
+
             return <TableTr key={ind}>
-              <TableTd>{auctions[ind].name}</TableTd>
-              <TableTd> ₦{val.amount}</TableTd>
-              <TableTd> ₦0</TableTd>
-              <TableTd> ₦0</TableTd>
-              <TableTd> 0 days</TableTd>
+              <TableTd>{auction[ind].name}</TableTd>
+              <TableTd>₦{val.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableTd>
+              <TableTd>₦{amtH.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableTd>
+              <TableTd>₦{amtL.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableTd>
+              <TableTd>{val.amount < amtH ? 'Lost' : 'Won'}</TableTd>
             </TableTr>;
           })}
         </TableBody>

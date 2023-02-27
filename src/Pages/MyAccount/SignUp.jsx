@@ -269,7 +269,7 @@ function SignUp() {
   const [userdata, setdata] = useState({});
   const [isLoading, setloading] = useState(false);
   const navigate = useNavigate();
-  const {loading} = useSelector((state) => state.auth);
+  const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -302,15 +302,18 @@ function SignUp() {
               await createUser(value.result.uid, userdata.name, userdata.phone, userdata.address, userdata.username, userdata.file, userdata.email, userdata.utility).then(async (value1) => {
                 if (value1.status) {
                   alert.success(<p style={{ textTransform: 'none' }}>Registration Successfull</p>);
+                  alert.info(<p style={{ textTransform: 'none' }}><b>Note:</b> Account review can take up to 5 working days or less, so please keep checking in</p>);
 
                   await signOut(auth).then(() => {
                     navigate('/login');
                   });
                 } else {
+                  alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
                   console.log(value1.result);
                 }
               });
             } else {
+              alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
               console.log(value.result);
             }
 
@@ -327,120 +330,120 @@ function SignUp() {
   }
 
   return (
-      <>
+    <>
       <Spinner show={loading || isLoading} />
-        <Container>
-          <HeaderSection SingleRoute={false} Page="Pages" CurrentPage="Sign Up" />
-          <SignUpCon>
-            <Wrapper>
-              <LeftCon>
-                <LeftConHeader>
-                  <LeftConText m="10px 0 " fz="40px" fw={600}>
-                    SIGN UP
-                  </LeftConText>
-                  <LeftConText m="10px 0 " cl="grey">
-                    We're happy you're here!
-                  </LeftConText>
-                </LeftConHeader>
-                <SignUpMethod>
-                  <LogInButton className="LogInHover" fw={400}>
-                    <IconContainer cl="#3b5998">
-                      <FacebookRounded />
-                    </IconContainer>
-                    Log in with Facebook
-                  </LogInButton>
-                  <LogInButton className="LogInHover" fw={400}>
-                    <IconContainer cl="#db4a39">
-                      <Google sx={{ fontSize: "15px" }} />
-                    </IconContainer>
-                    Log in with Google
-                  </LogInButton>
-                </SignUpMethod>
-                <OtherMethods>
-                  <Hr />
-                  <OtherMethodsText m="10px">Or</OtherMethodsText>
-                  <Hr />
-                </OtherMethods>
-                <SignUpForm method="post">
-                  <SignUpInputGroup>
-                    <SignUpInputCon>
-                      <Person />
-                      <SignUpInput placeholder="Username" type="text" name="username" onChange={(e) => handleChange(e)} />
-                    </SignUpInputCon>
-                    <SignUpInputCon>
-                      <Person />
-                      <SignUpInput placeholder="Full Name" type="text" name="name" onChange={(e) => handleChange(e)} />
-                    </SignUpInputCon>
-                  </SignUpInputGroup>
-                  <SignUpInputGroup>
-                    <SignUpInputCon>
-                      <MailOutlined />
-                      <SignUpInput placeholder="Email Address" type="email" name="email" validate onChange={(e) => handleChange(e)} />
-                    </SignUpInputCon>
-                    <SignUpInputCon>
-                      <Room />
-                      <SignUpInput placeholder="Address" type="text" name="address" onChange={(e) => handleChange(e)} />
-                    </SignUpInputCon>
-                  </SignUpInputGroup>
-
-                  <SignUpInputGroup>
-                    <SignUpInputCon>
-                      <Lock />
-                      <SignUpInput
-                        id="SignUp_Password"
-                        placeholder="Password"
-                        type="password"
-                        name="password"
-                        onChange={(e) => handleChange(e)}
-                      />
-                      <RemoveRedEye
-                        sx={{ cursor: "pointer" }}
-                        onClick={ToggleVisibility}
-                        id="visiblePassword_Icon"
-                      />
-                    </SignUpInputCon>
-                    <SignUpInputCon>
-                      <IconTxt>+234</IconTxt>
-                      <SignUpInput placeholder="Phone" type="text" name="phone" onChange={(e) => handleChange(e)} />
-                    </SignUpInputCon>
-                  </SignUpInputGroup>
-                  <br />
-                  <p>Import ID - Voter's card, NIN, Drivers license</p>
+      <Container>
+        <HeaderSection SingleRoute={false} Page="Pages" CurrentPage="Sign Up" />
+        <SignUpCon>
+          <Wrapper>
+            <LeftCon>
+              <LeftConHeader>
+                <LeftConText m="10px 0 " fz="40px" fw={600}>
+                  SIGN UP
+                </LeftConText>
+                <LeftConText m="10px 0 " cl="grey">
+                  We're happy you're here!
+                </LeftConText>
+              </LeftConHeader>
+              <SignUpMethod>
+                <LogInButton className="LogInHover" fw={400}>
+                  <IconContainer cl="#3b5998">
+                    <FacebookRounded />
+                  </IconContainer>
+                  Log in with Facebook
+                </LogInButton>
+                <LogInButton className="LogInHover" fw={400}>
+                  <IconContainer cl="#db4a39">
+                    <Google sx={{ fontSize: "15px" }} />
+                  </IconContainer>
+                  Log in with Google
+                </LogInButton>
+              </SignUpMethod>
+              <OtherMethods>
+                <Hr />
+                <OtherMethodsText m="10px">Or</OtherMethodsText>
+                <Hr />
+              </OtherMethods>
+              <SignUpForm method="post">
+                <SignUpInputGroup>
                   <SignUpInputCon>
-                    <AttachFile />
-                    <SignUpInput placeholder="Voter's card, NIN, Drivers license" type="file" accept="image/*" name="file" onChange={(e) => setdata({ ...userdata, [e.target.name]: e.target.files[0] })} />
+                    <Person />
+                    <SignUpInput placeholder="Username" type="text" name="username" onChange={(e) => handleChange(e)} />
                   </SignUpInputCon>
-                  <br />
-                  <p>Import Utility - Utility Bill</p>
                   <SignUpInputCon>
-                    <AttachFile />
-                    <SignUpInput placeholder="Utility bill - Light bill, Lawma bill..." type="file" accept="image/*" name="utility" onChange={(e) => setdata({ ...userdata, [e.target.name]: e.target.files[0] })} />
+                    <Person />
+                    <SignUpInput placeholder="Full Name" type="text" name="name" onChange={(e) => handleChange(e)} />
                   </SignUpInputCon>
-                  <TermsAndPolicy>
-                    <TermsAndPolicyInput type="checkbox" />
-                    <TermsAndPolicyTxt>
-                      I agree with attic terms and conditions
-                    </TermsAndPolicyTxt>
-                  </TermsAndPolicy>
-                  <SubmitCon>
-                    {/* <Submit onClick={(e) => { e.preventDefault(); alert.success(<p style={{textTransform: 'none'}}>registration successfull</p>);}}>Register</Submit> */}
-                    <Submit onClick={(e) => handleRegister(e)}>Register</Submit>
-                  </SubmitCon>
-                </SignUpForm>
-              </LeftCon>
+                </SignUpInputGroup>
+                <SignUpInputGroup>
+                  <SignUpInputCon>
+                    <MailOutlined />
+                    <SignUpInput placeholder="Email Address" type="email" name="email" validate onChange={(e) => handleChange(e)} />
+                  </SignUpInputCon>
+                  <SignUpInputCon>
+                    <Room />
+                    <SignUpInput placeholder="Address" type="text" name="address" onChange={(e) => handleChange(e)} />
+                  </SignUpInputCon>
+                </SignUpInputGroup>
 
-              <RightCon>
-                <RightConTxtCon>
-                  <RightConTxt fz="40px" fw={600}>ALREADY HAVE AN ACCOUNT?</RightConTxt>
-                  <RightConTxt>Log in and go to your Dashboard.</RightConTxt>
-                  <Link className='login' to='/login'><RightConButton>Log In</RightConButton></Link>
-                </RightConTxtCon>
-              </RightCon>
-            </Wrapper>
-          </SignUpCon>
-          <Footer />
-        </Container>
-      </>
+                <SignUpInputGroup>
+                  <SignUpInputCon>
+                    <Lock />
+                    <SignUpInput
+                      id="SignUp_Password"
+                      placeholder="Password"
+                      type="password"
+                      name="password"
+                      onChange={(e) => handleChange(e)}
+                    />
+                    <RemoveRedEye
+                      sx={{ cursor: "pointer" }}
+                      onClick={ToggleVisibility}
+                      id="visiblePassword_Icon"
+                    />
+                  </SignUpInputCon>
+                  <SignUpInputCon>
+                    <IconTxt>+234</IconTxt>
+                    <SignUpInput placeholder="Phone" type="text" name="phone" onChange={(e) => handleChange(e)} />
+                  </SignUpInputCon>
+                </SignUpInputGroup>
+                <br />
+                <p>Import ID - Voter's card, NIN, Drivers license</p>
+                <SignUpInputCon>
+                  <AttachFile />
+                  <SignUpInput placeholder="Voter's card, NIN, Drivers license" type="file" accept="image/*" name="file" onChange={(e) => setdata({ ...userdata, [e.target.name]: e.target.files[0] })} />
+                </SignUpInputCon>
+                <br />
+                <p>Import Utility - Utility Bill</p>
+                <SignUpInputCon>
+                  <AttachFile />
+                  <SignUpInput placeholder="Utility bill - Light bill, Lawma bill..." type="file" accept="image/*" name="utility" onChange={(e) => setdata({ ...userdata, [e.target.name]: e.target.files[0] })} />
+                </SignUpInputCon>
+                <TermsAndPolicy>
+                  <TermsAndPolicyInput type="checkbox" />
+                  <TermsAndPolicyTxt>
+                    I agree with attic terms and conditions
+                  </TermsAndPolicyTxt>
+                </TermsAndPolicy>
+                <SubmitCon>
+                  {/* <Submit onClick={(e) => { e.preventDefault(); alert.success(<p style={{textTransform: 'none'}}>registration successfull</p>);}}>Register</Submit> */}
+                  <Submit onClick={(e) => handleRegister(e)}>Register</Submit>
+                </SubmitCon>
+              </SignUpForm>
+            </LeftCon>
+
+            <RightCon>
+              <RightConTxtCon>
+                <RightConTxt fz="40px" fw={600}>ALREADY HAVE AN ACCOUNT?</RightConTxt>
+                <RightConTxt>Log in and go to your Dashboard.</RightConTxt>
+                <Link className='login' to='/login'><RightConButton>Log In</RightConButton></Link>
+              </RightConTxtCon>
+            </RightCon>
+          </Wrapper>
+        </SignUpCon>
+        <Footer />
+      </Container>
+    </>
   );
 }
 

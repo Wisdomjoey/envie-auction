@@ -251,10 +251,8 @@ const RightConButton = styled.button`
 
 function SignIn() {
   const [isLoading, setloading] = useState(false);
-  const { loading, user } = useSelector((state) => state.auth);
-  const { auctions } = useSelector((state) => state.auction);
+  const { loading } = useSelector((state) => state.auth);
   const [userdata, setdata] = useState({});
-  const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate();
 
@@ -273,8 +271,6 @@ function SignIn() {
       ...userdata,
       [e.target.name]: e.target.value,
     });
-
-    console.log(userdata);
   }
 
   const handleLogin = async (e) => {
@@ -287,27 +283,11 @@ function SignIn() {
           if (value.result.verificationStatus === 'verified') {
             await loginUser(userdata.email, userdata.password).then(async (value1) => {
               if (value1.status) {
-                dispatch(setuser(value1.result));
-
-                await getUser().then(async (value2) => {
-                  if (value2.status) {
-                    dispatch(setuserdata({ ...value2.result }));
-                    dispatch(setuserauctions(auctions.filter((item) => item.userId === user.id)));
-
-                    await getUserBids(user.uid).then((value2) => {
-                      if (value2.status) {
-                        dispatch(setuserbids(value2.result));
-                      }
-
-                    alert.success(<p style={{ textTransform: 'none' }}>You are logged in</p>);
-                    window.location.reload();
-                    navigate('/account');
-                    });
-                  } else {
-                    console.log(value2.result);
-                  }
-                });
+                if(!loading) {
+                  navigate('/account');
+                }
               } else {
+                alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
                 console.log(value1.result);
               }
             });
@@ -318,98 +298,97 @@ function SignIn() {
           alert.error(<p style={{ textTransform: 'none' }}>User with provided email does not exist</p>);
         }
       } else {
+        alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
         console.log(value.result);
       }
-
-      setloading(false);
     });
   }
 
   return (
-      <>
-        <Spinner show={loading || isLoading} />
-            <Container>
-              <HeaderSection SingleRoute={false} Page="Pages" CurrentPage="Sign In" />
-              <SignUpCon>
-                <Wrapper>
-                  <LeftCon>
-                    <LeftConHeader>
-                      <LeftConText m="10px 0 " fz="40px" fw={600}>
-                        HI, THERE
-                      </LeftConText>
-                      <LeftConText m="10px 0 " cl="grey">
-                        You can log in to your Attic account here.
-                      </LeftConText>
-                    </LeftConHeader>
-                    <SignUpMethod>
-                      <LogInButton className="LogInHover" fw={400}>
-                        <IconContainer cl="#3b5998">
-                          <FacebookRounded />
-                        </IconContainer>
-                        Log in with Facebook
-                      </LogInButton>
-                      <LogInButton className="LogInHover" fw={400}>
-                        <IconContainer cl="#db4a39">
-                          <Google sx={{ fontSize: "15px" }} />
-                        </IconContainer>
-                        Log in with Google
-                      </LogInButton>
-                    </SignUpMethod>
-                    <OtherMethods>
-                      <Hr />
-                      <OtherMethodsText m="10px">Or</OtherMethodsText>
-                      <Hr />
-                    </OtherMethods>
-                    <SignUpForm>
-                      <SignUpInputCon>
-                        <MailOutlined />
-                        <SignUpInput placeholder="Email Address" type="email" name="email" onChange={(e) => handleChange(e)} />
-                      </SignUpInputCon>
+    <>
+      <Spinner show={loading || isLoading} />
+      <Container>
+        <HeaderSection SingleRoute={false} Page="Pages" CurrentPage="Sign In" />
+        <SignUpCon>
+          <Wrapper>
+            <LeftCon>
+              <LeftConHeader>
+                <LeftConText m="10px 0 " fz="40px" fw={600}>
+                  HI, THERE
+                </LeftConText>
+                <LeftConText m="10px 0 " cl="grey">
+                  You can log in to your Attic account here.
+                </LeftConText>
+              </LeftConHeader>
+              <SignUpMethod>
+                <LogInButton className="LogInHover" fw={400}>
+                  <IconContainer cl="#3b5998">
+                    <FacebookRounded />
+                  </IconContainer>
+                  Log in with Facebook
+                </LogInButton>
+                <LogInButton className="LogInHover" fw={400}>
+                  <IconContainer cl="#db4a39">
+                    <Google sx={{ fontSize: "15px" }} />
+                  </IconContainer>
+                  Log in with Google
+                </LogInButton>
+              </SignUpMethod>
+              <OtherMethods>
+                <Hr />
+                <OtherMethodsText m="10px">Or</OtherMethodsText>
+                <Hr />
+              </OtherMethods>
+              <SignUpForm>
+                <SignUpInputCon>
+                  <MailOutlined />
+                  <SignUpInput placeholder="Email Address" type="email" name="email" onChange={(e) => handleChange(e)} />
+                </SignUpInputCon>
 
-                      <SignUpInputCon>
-                        <Lock />
-                        <SignUpInput
-                          id="SignUp_Password"
-                          placeholder=" Password"
-                          type="password"
-                          name="password"
-                          onChange={(e) => handleChange(e)}
-                        />
-                        <RemoveRedEye
-                          sx={{ cursor: "pointer" }}
-                          onClick={ToggleVisibility}
-                          id="visiblePassword_Icon"
-                        />
-                      </SignUpInputCon>
-                      <TermsAndPolicy>
-                        <TermsAndPolicyInput type="checkbox" />
-                        <TermsAndPolicyTxt>
-                          The Attic Terms of Use apply
-                        </TermsAndPolicyTxt>
-                      </TermsAndPolicy>
-                      <SubmitCon>
-                        <TermsAndPolicyTxt cursor="pointer" fw={200}>
-                          Forgot Password?
-                        </TermsAndPolicyTxt>
-                        <Submit onClick={(e) => handleLogin(e)}>Log In</Submit>
-                      </SubmitCon>
-                    </SignUpForm>
-                  </LeftCon>
+                <SignUpInputCon>
+                  <Lock />
+                  <SignUpInput
+                    id="SignUp_Password"
+                    placeholder=" Password"
+                    type="password"
+                    name="password"
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <RemoveRedEye
+                    sx={{ cursor: "pointer" }}
+                    onClick={ToggleVisibility}
+                    id="visiblePassword_Icon"
+                  />
+                </SignUpInputCon>
+                <TermsAndPolicy>
+                  <TermsAndPolicyInput type="checkbox" />
+                  <TermsAndPolicyTxt>
+                    The Attic Terms of Use apply
+                  </TermsAndPolicyTxt>
+                </TermsAndPolicy>
+                <SubmitCon>
+                  <TermsAndPolicyTxt cursor="pointer" fw={200}>
+                    Forgot Password?
+                  </TermsAndPolicyTxt>
+                  <Submit onClick={(e) => handleLogin(e)}>Log In</Submit>
+                </SubmitCon>
+              </SignUpForm>
+            </LeftCon>
 
-                  <RightCon>
-                    <RightConTxtCon>
-                      <RightConTxt fz="40px" fw={600}>
-                        NEW HERE?
-                      </RightConTxt>
-                      <RightConTxt>Sign up and create your Account</RightConTxt>
-                      <Link className='register' to='/register'><RightConButton>SIGN UP</RightConButton></Link>
-                    </RightConTxtCon>
-                  </RightCon>
-                </Wrapper>
-              </SignUpCon>
-              <Footer />
-            </Container>
-      </>
+            <RightCon>
+              <RightConTxtCon>
+                <RightConTxt fz="40px" fw={600}>
+                  NEW HERE?
+                </RightConTxt>
+                <RightConTxt>Sign up and create your Account</RightConTxt>
+                <Link className='register' to='/register'><RightConButton>SIGN UP</RightConButton></Link>
+              </RightConTxtCon>
+            </RightCon>
+          </Wrapper>
+        </SignUpCon>
+        <Footer />
+      </Container>
+    </>
   );
 }
 

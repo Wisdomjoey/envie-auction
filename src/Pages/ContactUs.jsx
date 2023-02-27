@@ -9,9 +9,10 @@ import contactimg from '../images/contact.png';
 import Footer from '../Components/Home/Footer'
 import { useSelector } from "react-redux";
 import Spinner from "../Components/utils/Spinner";
+import bg from '../images/hero-bg.png';
 
 const Container = styled.div`
-  background: url(./hero-bg.png);
+  // background: url(./hero-bg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -199,7 +200,7 @@ function ContactUs() {
   return (
     <>
       <Spinner show={loading} />
-    <Container>
+      <Container style={{ background: `url(${bg})` }}>
       <HeaderSection SingleRoute={true} CurrentPage="Contact us" />
         <Wrapper>
       <ContactUsCardCon>

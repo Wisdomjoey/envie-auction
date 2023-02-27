@@ -21,16 +21,18 @@ import { getAllUsers, getUser, getUserBids } from "./Firebase Actions/userAction
 import { setuserdata, setusers } from "./redux/reducers/userSlice";
 import NewBid from "./Pages/NewBid/NewBid";
 import { setuserbids } from "./redux/reducers/bidSlice";
+import { useAlert } from "react-alert";
 
 function App() {
   const dispatch = useDispatch();
-
-  useEffect(() => {
+  const alert = useAlert();
   dispatch(setloading(true));
 
+  useEffect(() => {
   onAuthStateChanged(auth, async (user) => {
+  dispatch(setloading(true));
     if (user) {
-      dispatch(setuser(user));
+      dispatch(setuser({...user}));
       dispatch(setsigned(true));
 
       await getUser().then(async (value2) => {
@@ -43,7 +45,6 @@ function App() {
 
           await getAllUsers().then(async (value2) => {
             dispatch(setusers(value2.result));
-            dispatch(setloading(false));
                       await getUserBids(user.uid).then((value2) => {
                         if (value2.status) {
                           dispatch(setuserbids(value2.result));
@@ -52,22 +53,27 @@ function App() {
           });
       });
                   } else {
+          alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
                     console.log(value2.result);
                   }
                 });
+  dispatch(setloading(false));
     } else {
       dispatch(setuser({}));
       dispatch(setsigned(false));
+      dispatch(setuserauctions([]));
+      dispatch(setuserbids([]));
 
       await getAllAuctions().then(async (value) => {
         dispatch(setauctions(value.result));
 
         await getAllUsers().then((value2) => {
             dispatch(setusers(value2.result));
-            dispatch(setloading(false));
           });
       });
+  dispatch(setloading(false));
     }
+  dispatch(setloading(false));
   });
   });
 

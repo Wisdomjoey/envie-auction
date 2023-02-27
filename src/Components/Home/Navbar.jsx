@@ -1,8 +1,9 @@
 import { Person, Search } from "@mui/icons-material"
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom"
 import styled from "styled-components";
-import logo from '../../images/ATTIC LOGO 1.png'
+import logo from '../../images/ATTIC LOGO 2.png'
 
 const Container = styled.div`
   position: fixed;
@@ -81,17 +82,23 @@ const ProfileCon = styled.div`
 `
 
 export default function Navbar() {
+  const { loading } = useSelector((state) => state.auth);
+
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      const navBar = document.getElementById('nav');
+      if (!loading) {
+        const navBar = document.getElementById('nav');
 
-      if (window.scrollY > 0) {
-        navBar.style.background = '#693FF5';
-        // navBar.style.position = 'fixed';
-        navBar.style.top = 0;
-      } else {
-        navBar.style.background = 'transparent';
-        // navBar.style.position='relative'
+        if(navBar !== null) {
+          if (window.scrollY > 0) {
+            navBar.style.background = '#693FF5';
+            // navBar.style.position = 'fixed';
+            navBar.style.top = 0;
+          } else {
+            navBar.style.background = 'transparent';
+            // navBar.style.position='relative'
+          }
+        }
       }
     })
   });
@@ -100,9 +107,9 @@ export default function Navbar() {
     <Container className="nav__container" id="nav">
       <NavCon className='nav__con'>
         <NavLeft className='nav__left'>
-            <Brand className="brand">
-              <img src={logo} alt='' />
-            </Brand>
+          <Brand className="brand">
+            <img src={logo} alt='' />
+          </Brand>
         </NavLeft>
         <NavRight className='nav__right'>
           <NavSearchCon className="nav__searchCon">

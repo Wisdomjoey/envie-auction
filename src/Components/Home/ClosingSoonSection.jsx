@@ -204,7 +204,7 @@ export default function ClosingSoonSection() {
 
                         for (let index = 0; index < item.bids.length; index++) {
                             if (item.bids[index].amount > amt) {
-                                amt = item.bids[index].amount.toFixed(2);
+                                amt = item.bids[index].amount;
                             }
                         }
 
@@ -237,7 +237,7 @@ export default function ClosingSoonSection() {
                                             Current Bid
                                         </ClosingSoonProductsBidDetailsTxt>
                                         <ClosingSoonProductsBidDetailsTxt fz='20px' >
-                                            ₦{amt}
+                                            ₦{amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                         </ClosingSoonProductsBidDetailsTxt>
                                     </ClosingSoonProductsCurBidRight>
                                 </ClosingSoonProductsCurBidCon>

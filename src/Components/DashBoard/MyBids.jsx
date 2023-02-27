@@ -89,12 +89,6 @@ function MyBids() {
   const [bids, setBids] = useState("Upcomming");
   const { userBids } = useSelector((state) => state.bids);
 
-  useEffect(()=>{
-    console.log(bids)
-},[bids]);
-
-
-
   return (
     <Container>
       <PersonalProfileWrapper>

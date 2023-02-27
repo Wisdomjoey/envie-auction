@@ -83,18 +83,35 @@ return { result: users, status: true };
 
 async function createBid(userId, auctionId, amount) {
   try {
+    let id = '';
+
     await addDoc(collection(db, 'users', userId, 'bids'), {
     id: '',
     auctionId: auctionId,
     amount: amount,
     bidStatus: 'ongoing',
-    createdAt: Date.now().toString(),
-    updatedAt: Date.now().toString(),
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
   }).then(async (docRef) => {
+    id = docRef.id;
+
     await updateDoc(doc(db, 'users', userId, 'bids', docRef.id), {
       id: docRef.id
     });
   });
+
+  return {result: id, status: true};
+  } catch (error) {
+    return {result: error, status: false};
+  }
+}
+
+async function updateBid(userId, bidId, amount) {
+  try {
+    await updateDoc(doc(db, 'users', userId, 'bids', bidId), {
+      amount: amount,
+      updatedAt: Date.now()
+    });
 
   return {result: null, status: true};
   } catch (error) {
@@ -119,4 +136,4 @@ querySnapshot.forEach((doc) => {
   }
 }
 
-export { createUser, updateUser, getUser, createBid, getUserByEmail, getAllUsers, getUserBids }
+export { createUser, updateUser, getUser, createBid, getUserByEmail, getAllUsers, getUserBids, updateBid }

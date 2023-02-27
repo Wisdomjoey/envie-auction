@@ -1,46 +1,8 @@
 import { Gavel, ShoppingBagRounded } from '@mui/icons-material';
 import styled from 'styled-components';
-import HeadTop from './HeadTop';
-import feat from '../../images/feat.png';
-import auction1 from '../../images/auction-1.jpg';
-import auction2 from '../../images/auction-2.jpg';
-import auction3 from '../../images/auction-3.jpg';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-const FeaturedContainer = styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-`
-const FeaturedImg = styled.img`
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-`
-const FeaturedCon = styled.div`
-    width: 100%;
-	width: calc(100% - 60px);
-    max-width: calc(1260px - 60px);
-    margin: 100px 0 120px;
-`
-const Featured = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-`
-const FeaturedBottom = styled.div`
-    width: 100%;
-    display: flex;
-    gap: 30px;
-    padding-top: 70px;
-`
 const FBottomCard = styled.div`
     flex: 1;
     height: 470px;
@@ -208,109 +170,98 @@ const BBbottomBtn = styled.button`
     cursor: pointer;
 `
 
-export default function FeaturedSection() {
-    const [data, setdata] = useState([]);
-    const { auctions } = useSelector((state) => state.auction);
-    const [days, setdays] = useState(0);
-    const [hours, sethours] = useState(0);
-    const [minutes, setminutes] = useState(0);
-    const [seconds, setseconds] = useState(0);
+export default function FeaturedSection({ item }) {
+    const [days, setdays] = useState();
+    const [hours, sethours] = useState();
+    const [minutes, setminutes] = useState();
+    const [seconds, setseconds] = useState();
 
     const getTime = (ms) => {
         const time = ms - Date.now();
 
-        setdays(Math.floor(time / (1000 * 60 * 60 * 24)));
-        sethours(Math.floor((time / (1000 * 60 * 60)) % 24));
-        setminutes(Math.floor((time / 1000 / 60 ) % 60));
-        setseconds(Math.floor((time / 1000) % 60));
+        if(!(time < 0)) {
+            setdays(Math.floor(time / (1000 * 60 * 60 * 24)));
+            sethours(Math.floor((time / (1000 * 60 * 60)) % 24));
+            setminutes(Math.floor((time / 1000 / 60) % 60));
+            setseconds(Math.floor((time / 1000) % 60));
+        }
+    }
+
+    var amt = 0;
+
+    for (let index = 0; index < item.bids.length; index++) {
+        if (item.bids[index].amount > amt) {
+            amt = item.bids[index].amount;
+        }
     }
 
     useEffect(() => {
-        const list = auctions.filter((item) => item.status === 'featured');
-        const interval = setInterval(() => getTime(), 1000);
+        const interval = setInterval(() => getTime(item.bidEndTime), 1000);
 
-        setdata(list);
-        console.log(auctions);
-    }, [auctions])
+        if (item.bidEndTime - Date.now() < 0) clearInterval(interval);
+
+        return () => clearInterval(interval);
+    }, [item.bidEndTime])
+
 
     return (
-        <FeaturedContainer className="featured__container">
-            <FeaturedImg className="featured__img" src={feat} />
-            <FeaturedCon className="featured__con">
-                <Featured className="featured">
-                    <HeadTop txtHead='Featured Items' txtSpan='Start Winning Cars With Comfort' showBtn={true} />
-                    <FeaturedBottom className="featured__bottom">
-                        {data.map((item, ind) => {
-                            var amt = 0;
-
-                            for (let index = 0; index < item.bids.length; index++) {
-                                if (item.bids[index].amount > amt) {
-                                    amt = item.bids[index].amount.toFixed(2);
-                                }
-                            }
-
-                            return <FBottomCard key={ind} className="fBottom__card">
-                                <CardTop className="card__top">
-                                    <Link to={`/item-details/${item.id}`}><CardTopImg className="card__topImg" src={item.images[0]} /></Link>
-                                    <Link to={`/item-details/${item.id}`}>
-                                        <CardTopIcon className="card__topIcon">
-                                            <Gavel sx={{ fontSize: 20, color: 'white' }} />
-                                        </CardTopIcon>
-                                    </Link>
-                                </CardTop>
-                                <CardBottom className="card__bottom">
-                                    <BottomTop className="bottom__top">
-                                        <BottomSpan>{item.name}</BottomSpan>
-                                    </BottomTop>
-                                    <BottomMiddle className="bottom__middle">
-                                        <Middle w='1px' className="middle">
-                                            <MiddleCon className="middle__con">
-                                                <MiddleLeft className="middle__left">
-                                                    <Gavel sx={{ color: '#43b055', fontSize: 30 }} />
-                                                </MiddleLeft>
-                                                <MiddleRight className="middle__right">
-                                                    <MiddleText color='#43b055'>Current Bid</MiddleText>
-                                                    <MiddlePrice>₦{amt}</MiddlePrice>
-                                                </MiddleRight>
-                                            </MiddleCon>
-                                        </Middle>
-                                        <Middle className="middle">
-                                            <MiddleCon className="middle__con">
-                                                <MiddleLeft className="middle__left">
-                                                    <ShoppingBagRounded sx={{ color: '#ee4730', fontSize: 30 }} />
-                                                </MiddleLeft>
-                                                <MiddleRight className="middle__right">
-                                                    <MiddleText color='#ee4730'>Buy Now</MiddleText>
-                                                    <MiddlePrice>₦{item.buyNowAmount}.00</MiddlePrice>
-                                                </MiddleRight>
-                                            </MiddleCon>
-                                        </Middle>
-                                    </BottomMiddle>
-                                    <BottomBottom className="bottom__bottom">
-                                        <BBTop className="bb__top">
-                                            <BBTopLeft className="bb__topLeft">
-                                                <BBTopLeftCon className="bb__topLeftCon">
-                                                    <BBTopSpan className="bb__topSpan" color="#f5317f">1d : 12h : 12m : 60s</BBTopSpan>
-                                                </BBTopLeftCon>
-                                            </BBTopLeft>
-                                            <BBTopRight className="bb_topRight">
-                                                <BBTopRightCon className="bb__topRight">
-                                                    <BBTopSpan className="bb__topSpan" color="#43b055">{item.bids.length}</BBTopSpan>
-                                                </BBTopRightCon>
-                                            </BBTopRight>
-                                        </BBTop>
-                                        <BBbottom className="bb__bottom">
-                                            <Link to={`/item-details/${item.id}`}>
-                                                <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
-                                            </Link>
-                                        </BBbottom>
-                                    </BottomBottom>
-                                </CardBottom>
-                            </FBottomCard>;
-                        })}
-                    </FeaturedBottom>
-                </Featured>
-            </FeaturedCon>
-        </FeaturedContainer>
+        <FBottomCard className="fBottom__card">
+            <CardTop className="card__top">
+                <Link to={`/item-details/${item.id}`}><CardTopImg className="card__topImg" src={item.images[0]} /></Link>
+                <Link to={`/item-details/${item.id}`}>
+                    <CardTopIcon className="card__topIcon">
+                        <Gavel sx={{ fontSize: 20, color: 'white' }} />
+                    </CardTopIcon>
+                </Link>
+            </CardTop>
+            <CardBottom className="card__bottom">
+                <BottomTop className="bottom__top">
+                    <BottomSpan>{item.name}</BottomSpan>
+                </BottomTop>
+                <BottomMiddle className="bottom__middle">
+                    <Middle w='1px' className="middle">
+                        <MiddleCon className="middle__con">
+                            <MiddleLeft className="middle__left">
+                                <Gavel sx={{ color: '#43b055', fontSize: 30 }} />
+                            </MiddleLeft>
+                            <MiddleRight className="middle__right">
+                                <MiddleText color='#43b055'>Current Bid</MiddleText>
+                                <MiddlePrice>₦{amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
+                            </MiddleRight>
+                        </MiddleCon>
+                    </Middle>
+                    <Middle className="middle">
+                        <MiddleCon className="middle__con">
+                            <MiddleLeft className="middle__left">
+                                <ShoppingBagRounded sx={{ color: '#ee4730', fontSize: 30 }} />
+                            </MiddleLeft>
+                            <MiddleRight className="middle__right">
+                                <MiddleText color='#ee4730'>Buy Now</MiddleText>
+                                <MiddlePrice>₦{item.buyNowAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
+                            </MiddleRight>
+                        </MiddleCon>
+                    </Middle>
+                </BottomMiddle>
+                <BottomBottom className="bottom__bottom">
+                    <BBTop className="bb__top">
+                        <BBTopLeft className="bb__topLeft">
+                            <BBTopLeftCon className="bb__topLeftCon">
+                                <BBTopSpan className="bb__topSpan" color="#f5317f">{days}d : {hours}h : {minutes}m : {seconds}s</BBTopSpan>
+                            </BBTopLeftCon>
+                        </BBTopLeft>
+                        <BBTopRight className="bb_topRight">
+                            <BBTopRightCon className="bb__topRight">
+                                <BBTopSpan className="bb__topSpan" color="#43b055">{item.bids.length}</BBTopSpan>
+                            </BBTopRightCon>
+                        </BBTopRight>
+                    </BBTop>
+                    <BBbottom className="bb__bottom">
+                        <Link to={`/item-details/${item.id}`}>
+                            <BBbottomBtn className="bb__bottomBtn">Submit A Bid</BBbottomBtn>
+                        </Link>
+                    </BBbottom>
+                </BottomBottom>
+            </CardBottom>
+        </FBottomCard>
     )
 }

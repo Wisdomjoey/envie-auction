@@ -102,7 +102,8 @@ const Submit = styled.button`
 
 
 function PersonalProfile() {
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -111,12 +112,10 @@ function PersonalProfile() {
     
       dispatch(setloading(true));
       
-      await signOutUser().then(() => {
-        dispatch(setuser({}));
-        dispatch(setloading(false));
-        dispatch(setsigned(false));
-        navigate('/login');
-        window.location.reload(true);
+    await signOutUser().then(() => {
+        if(!loading) {
+          navigate('/login');
+        }
       });
   }
 

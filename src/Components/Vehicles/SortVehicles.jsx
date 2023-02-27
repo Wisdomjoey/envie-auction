@@ -79,6 +79,29 @@ const Input = styled.input`
   outline: none;
   width: 100%;
 `;
+const VehiclesCon = styled.div`
+  margin-top: 100px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 80px;
+  `;
+
+const SortFilteredProducts = styled.div`
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  gap: 30px;
+`;
+const Wrapper = styled.div`
+  gap: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
 
 function SortVehicles() {
   const Show = [
@@ -150,7 +173,15 @@ function SortVehicles() {
           </SearchProducts>
         </SearchProductsCon>
       </SortVehiclesCon>
-      <Vehicles filteredList={filteredList} />
+      <VehiclesCon className="flex aic jcc">
+        <SortFilteredProducts>
+          <Wrapper className=" flex aic jcc try">
+            {filteredList.map((products, ind) => {
+              return <Vehicles products={products} key={ind} />
+            })}
+          </Wrapper>
+        </SortFilteredProducts>
+      </VehiclesCon>
     </SortVehiclesC>
   );
 }

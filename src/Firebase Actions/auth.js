@@ -22,9 +22,7 @@ async function loginUser(email, password) {
 }
 
 async function signOutUser() {
-  await signOut(auth).then(() => {
-
-  }).catch((e) => {
+  await signOut(auth).catch((e) => {
     console.log(e);
   });
 }

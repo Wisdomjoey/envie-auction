@@ -6,10 +6,6 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const TrendingCardC = styled.div`
-    width: 100%;
-`
-
 const TrendingCardCon = styled.div`
     width: 100%;
     display: flex;
@@ -205,28 +201,41 @@ const BBbottomBtn = styled.button`
     cursor: pointer;
 `
 
-export default function TrendingCard() {
-    const [data, setdata] = useState([]);
-    const { auctions } = useSelector((state) => state.auction);
+export default function TrendingCard({ item }) {
+    const [days, setdays] = useState();
+    const [hours, sethours] = useState();
+    const [minutes, setminutes] = useState();
+    const [seconds, setseconds] = useState();
+
+    const getTime = (ms) => {
+        const time = ms - Date.now();
+
+        if (!(time < 0)) {
+            setdays(Math.floor(time / (1000 * 60 * 60 * 24)));
+            sethours(Math.floor((time / (1000 * 60 * 60)) % 24));
+            setminutes(Math.floor((time / 1000 / 60) % 60));
+            setseconds(Math.floor((time / 1000) % 60));
+        }
+    }
 
     useEffect(() => {
-        const list = auctions.filter((item) => item.status === 'trending');
+        const interval = setInterval(() => getTime(item.bidEndTime), 1000);
 
-        setdata(list);
-    }, [auctions]);
+        if (item.bidEndTime - Date.now() < 0) clearInterval(interval);
+
+        return () => clearInterval(interval);
+    }, [item.bidEndTime])
+
+    var amt = 0;
+
+    for (let index = 0; index < item.bids.length; index++) {
+        if (item.bids[index].amount > amt) {
+            amt = item.bids[index].amount;
+        }
+    }
 
     return (
-        <TrendingCardC>
-            {data.map((item, ind) => {
-                var amt = 0;
-
-                for (let index = 0; index < item.bids.length; index++) {
-                    if (item.bids[index].amount > amt) {
-                        amt = item.bids[index].amount.toFixed(2);
-                    }
-                }
-
-                return <TrendingCardCon className='trending__cardCon' key={ind}>
+        <TrendingCardCon className='trending__cardCon'>
                     <TrendingCardLeft className='trending__cardLeft'>
                         <TrendingCardImg src={item.images[0]} className='trending__cardImg' />
                         <Link to={`/item-details/${item.id}`}>
@@ -248,7 +257,7 @@ export default function TrendingCard() {
                     <TrendingCardRight className='trending__cardRight'>
                         <TrendingCardRightCon className='trending__cardRightCon'>
                             <TimerCon className='timer__con'>
-                                <Timer className='timer'>{0}</Timer>
+                        <Timer className='timer'>{days}d : {hours}h : {minutes}m : {seconds}s</Timer>
                             </TimerCon>
                             <MiddleCon className="middle__con">
                                 <MiddleLeft className="middle__left">
@@ -256,7 +265,7 @@ export default function TrendingCard() {
                                 </MiddleLeft>
                                 <MiddleRight className="middle__right">
                                     <MiddleText color='#43b055'>Current Bid</MiddleText>
-                                    <MiddlePrice>₦{amt}</MiddlePrice>
+                                    <MiddlePrice>₦{amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
                                 </MiddleRight>
                             </MiddleCon>
                             <TotalBidCon className='total__bidCon'>
@@ -271,7 +280,5 @@ export default function TrendingCard() {
                         </TrendingCardRightCon>
                     </TrendingCardRight>
                 </TrendingCardCon>
-})}
-        </TrendingCardC>
     )
 }

@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import HeadTop from './HeadTop';
 // import tImg1 from '../../images/auction-1.png';
@@ -29,15 +32,32 @@ const TrendingProducts = styled.div`
     padding-top: 70px;
     gap: 30px;
 `
+const TrendingCardC = styled.div`
+    width: 100%;
+`
 
 export default function TrendingSection() {
+  const [data, setdata] = useState([]);
+  const { auctions } = useSelector((state) => state.auction);
+
+  useEffect(() => {
+    const list = auctions.filter((item) => item.status === 'trending');
+    // const interval = setInterval(() => getTime(), 1000);
+
+    setdata(list);
+  }, [auctions])
+
   return (
     <TrendingContainer className='trending__container'>
       <TrendingCon className='trending__con'>
         <Trending>
           <HeadTop className='head__top' txtHead='Trending Items' txtSpan='Bid on 1,000’s of vehicles from more than 25 countries' />
           <TrendingProducts className='trending__products'>
-            <TrendingCard />
+            <TrendingCardC>
+              {data.map((item, ind) => {
+                return <TrendingCard key={ind} item={item} />
+              })}
+            </TrendingCardC>
           </TrendingProducts>
         </Trending>
       </TrendingCon>

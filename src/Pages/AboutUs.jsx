@@ -8,8 +8,10 @@ import OurReviews from "../Components/Home/OurReviews";
 import Footer from "../Components/Home/Footer";
 import { useSelector } from "react-redux";
 import Spinner from "../Components/utils/Spinner";
+import bg from '../images/hero-bg.png';
+
 const DashBoardCon = styled.div`
-  background: url(./hero-bg.png);
+  // background: url(./hero-bg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -33,7 +35,7 @@ function AboutUs() {
   return (
     <>
       <Spinner show={loading} />
-    <DashBoardCon>
+    <DashBoardCon style={{background: `url(${bg})`}}>
       <HeaderSection SingleRoute={false} Page="Page" CurrentPage="About us" />
       <AboutUsCon>
         <Experience />

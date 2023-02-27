@@ -53,7 +53,7 @@ function Error() {
       <ErrorMessage className="flex acc jcc">
         <ErrorTxt>
           Return to the
-          <A href="#">homepage</A>
+          <A href="/">homepage</A>
         </ErrorTxt>
       </ErrorMessage>
         </Container>

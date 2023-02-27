@@ -63,7 +63,9 @@ async function getAllAuctions() {
 
 querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
-  auctions.push(doc.data());
+  if(doc.get('reviewStatus') === 'verified' && !(doc.get('bidEndTime') - Date.now() < 0)) {
+    auctions.push(doc.data());
+  }
 });
 
 return { result: auctions, status: true };

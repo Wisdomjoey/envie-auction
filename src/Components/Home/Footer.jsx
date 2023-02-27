@@ -5,8 +5,10 @@ import paypal from '../../images/paypal.png'
 import visa from '../../images/visa.png'
 import img from './footer-bg.jpg'
 import mastercard from '../../images/mastercard.png'
+import logo from '../../images/ATTIC LOGO 1.png'
 import discover from '../../images/discover.png'
 import { LocalPhone, AllInbox, Send, LinkedIn, Instagram, Twitter, Fax, FacebookRounded } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 
 const FooterCon = styled.div`
@@ -43,7 +45,11 @@ const FooterDivisions = styled.div`
      display:flex;
      align-items:flex-start;
      justify-content:space-between;
-     flex-direction:column; 
+     flex-direction:column;
+
+     a {
+      text-decoration: none;
+     }
 `
 const FooterLinksTxtHeader = styled.h3`
     font-size:21px;
@@ -95,7 +101,7 @@ const HR = styled.hr`
     background-color:whitesmoke;
     height:1px;
     width:80%;
-    margin-bottom:50px
+    // margin-bottom:50px
 `
 const BottomFooter = styled.div`
      display:flex;
@@ -117,6 +123,10 @@ const Brand = styled.span`
   font-size: 40px;
   font-weight: 800;
   color: white;
+
+  img {
+    width: 150px;
+  }
 `
 
 const BottomFooterMiddle = styled.div`
@@ -153,15 +163,19 @@ const FooterCopyrightTxt = styled.p`
 
 function Footer() {
   return (
-    <FooterCon style={{background: `url(${img})`}}>
+    <FooterCon style={{ background: `url(${img})` }}>
       <Container>
         <NewsLetter />
         <Wrapper>
           <TopFooter>
             <FooterDivisions>
               <FooterLinksTxtHeader>Auction Categories</FooterLinksTxtHeader>
-              <FooterLinksTxt>Ending Now</FooterLinksTxt>
-              <FooterLinksTxt>Vehicles</FooterLinksTxt>
+              <Link to='/auctions'>
+                <FooterLinksTxt>Ending Now</FooterLinksTxt>
+              </Link>
+              <Link to='/auctions'>
+                <FooterLinksTxt>Auctions</FooterLinksTxt>
+              </Link>
               <FooterLinksTxt>Watches</FooterLinksTxt>
               <FooterLinksTxt>Electronics</FooterLinksTxt>
               <FooterLinksTxt>Real Estate</FooterLinksTxt>
@@ -172,7 +186,9 @@ function Footer() {
 
             <FooterDivisions>
               <FooterLinksTxtHeader>About Us</FooterLinksTxtHeader>
-              <FooterLinksTxt>About Company</FooterLinksTxt>
+              <Link to='/about'>
+                <FooterLinksTxt>About Company</FooterLinksTxt>
+              </Link>
               <FooterLinksTxt>Help</FooterLinksTxt>
               <FooterLinksTxt>Affiliates</FooterLinksTxt>
               <FooterLinksTxt>Jobs</FooterLinksTxt>
@@ -184,10 +200,14 @@ function Footer() {
 
             <FooterDivisions>
               <FooterLinksTxtHeader>We`re Here to Help</FooterLinksTxtHeader>
-              <FooterLinksTxt>Your Account</FooterLinksTxt>
+              <Link to='/account'>
+                <FooterLinksTxt>Your Account</FooterLinksTxt>
+              </Link>
               <FooterLinksTxt>Safe and Secure</FooterLinksTxt>
               <FooterLinksTxt>Shipping Information</FooterLinksTxt>
-              <FooterLinksTxt>Contact Us</FooterLinksTxt>
+              <Link to='/contact'>
+                <FooterLinksTxt>Contact Us</FooterLinksTxt>
+              </Link>
               <FooterLinksTxt>Help & FAQ</FooterLinksTxt>
             </FooterDivisions>
 
@@ -221,7 +241,9 @@ function Footer() {
           <HR />
           <BottomFooter>
             <BottomFooterLeft>
-              <Brand className="brand">LOGO</Brand>
+              <Brand className="brand">
+                <img src={logo} alt='' />
+              </Brand>
             </BottomFooterLeft>
             <BottomFooterMiddle>
               <PaymentLinks>
@@ -241,7 +263,7 @@ function Footer() {
               <FooterCopyrightTxt>© Copyright 2021 | </FooterCopyrightTxt>
               <FooterCopyrightTxt color='#EE4730'>{" "} Attic </FooterCopyrightTxt>
               <FooterCopyrightTxt > {" By "} </FooterCopyrightTxt>
-              <FooterCopyrightTxt color='#EE4730'> Uiaxis </FooterCopyrightTxt>
+              <FooterCopyrightTxt color='#EE4730'> JayZ </FooterCopyrightTxt>
             </BottomFooterRight>
           </BottomFooter>
         </Wrapper>

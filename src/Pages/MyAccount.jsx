@@ -21,9 +21,10 @@ import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import Spinner from "../Components/utils/Spinner";
 import { Person } from "@mui/icons-material";
+import bg from '../images/hero-bg.png';
 
 const Container = styled.div`
-  background: url(./hero-bg.png);
+  // background: url(./hero-bg.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -162,112 +163,113 @@ function MyAccount() {
   window.scrollTo(0, 0);
 
   useEffect(() => {
-      if (!loading) {
-        if (!signed) {
-          navigate('/login');
-        }
+    if (!loading) {
+      if (!signed) {
+        navigate('/login');
       }
+    }
   }, [loading, navigate, signed]);
 
   return (
     <>
       {loading ? <Spinner show={loading} /> :
-    <Container>
-      <HeaderSection
-        SingleRoute={false}
-        Page="MyAccount"
-        CurrentPage={activeDashBoard}
-      />
-      <Wrapper>
-        {/* <LeftWrapper> */}
-        <DashBoardMenuCon
-          className={sticky ? "sticky_Dashboard" : " "}
-        >
-          <UserDetails>
-            <UserImgcon>
-              <Person sx={{fontSize: '45px'}} />
-            </UserImgcon>
-            <UserDetailsTxtCon>
-              <UerDetailsTxtName>{user.name}</UerDetailsTxtName>
-              <UerDetailsTxtEmail>{user.email}</UerDetailsTxtEmail>
-            </UserDetailsTxtCon>
-          </UserDetails>
-          <DashBoardMenuLinks>
-            <DashBoardMenuLink
-              onClick={() => {
-                SetActiveDashBoard("DashBoard");
-                SetSticky(false);
-              }}
-              style={
-                activeDashBoard === "DashBoard"
-                  ? { backgroundColor: "whitesmoke" }
-                  : {}
-              }
+        signed &&
+        <Container style={{background: `url(${bg})`}}>
+          <HeaderSection
+            SingleRoute={false}
+            Page="MyAccount"
+            CurrentPage={activeDashBoard}
+          />
+          <Wrapper>
+            {/* <LeftWrapper> */}
+            <DashBoardMenuCon
+              className={sticky ? "sticky_Dashboard" : " "}
             >
-              <DashBoardImg src={dashboard} alt="dashboard" />
-              <DashBoardTxt>Dashboard</DashBoardTxt>
-            </DashBoardMenuLink>
-            <DashBoardMenuLink
-              onClick={() => {
-                SetActiveDashBoard("PersonalProfile");
-                SetSticky(true);
+              <UserDetails>
+                <UserImgcon>
+                  <Person sx={{ fontSize: '45px' }} />
+                </UserImgcon>
+                <UserDetailsTxtCon>
+                  <UerDetailsTxtName>{user.name}</UerDetailsTxtName>
+                  <UerDetailsTxtEmail>{user.email}</UerDetailsTxtEmail>
+                </UserDetailsTxtCon>
+              </UserDetails>
+              <DashBoardMenuLinks>
+                <DashBoardMenuLink
+                  onClick={() => {
+                    SetActiveDashBoard("DashBoard");
+                    SetSticky(false);
+                  }}
+                  style={
+                    activeDashBoard === "DashBoard"
+                      ? { backgroundColor: "whitesmoke" }
+                      : {}
+                  }
+                >
+                  <DashBoardImg src={dashboard} alt="dashboard" />
+                  <DashBoardTxt>Dashboard</DashBoardTxt>
+                </DashBoardMenuLink>
+                <DashBoardMenuLink
+                  onClick={() => {
+                    SetActiveDashBoard("PersonalProfile");
+                    SetSticky(true);
 
-              }}
-              style={
-                activeDashBoard === "PersonalProfile"
-                  ? { backgroundColor: "whitesmoke" }
-                  : {}
-              }
-            >
-              <DashBoardImg src={personalProfile} alt="PersonalProfile" />
-              <DashBoardTxt>Personal Profile</DashBoardTxt>
-            </DashBoardMenuLink>
-            <DashBoardMenuLink
-              onClick={() => {
-                SetActiveDashBoard("Auctions");
-                SetSticky(true);
+                  }}
+                  style={
+                    activeDashBoard === "PersonalProfile"
+                      ? { backgroundColor: "whitesmoke" }
+                      : {}
+                  }
+                >
+                  <DashBoardImg src={personalProfile} alt="PersonalProfile" />
+                  <DashBoardTxt>Personal Profile</DashBoardTxt>
+                </DashBoardMenuLink>
+                <DashBoardMenuLink
+                  onClick={() => {
+                    SetActiveDashBoard("Auctions");
+                    SetSticky(true);
 
-              }}
-              style={
-                activeDashBoard === "Auctions"
-                  ? { backgroundColor: "whitesmoke" }
-                  : {}
-              }
-            >
-              <DashBoardImg src={myBids} alt="Referrals" />
-              <DashBoardTxt>Auctions</DashBoardTxt>
-            </DashBoardMenuLink>
-            <DashBoardMenuLink
-              onClick={() => {
-                SetActiveDashBoard("MyAlerts");
-                                SetSticky(false);
+                  }}
+                  style={
+                    activeDashBoard === "Auctions"
+                      ? { backgroundColor: "whitesmoke" }
+                      : {}
+                  }
+                >
+                  <DashBoardImg src={myBids} alt="Referrals" />
+                  <DashBoardTxt>Auctions</DashBoardTxt>
+                </DashBoardMenuLink>
+                <DashBoardMenuLink
+                  onClick={() => {
+                    SetActiveDashBoard("MyAlerts");
+                    SetSticky(false);
 
-              }}
-              style={
-                activeDashBoard === "MyAlerts"
-                  ? { backgroundColor: "whitesmoke" }
-                  : {}
-              }
-            >
-              <DashBoardImg src={myAlerts} alt="MyAlerts" />
-              <DashBoardTxt>My Alerts</DashBoardTxt>
-            </DashBoardMenuLink>
-            <DashBoardMenuLink
-              onClick={() => {
-                SetActiveDashBoard("MyFavorites");
-                SetSticky(true);
+                  }}
+                  style={
+                    activeDashBoard === "MyAlerts"
+                      ? { backgroundColor: "whitesmoke" }
+                      : {}
+                  }
+                >
+                  <DashBoardImg src={myAlerts} alt="MyAlerts" />
+                  <DashBoardTxt>My Alerts</DashBoardTxt>
+                </DashBoardMenuLink>
+                <DashBoardMenuLink
+                  onClick={() => {
+                    SetActiveDashBoard("MyFavorites");
+                    SetSticky(true);
 
-              }}
-              style={
-                activeDashBoard === "MyFavorites"
-                  ? { backgroundColor: "whitesmoke" }
-                  : {}
-              }
-            >
-              <DashBoardImg src={myFavorites} alt="MyFavorites" />
-              <DashBoardTxt>My Favorites</DashBoardTxt>
-            </DashBoardMenuLink>
-            {/* <DashBoardMenuLink
+                  }}
+                  style={
+                    activeDashBoard === "MyFavorites"
+                      ? { backgroundColor: "whitesmoke" }
+                      : {}
+                  }
+                >
+                  <DashBoardImg src={myFavorites} alt="MyFavorites" />
+                  <DashBoardTxt>My Favorites</DashBoardTxt>
+                </DashBoardMenuLink>
+                {/* <DashBoardMenuLink
               onClick={() => {
                 SetActiveDashBoard("Referrals");
                 SetSticky(true);
@@ -282,21 +284,21 @@ function MyAccount() {
               <DashBoardImg src={referrals} alt="Referrals" />
               <DashBoardTxt>Referrals</DashBoardTxt>
             </DashBoardMenuLink> */}
-          </DashBoardMenuLinks>
-        </DashBoardMenuCon>
-        {/* </LeftWrapper> */}
-        <Components>
-          {activeDashBoard === "DashBoard" && <DashBoard />}
-          {activeDashBoard === "PersonalProfile" && <PersonalProfile />}
-          {activeDashBoard === "MyAlerts" && <MyAlerts />}
-          {activeDashBoard === "MyFavorites" && <MyFavorites />}
-          {activeDashBoard === "Auctions" && <Referrals />}
-        </Components>
-      </Wrapper>
-      <Footer />
-    </Container>
-}
-      </>
+              </DashBoardMenuLinks>
+            </DashBoardMenuCon>
+            {/* </LeftWrapper> */}
+            <Components>
+              {activeDashBoard === "DashBoard" && <DashBoard />}
+              {activeDashBoard === "PersonalProfile" && <PersonalProfile />}
+              {activeDashBoard === "MyAlerts" && <MyAlerts />}
+              {activeDashBoard === "MyFavorites" && <MyFavorites />}
+              {activeDashBoard === "Auctions" && <Referrals />}
+            </Components>
+          </Wrapper>
+          <Footer />
+        </Container>
+      }
+    </>
   );
 }
 

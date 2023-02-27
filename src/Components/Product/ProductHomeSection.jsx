@@ -25,12 +25,13 @@ import watching from "../../images/watching.png";
 import searchIcon from "../../images/search-icon.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
-import { createBid, getUserBids } from "../../Firebase Actions/userActions";
+import { createBid, getUserBids, updateBid } from "../../Firebase Actions/userActions";
 import { getAllAuctions, updateAuction } from "../../Firebase Actions/auctionActions";
 import { setauctions, setuserauctions } from "../../redux/reducers/auctionSlice";
 import { getAllBids } from "../../Firebase Actions/bidActions";
 import { setbids, setuserbids } from "../../redux/reducers/bidSlice";
 import Spinner from "../utils/Spinner";
+import { useEffect } from "react";
 
 
 const ProductHomeSectionCon = styled.div`
@@ -471,11 +472,25 @@ const ProductHomeSection = ({ data }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
   var amt = 0;
+  const [days, setdays] = useState(0);
+  const [hours, sethours] = useState(0);
+  const [minutes, setminutes] = useState(0);
+  const [seconds, setseconds] = useState(0);
 
-  console.log(data)
+  const getTime = (ms) => {
+    const time = ms - Date.now();
+
+    if (!(time < 0)) {
+      setdays(Math.floor(time / (1000 * 60 * 60 * 24)));
+      sethours(Math.floor((time / (1000 * 60 * 60)) % 24));
+      setminutes(Math.floor((time / 1000 / 60) % 60));
+      setseconds(Math.floor((time / 1000) % 60));
+    }
+  }
+
   for (let index = 0; index < data.bids.length; index++) {
     if (data.bids[index].amount > amt) {
-      amt = data.bids[index].amount.toFixed(2);
+      amt = data.bids[index].amount;
     }
   }
 
@@ -483,47 +498,90 @@ const ProductHomeSection = ({ data }) => {
     e.preventDefault();
 
     if (signed) {
-      if (amount === '') {
-        alert.error(<p style={{ textTransform: 'none' }}>Field should not be empty</p>);
+      if (data.bidEndTime - Date.now() <= 0) {
+        alert.error(<p style={{ textTransform: 'none' }}>Sorry this auction has ended already</p>);
       } else {
-        if (data.bids.filter((item) => item.userId === user.id).length > 0) {
-          alert.error(<p style={{ textTransform: 'none' }}>You already placed a bid on this auction</p>);
+        if (amount === '') {
+          alert.error(<p style={{ textTransform: 'none' }}>Field should not be empty</p>);
         } else {
           if (parseFloat(amount) >= parseFloat(data.minBidAmount)) {
             if (parseFloat(amount) > amt) {
               setloading(true);
+              const isBidded = data.bids.filter(item => item.userId === user.id)[0];
 
-              await createBid(user.id, data.id, parseFloat(amount)).then(async (value) => {
-                if (value.status) {
-                  await updateAuction(data.id, {
-                    bids: [...data.bids, {
+              if (isBidded !== undefined) {
+                const index = data.bids.indexOf(isBidded);
+                let bids = [...data.bids];
+
+                await updateBid(user.id, bids[index].bidId, parseFloat(amount)).then(async (value) => {
+                  if (value.status) {
+                    bids.splice(index, 1);
+                    bids.push({
                       userId: user.id,
+                      bidId: value.result,
                       userName: user.name,
                       date: Date.now(),
                       amount: parseFloat(amount)
-                    }]
-                  }).then(async () => {
-                    await getAllAuctions().then(async (value1) => {
-                      dispatch(setauctions(value1.result));
-                      dispatch(setuserauctions(value1.result.filter((item) => item.userId === user.id)));
-
-                      await getUserBids(user.id).then((value2) => {
-                        if (value2.status) {
-                          dispatch(setuserbids(value2.result));
-                          alert.success(<p style={{ textTransform: 'none' }}>Bid has been uploaded</p>);
-                          setamount(0);
-                        } else {
-                          alert.error(<p style={{ textTransform: 'none' }}>An Error occurred</p>);
-                          console.log(value2.result);
-                        }
-                      })
                     });
-                  })
-                } else {
-                  alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
-                  console.log(value.result);
-                }
-              });
+
+                    await updateAuction(data.id, {
+                      bids: bids
+                    }).then(async () => {
+                      await getAllAuctions().then(async (value1) => {
+                        dispatch(setauctions(value1.result));
+                        dispatch(setuserauctions(value1.result.filter((item) => item.userId === user.id)));
+
+                        await getUserBids(user.id).then((value2) => {
+                          if (value2.status) {
+                            dispatch(setuserbids(value2.result));
+                            alert.success(<p style={{ textTransform: 'none' }}>Bid has been updated</p>);
+                            setamount(0);
+                          } else {
+                            alert.error(<p style={{ textTransform: 'none' }}>An Error occurred</p>);
+                            console.log(value2.result);
+                          }
+                        })
+                      });
+                    })
+                  } else {
+                    alert.error(<p style={{ textTransform: 'none' }}>An Error occurred</p>);
+                    console.log(value.result);
+                  }
+                });
+              } else {
+                await createBid(user.id, data.id, parseFloat(amount)).then(async (value) => {
+                  if (value.status) {
+                    await updateAuction(data.id, {
+                      bids: [...data.bids, {
+                        userId: user.id,
+                        bidId: value.result,
+                        userName: user.name,
+                        date: Date.now(),
+                        amount: parseFloat(amount)
+                      }]
+                    }).then(async () => {
+                      await getAllAuctions().then(async (value1) => {
+                        dispatch(setauctions(value1.result));
+                        dispatch(setuserauctions(value1.result.filter((item) => item.userId === user.id)));
+
+                        await getUserBids(user.id).then((value2) => {
+                          if (value2.status) {
+                            dispatch(setuserbids(value2.result));
+                            alert.success(<p style={{ textTransform: 'none' }}>Bid has been uploaded</p>);
+                            setamount(0);
+                          } else {
+                            alert.error(<p style={{ textTransform: 'none' }}>An Error occurred</p>);
+                            console.log(value2.result);
+                          }
+                        })
+                      });
+                    })
+                  } else {
+                    alert.error(<p style={{ textTransform: 'none' }}>An error occurred</p>);
+                    console.log(value.result);
+                  }
+                });
+              }
 
               setloading(false);
             } else {
@@ -539,23 +597,48 @@ const ProductHomeSection = ({ data }) => {
     }
   }
 
+  useEffect(() => {
+    const interval = setInterval(() => getTime(data.bidEndTime), 1000);
+
+    if (data.bidEndTime - Date.now() < 0) clearInterval(interval);
+
+    return () => clearInterval(interval);
+  }, [data.bidEndTime]);
+
   return (
-        <>
+    <>
       <Spinner show={isLoading} />
-    <ProductHomeSectionCon>
-      <ImageSliderCon>
-        <MainImgCon>
+      <ProductHomeSectionCon>
+        <ImageSliderCon>
+          <MainImgCon>
+            <Swiper
+              style={{
+                "--swiper-navigation-color": "#fff",
+                "--swiper-pagination-color": "#fff",
+              }}
+              loop={true}
+              spaceBetween={10}
+              navigation={true}
+              thumbs={{ swiper: thumbsSwiper }}
+              modules={[FreeMode, Navigation, Thumbs]}
+              className="mySwiper2"
+            >
+              {data.images.map((val, ind) => {
+                return <SwiperSlide key={ind}>
+                  <img alt='' src={val} />
+                </SwiperSlide>;
+              })}
+            </Swiper>
+          </MainImgCon>
           <Swiper
-            style={{
-              "--swiper-navigation-color": "#fff",
-              "--swiper-pagination-color": "#fff",
-            }}
+            onSwiper={setThumbsSwiper}
             loop={true}
             spaceBetween={10}
-            navigation={true}
-            thumbs={{ swiper: thumbsSwiper }}
+            slidesPerView={4}
+            freeMode={true}
+            watchSlidesProgress={true}
             modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper2"
+            className="mySwiper"
           >
             {data.images.map((val, ind) => {
               return <SwiperSlide key={ind}>
@@ -563,169 +646,152 @@ const ProductHomeSection = ({ data }) => {
               </SwiperSlide>;
             })}
           </Swiper>
-        </MainImgCon>
-        <Swiper
-          onSwiper={setThumbsSwiper}
-          loop={true}
-          spaceBetween={10}
-          slidesPerView={4}
-          freeMode={true}
-          watchSlidesProgress={true}
-          modules={[FreeMode, Navigation, Thumbs]}
-          className="mySwiper"
-        >
-          {data.images.map((val, ind) => {
-            return <SwiperSlide key={ind}>
-              <img alt='' src={val} />
-            </SwiperSlide>;
-          })}
-        </Swiper>
-      </ImageSliderCon>
+        </ImageSliderCon>
 
-      {/* End of Image Slider */}
+        {/* End of Image Slider */}
 
-      <ProductInfoCon>
-        <ProductInfoLeftCon>
-          <ProductInfo>
-            <ProductInfoTop>
-              <ProductName>{data.name}</ProductName>
-            </ProductInfoTop>
-            <ProductInfoBottom>
-              <ListingId>Listing ID: 14076242</ListingId>
-              <HR />
-              <ItemId>Item #: 7300-335686</ItemId>
-            </ProductInfoBottom>
-          </ProductInfo>
-          <ProductPrice>
-            <ProductPriceLeft>
-              <ProductPriceLeftTxt fz="35px" mb="39px" mt="20px" fw={400}>
-                Current Price
-              </ProductPriceLeftTxt>
-              <ProductPriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
-                Minimum Bidding
-              </ProductPriceLeftTxt>
-              <ProductPriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
-                Bid Increment (US)
-              </ProductPriceLeftTxt>
-            </ProductPriceLeft>
-            {/* <AuctionTimeHr/> */}
-            <ProductPriceRight>
-              {/* <ProductPriceRightTxtCon> */}
-              <ProductPriceLeftTxt
-                cl="#43B055"
-                fw={600}
-                fz="35px"
-                mb="20px"
-                mt="20px"
-              >
-                ₦{amt}
-              </ProductPriceLeftTxt>
-              <ProductPriceLeftTxt mt="10px" mb="10px" fz="19px">
-                ₦{data.minBidAmount}
-              </ProductPriceLeftTxt>
-              <ProductPriceLeftTxt mt="10px" mb="10px" fz="19px">
-                ₦10,000.00
-              </ProductPriceLeftTxt>
-              {/* </ProductPriceRightTxtCon> */}
-            </ProductPriceRight>
-          </ProductPrice>
-          <AuctionTimeHr mg="25px" wd="95%" />
+        <ProductInfoCon>
+          <ProductInfoLeftCon>
+            <ProductInfo>
+              <ProductInfoTop>
+                <ProductName>{data.name}</ProductName>
+              </ProductInfoTop>
+              <ProductInfoBottom>
+                <ListingId>Listing ID: 14076242</ListingId>
+                <HR />
+                <ItemId>Item #: 7300-335686</ItemId>
+              </ProductInfoBottom>
+            </ProductInfo>
+            <ProductPrice>
+              <ProductPriceLeft>
+                <ProductPriceLeftTxt fz="35px" mb="39px" mt="20px" fw={400}>
+                  Current Price
+                </ProductPriceLeftTxt>
+                <ProductPriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
+                  Minimum Bidding
+                </ProductPriceLeftTxt>
+                <ProductPriceLeftTxt mt="10px" mb="15px" fz="19px" fw={300}>
+                  Bid Increment (US)
+                </ProductPriceLeftTxt>
+              </ProductPriceLeft>
+              {/* <AuctionTimeHr/> */}
+              <ProductPriceRight>
+                {/* <ProductPriceRightTxtCon> */}
+                <ProductPriceLeftTxt
+                  cl="#43B055"
+                  fw={600}
+                  fz="35px"
+                  mb="20px"
+                  mt="20px"
+                >
+                  ₦{amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </ProductPriceLeftTxt>
+                <ProductPriceLeftTxt mt="10px" mb="10px" fz="19px">
+                  ₦{data.minBidAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </ProductPriceLeftTxt>
+                <ProductPriceLeftTxt mt="10px" mb="10px" fz="19px">
+                  ₦10,000.00
+                </ProductPriceLeftTxt>
+                {/* </ProductPriceRightTxtCon> */}
+              </ProductPriceRight>
+            </ProductPrice>
+            <AuctionTimeHr mg="25px" wd="95%" />
 
-          <SubmitBid id='submitbid'>
-            <SubmitBidImgCon>
-              <SubmitBidImg src={searchIcon} alt="searchIcon" />
-            </SubmitBidImgCon>
-            <InputContainer>
-              <Input type='number' onChange={(e) => setamount(e.target.value)} placeholder="Enter Your Bid Amount" />
-            </InputContainer>
-            <SubmitBidButtonCon>
-              <SubmitBidButton onClick={(e) => handleSubmit(e)}>Submit A Bid</SubmitBidButton>
-            </SubmitBidButtonCon>
-          </SubmitBid>
-          <BuyProductCon>
-            <BuyNowBtnCon>
-              <BuyBtn>BUY NOW: ₦{data.buyNowAmount}</BuyBtn>
-            </BuyNowBtnCon>
-            <WishListBtnCon>
-              <WishListButton>
-                <StarOutlined sx={{ color: "darkOrange" }} />
-                Add To Wishlist
-              </WishListButton>
-            </WishListBtnCon>
-            <ShareCon>
-              <ShareTxt>Share to :</ShareTxt>
-              <Facebook id="ShareTxtIcon" />
-              <Twitter id="ShareTxtIcon" />
-              <LinkedIn id="ShareTxtIcon" />
-              <Instagram id="ShareTxtIcon" />
-            </ShareCon>
-          </BuyProductCon>
-        </ProductInfoLeftCon>
-        {/* End Of ProductInfoLeftCon */}
-        <br />
-        <br />
-        <ProductInfoRight>
-          <ProductInfoRightCon>
-            <AuctionTimeRemaining>
-              <AunctionTimeTxt fz="20px" cl="black" fw={400}>
-                This Auction Ends in
-              </AunctionTimeTxt>
-              <AunctionTimeTxt fz="30px" cl="#FC6677" fw={500}>
-                0d : 18h : 18m : 6s
-              </AunctionTimeTxt>
-            </AuctionTimeRemaining>
-            <BidDetailsCon>
-              <AuctionTimeHr mg="5px" wd="100%" />
-              <BidDetailsConC>
-                <BidDetails>
-                  {/* <BidDetailsImgCon> */}
-                  <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
-                  {/* </BidDetailsImgCon> */}
-                  <BidDetailsImgTxtCon>
-                    <BidDetailsImgTxt fw={600} fz="35px">
-                      {data.bids.length}
-                    </BidDetailsImgTxt>
-                    <BidDetailsImgTxt fw={400} fz="13px">
-                      Active Bidders
-                    </BidDetailsImgTxt>
-                  </BidDetailsImgTxtCon>
-                </BidDetails>
-                <BidDetails>
-                  {/* <BidDetailsImgCon> */}
-                  <BidDetailsImg src={watching} alt="watching" />
-                  {/* </BidDetailsImgCon> */}
-                  <BidDetailsImgTxtCon>
-                    <BidDetailsImgTxt fw={600} fz="35px">
-                      0
-                    </BidDetailsImgTxt>
-                    <BidDetailsImgTxt fw={400} fz="13px">
-                      Watching
-                    </BidDetailsImgTxt>
-                  </BidDetailsImgTxtCon>
-                </BidDetails>
-                <BidDetails>
-                  {/* <BidDetailsImgCon> */}
-                  <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
-                  {/* </BidDetailsImgCon> */}
-                  <BidDetailsImgTxtCon>
-                    <BidDetailsImgTxt fw={600} fz="35px">
-                      {data.bids.length}
-                    </BidDetailsImgTxt>
-                    <BidDetailsImgTxt fw={400} fz="13px">
-                      TotalBid
-                    </BidDetailsImgTxt>
-                  </BidDetailsImgTxtCon>
-                </BidDetails>
-              </BidDetailsConC>
-            </BidDetailsCon>
-          </ProductInfoRightCon>
-          <UseFullLinks>
-            <ShippingLink>View Shipping, </ShippingLink>
-            <PoliciesLink> Payment & Auction Policies</PoliciesLink>
-          </UseFullLinks>
-        </ProductInfoRight>
-      </ProductInfoCon>
-        </ProductHomeSectionCon>
+            <SubmitBid id='submitbid'>
+              <SubmitBidImgCon>
+                <SubmitBidImg src={searchIcon} alt="searchIcon" />
+              </SubmitBidImgCon>
+              <InputContainer>
+                <Input type='number' onChange={(e) => setamount(e.target.value)} placeholder="Enter Your Bid Amount" />
+              </InputContainer>
+              <SubmitBidButtonCon>
+                <SubmitBidButton onClick={(e) => handleSubmit(e)}>Submit A Bid</SubmitBidButton>
+              </SubmitBidButtonCon>
+            </SubmitBid>
+            <BuyProductCon>
+              <BuyNowBtnCon>
+                <BuyBtn>BUY NOW: ₦{data.buyNowAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</BuyBtn>
+              </BuyNowBtnCon>
+              <WishListBtnCon>
+                <WishListButton>
+                  <StarOutlined sx={{ color: "darkOrange" }} />
+                  Add To Wishlist
+                </WishListButton>
+              </WishListBtnCon>
+              <ShareCon>
+                <ShareTxt>Share to :</ShareTxt>
+                <Facebook id="ShareTxtIcon" />
+                <Twitter id="ShareTxtIcon" />
+                <LinkedIn id="ShareTxtIcon" />
+                <Instagram id="ShareTxtIcon" />
+              </ShareCon>
+            </BuyProductCon>
+          </ProductInfoLeftCon>
+          {/* End Of ProductInfoLeftCon */}
+          <br />
+          <br />
+          <ProductInfoRight>
+            <ProductInfoRightCon>
+              <AuctionTimeRemaining>
+                <AunctionTimeTxt fz="20px" cl="black" fw={400}>
+                  This Auction Ends in
+                </AunctionTimeTxt>
+                <AunctionTimeTxt fz="30px" cl="#FC6677" fw={500}>
+                  {days}d : {hours}h : {minutes}m : {seconds}s
+                </AunctionTimeTxt>
+              </AuctionTimeRemaining>
+              <BidDetailsCon>
+                <AuctionTimeHr mg="5px" wd="100%" />
+                <BidDetailsConC>
+                  <BidDetails>
+                    {/* <BidDetailsImgCon> */}
+                    <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
+                    {/* </BidDetailsImgCon> */}
+                    <BidDetailsImgTxtCon>
+                      <BidDetailsImgTxt fw={600} fz="35px">
+                        {data.bids.length}
+                      </BidDetailsImgTxt>
+                      <BidDetailsImgTxt fw={400} fz="13px">
+                        Active Bidders
+                      </BidDetailsImgTxt>
+                    </BidDetailsImgTxtCon>
+                  </BidDetails>
+                  <BidDetails>
+                    {/* <BidDetailsImgCon> */}
+                    <BidDetailsImg src={watching} alt="watching" />
+                    {/* </BidDetailsImgCon> */}
+                    <BidDetailsImgTxtCon>
+                      <BidDetailsImgTxt fw={600} fz="35px">
+                        0
+                      </BidDetailsImgTxt>
+                      <BidDetailsImgTxt fw={400} fz="13px">
+                        Watching
+                      </BidDetailsImgTxt>
+                    </BidDetailsImgTxtCon>
+                  </BidDetails>
+                  <BidDetails>
+                    {/* <BidDetailsImgCon> */}
+                    <BidDetailsImg src={ActiveBidders} alt="ActiveBidders" />
+                    {/* </BidDetailsImgCon> */}
+                    <BidDetailsImgTxtCon>
+                      <BidDetailsImgTxt fw={600} fz="35px">
+                        {data.bids.length}
+                      </BidDetailsImgTxt>
+                      <BidDetailsImgTxt fw={400} fz="13px">
+                        TotalBid
+                      </BidDetailsImgTxt>
+                    </BidDetailsImgTxtCon>
+                  </BidDetails>
+                </BidDetailsConC>
+              </BidDetailsCon>
+            </ProductInfoRightCon>
+            <UseFullLinks>
+              <ShippingLink>View Shipping, </ShippingLink>
+              <PoliciesLink> Payment & Auction Policies</PoliciesLink>
+            </UseFullLinks>
+          </ProductInfoRight>
+        </ProductInfoCon>
+      </ProductHomeSectionCon>
     </>
   );
 }

@@ -6,33 +6,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { featured_auctions } from "../../data";
 
-
-const Container = styled.div`
-   width:100%;
-   box-sizing:border-box;
-   padding:0 5vh;
-
-`
-const TitleCon = styled.div`
-  width:100%;
-  margin-top:60px;
-  margin-bottom:60px;
-`
-const Title = styled.h1`
-    color:white;
-    font-size:40px;
-`
-const FeaturedAuctionsCard = styled.div`
-   dsiplay:flex;
-   align-items:center;
-   justify-content:space-between;
-   flex-wrap:wrap;
-   width: 100%;
-   display: flex;
-   gap: 30px;
-   padding-top: 70px;
-`
-
 const FBottomCard = styled.div`
     flex: 1;
     height: 570px;
@@ -197,33 +170,41 @@ const BBbottomBtn = styled.button`
     cursor: pointer;
 `
 
-const FeaturedAuction = () => {
-  const [data, setdata] = useState([]);
-  const { auctions } = useSelector((state) => state.auction);
+const FeaturedAuction = ({item}) => {
+  const [days, setdays] = useState();
+  const [hours, sethours] = useState();
+  const [minutes, setminutes] = useState();
+  const [seconds, setseconds] = useState();
+
+  const getTime = (ms) => {
+    const time = ms - Date.now();
+
+    if (!(time < 0)) {
+      setdays(Math.floor(time / (1000 * 60 * 60 * 24)));
+      sethours(Math.floor((time / (1000 * 60 * 60)) % 24));
+      setminutes(Math.floor((time / 1000 / 60) % 60));
+      setseconds(Math.floor((time / 1000) % 60));
+    }
+  }
 
   useEffect(() => {
-    const list = auctions.filter((item) => item.status === 'featured');
+    const interval = setInterval(() => getTime(item.bidEndTime), 1000);
 
-    setdata(list);
-    console.log(auctions);
-  }, [auctions])
+    if (item.bidEndTime - Date.now() < 0) clearInterval(interval);
+
+    return () => clearInterval(interval);
+  }, [item.bidEndTime])
+
+  var amt = 0;
+
+  for (let index = 0; index < item.bids.length; index++) {
+    if (item.bids[index].amount > amt) {
+      amt = item.bids[index].amount;
+    }
+  }
 
   return (
-    <Container>
-      <TitleCon>
-        <Title>Bid On These Featured Auctions!</Title>
-      </TitleCon>
-      <FeaturedAuctionsCard className="flex aic jcc">
-        {data.map((item, ind) => {
-          var amt = 0;
-
-          for (let index = 0; index < item.bids.length; index++) {
-            if (item.bids[index].amount > amt) {
-              amt = item.bids[index].amount.toFixed(2);
-            }
-          }
-
-          return <FBottomCard key={ind} className="fBottom__card">
+    <FBottomCard className="fBottom__card">
             <CardTop className="card__top">
               <CardTopImg className="card__topImg" src={item.images[0]} />
               <Link to={`/item-details/${item.id}`}>
@@ -244,7 +225,7 @@ const FeaturedAuction = () => {
                     </MiddleLeft>
                     <MiddleRight className="middle__right">
                       <MiddleText color="#43b055">Current Bid</MiddleText>
-                      <MiddlePrice>₦{amt}</MiddlePrice>
+                      <MiddlePrice>₦{amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
                     </MiddleRight>
                   </MiddleCon>
                 </Middle>
@@ -257,7 +238,7 @@ const FeaturedAuction = () => {
                     </MiddleLeft>
                     <MiddleRight className="middle__right">
                       <MiddleText color="#ee4730">Buy Now</MiddleText>
-                      <MiddlePrice>${item.buyNowAmount}</MiddlePrice>
+                <MiddlePrice>₦{item.buyNowAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
                     </MiddleRight>
                   </MiddleCon>
                 </Middle>
@@ -267,7 +248,7 @@ const FeaturedAuction = () => {
                   <BBTopLeft className="bb__topLeft">
                     <BBTopLeftCon className="bb__topLeftCon">
                       <BBTopSpan className="bb__topSpan" color="#f5317f">
-                        1d : 12h : 12m : 60s
+                  {days}d : {hours}h : {minutes}m : {seconds}s
                       </BBTopSpan>
                     </BBTopLeftCon>
                   </BBTopLeft>
@@ -289,9 +270,6 @@ const FeaturedAuction = () => {
               </BottomBottom>
             </CardBottom>
           </FBottomCard>
-})}
-      </FeaturedAuctionsCard>
-    </Container>
   );
 }
 

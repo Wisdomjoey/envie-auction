@@ -1,31 +1,9 @@
 import { Gavel, ShoppingBagRounded } from "@mui/icons-material";
+import { useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 // import { Products } from "../../data";
-
-const VehiclesCon = styled.div`
-  margin-top: 100px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 80px;
-  `;
-  
-  const SortFilteredProducts = styled.div`
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 100%;
-  display: flex;
-  gap: 30px;
-`;
-const Wrapper = styled.div`
-  gap: 30px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
 
 const FBottomCard = styled.div`
   width: 28%;
@@ -192,88 +170,106 @@ const BBbottomBtn = styled.button`
   cursor: pointer;
 `;
 
-function Vehicles({ filteredList }) {
+function Vehicles({ products }) {
+  const [days, setdays] = useState();
+  const [hours, sethours] = useState();
+  const [minutes, setminutes] = useState();
+  const [seconds, setseconds] = useState();
+
+  const getTime = (ms) => {
+    const time = ms - Date.now();
+
+    if (!(time < 0)) {
+      setdays(Math.floor(time / (1000 * 60 * 60 * 24)));
+      sethours(Math.floor((time / (1000 * 60 * 60)) % 24));
+      setminutes(Math.floor((time / 1000 / 60) % 60));
+      setseconds(Math.floor((time / 1000) % 60));
+    }
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => getTime(products.bidEndTime), 1000);
+
+    if (products.bidEndTime - Date.now() < 0) clearInterval(interval);
+
+    return () => clearInterval(interval);
+  }, [products.bidEndTime])
+
+  var amt = 0;
+
+  for (let index = 0; index < products.bids.length; index++) {
+    if (products.bids[index].amount > amt) {
+      amt = products.bids[index].amount;
+    }
+  }
+
   return (
-    <VehiclesCon className="flex aic jcc">
-      <SortFilteredProducts>
-        <Wrapper className=" flex aic jcc try">
-          {filteredList.map((products, ind) => {
-            var amt = 0;
-
-            for (let index = 0; index < products.bids.length; index++) {
-              if (products.bids[index].amount > amt) {
-                amt = products.bids[index].amount.toFixed(2);
-              }
-            }
-
-            return <FBottomCard key={ind} className="fBottom__card">
-              <CardTop className="card__top">
-                <CardTopImg className="card__topImg" src={products.images[0]} />
-                <CardTopIcon className="card__topIcon">
-                  <Gavel sx={{ fontSize: 20, color: "white" }} />
-                </CardTopIcon>
-              </CardTop>
-              <CardBottom className="card__bottom">
-                <BottomTop className="bottom__top">
-                  <BottomSpan>{products.name}</BottomSpan>
-                </BottomTop>
-                <BottomMiddle className="bottom__middle">
-                  <Middle w="1px" className="middle">
-                    <MiddleCon className="middle__con">
-                      <MiddleLeft className="middle__left">
-                        <Gavel sx={{ color: "#43b055", fontSize: 40 }} />
-                      </MiddleLeft>
-                      <MiddleRight className="middle__right">
-                        <MiddleText color="#43b055">Current Bid</MiddleText>
-                        <MiddlePrice>₦{amt}</MiddlePrice>
-                      </MiddleRight>
-                    </MiddleCon>
-                  </Middle>
-                  <Middle className="middle">
-                    <MiddleCon className="middle__con">
-                      <MiddleLeft className="middle__left">
-                        <ShoppingBagRounded
-                          sx={{ color: "#ee4730", fontSize: 40 }}
-                        />
-                      </MiddleLeft>
-                      <MiddleRight className="middle__right">
-                        <MiddleText color="#ee4730">Buy Now</MiddleText>
-                        <MiddlePrice>₦{products.buyNowAmount}</MiddlePrice>
-                      </MiddleRight>
-                    </MiddleCon>
-                  </Middle>
-                </BottomMiddle>
-                <BottomBottom className="bottom__bottom">
-                  <BBTop className="bb__top">
-                    <BBTopLeft className="bb__topLeft">
-                      <BBTopLeftCon className="bb__topLeftCon">
-                        <BBTopSpan className="bb__topSpan" color="#f5317f">
-                          1d : 12h : 12m : 60s
-                        </BBTopSpan>
-                      </BBTopLeftCon>
-                    </BBTopLeft>
-                    <BBTopRight className="bb_topRight">
-                      <BBTopRightCon className="bb__topRight">
-                        <BBTopSpan className="bb__topSpan" color="#43b055">
-                          {products.Bids} Bids
-                        </BBTopSpan>
-                      </BBTopRightCon>
-                    </BBTopRight>
-                  </BBTop>
-                  <BBbottom className="bb__bottom">
-                    <Link to={`/item-details/${products.id}`}>
-                      <BBbottomBtn className="bb__bottomBtn">
-                        Submit A Bid
-                      </BBbottomBtn>
-                    </Link>
-                  </BBbottom>
-                </BottomBottom>
-              </CardBottom>
-            </FBottomCard>
-})}
-        </Wrapper>
-      </SortFilteredProducts>
-    </VehiclesCon>
+    <FBottomCard className="fBottom__card">
+      <CardTop className="card__top">
+        <CardTopImg className="card__topImg" src={products.images[0]} />
+        <Link to={`/item-details/${products.id}`}>
+          <CardTopIcon className="card__topIcon">
+            <Gavel sx={{ fontSize: 20, color: "white" }} />
+          </CardTopIcon>
+        </Link>
+      </CardTop>
+      <CardBottom className="card__bottom">
+        <BottomTop className="bottom__top">
+          <BottomSpan>{products.name}</BottomSpan>
+        </BottomTop>
+        <BottomMiddle className="bottom__middle">
+          <Middle w="1px" className="middle">
+            <MiddleCon className="middle__con">
+              <MiddleLeft className="middle__left">
+                <Gavel sx={{ color: "#43b055", fontSize: 40 }} />
+              </MiddleLeft>
+              <MiddleRight className="middle__right">
+                <MiddleText color="#43b055">Current Bid</MiddleText>
+                <MiddlePrice>₦{amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
+              </MiddleRight>
+            </MiddleCon>
+          </Middle>
+          <Middle className="middle">
+            <MiddleCon className="middle__con">
+              <MiddleLeft className="middle__left">
+                <ShoppingBagRounded
+                  sx={{ color: "#ee4730", fontSize: 40 }}
+                />
+              </MiddleLeft>
+              <MiddleRight className="middle__right">
+                <MiddleText color="#ee4730">Buy Now</MiddleText>
+                <MiddlePrice>₦{products.buyNowAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</MiddlePrice>
+              </MiddleRight>
+            </MiddleCon>
+          </Middle>
+        </BottomMiddle>
+        <BottomBottom className="bottom__bottom">
+          <BBTop className="bb__top">
+            <BBTopLeft className="bb__topLeft">
+              <BBTopLeftCon className="bb__topLeftCon">
+                <BBTopSpan className="bb__topSpan" color="#f5317f">
+                  {days}d : {hours}h : {minutes}m : {seconds}s
+                </BBTopSpan>
+              </BBTopLeftCon>
+            </BBTopLeft>
+            <BBTopRight className="bb_topRight">
+              <BBTopRightCon className="bb__topRight">
+                <BBTopSpan className="bb__topSpan" color="#43b055">
+                  {products.Bids} Bids
+                </BBTopSpan>
+              </BBTopRightCon>
+            </BBTopRight>
+          </BBTop>
+          <BBbottom className="bb__bottom">
+            <Link to={`/item-details/${products.id}`}>
+              <BBbottomBtn className="bb__bottomBtn">
+                Submit A Bid
+              </BBbottomBtn>
+            </Link>
+          </BBbottom>
+        </BottomBottom>
+      </CardBottom>
+    </FBottomCard>
   );
 }
 
